@@ -99,7 +99,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8/" data-id="cild65jhm000k3sx50o0ulnzb" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8/" data-id="cild85bqt000k9zx5bxvesq0e" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -140,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-2/" data-id="cild65jhk000i3sx5b4wqm54k" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-2/" data-id="cild85bqq000i9zx5eoee6ow6" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -181,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-1/" data-id="cild65jhd000c3sx5bx2fr0wj" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-1/" data-id="cild85bql000f9zx5f7mkepwf" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -254,80 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0-1/" data-id="cild65jjk001w3sx5j5qz47gm" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0/" class="article-date">
-  <time datetime="2015-01-10T16:28:06.000Z" itemprop="datePublished">2015-01-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/云计算与大数据/">云计算与大数据</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0/">Ubuntu下远程唤醒睡眠</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Ubuntu**</strong>下远程唤醒睡眠**</p>
-<h2 id="1-检查计算机硬件是否支持WOL-wake-on-lan-功能。"><a href="#1-检查计算机硬件是否支持WOL-wake-on-lan-功能。" class="headerlink" title="1.检查计算机硬件是否支持WOL(wake on lan)功能。"></a>1.检查计算机硬件是否支持WOL(wake on lan)功能。</h2><p><strong>1.1.**</strong>检查主板和电源是否支持<strong>**WOL</strong></p>
-<p>进入BIOS的Power Management Setup，设置PME Event Wake Up(这其实是一种Wake On PCI Card模式)为 Enabled。注意，有些机器可能为Wake On Lan或Wake On PCI Card。Wake On Lan模式可以在完全关机状态下唤醒，而Wake On PCI Card模式要在深度休眠状态下唤醒。造成这样的区别主要是因为主板的设计不一样，现在的计算机一般都是Wake On PCI Card模式的。</p>
-<p><strong>1.2.**</strong>检查网卡是否支持<strong><strong>WOL</strong></strong>。**</p>
-<p>安装ethtool，并执行以下命令：</p>
-<p>sudo apt-get install ethtool</p>
-<p>sudo ethtool eth0 |grep Wake-on</p>
-<p>如果显示结果为下面这样，就表示网卡支持WOL：</p>
-<p>Supports Wake-on:pumbg</p>
-<p>Wake-on : g</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>如果不是则需要改动：</p>
-<p>&nbsp;</p>
-<h2 id="2-远程控制计算机进入深度休眠或完全关机状态"><a href="#2-远程控制计算机进入深度休眠或完全关机状态" class="headerlink" title="2.远程控制计算机进入深度休眠或完全关机状态"></a>2.远程控制计算机进入深度休眠或完全关机状态</h2><p>这里主要应用了SSH连接远程计算机，并提交命令请求来达到目的。</p>
-<h2 id="2-1-使用ubuntu终端登陆远程计算机"><a href="#2-1-使用ubuntu终端登陆远程计算机" class="headerlink" title="2.1.使用ubuntu终端登陆远程计算机"></a>2.1.使用ubuntu终端登陆远程计算机</h2><p>关于这一步可以参考<a href="http://www.cnblogs.com/sin90lzc/archive/2012/06/23/2559516.html" target="_blank" rel="external">ubuntu终端连接远程计算机</a></p>
-<h2 id="2-2-登陆远程计算机后，使用如下命令实现深度休眠或关机"><a href="#2-2-登陆远程计算机后，使用如下命令实现深度休眠或关机" class="headerlink" title="2.2.登陆远程计算机后，使用如下命令实现深度休眠或关机"></a>2.2.登陆远程计算机后，使用如下命令实现深度休眠或关机</h2><p><pre>#深度休眠</pre></p>
-<p><pre>sudo pm-hibernate</pre></p>
-<p><pre></pre></p>
-<p><pre>#关机</pre></p>
-<p><pre>sudo shutdown 0</pre><br>&nbsp;</p>
-<p>&nbsp;</p>
-<h2 id="3-唤醒远程计算机"><a href="#3-唤醒远程计算机" class="headerlink" title="3.唤醒远程计算机"></a>3.唤醒远程计算机</h2><p><strong>3.1.**</strong>准备工作**</p>
-<ul>
-<li>知道远程计算机的ip地址或域名和MAC地址，在路由上绑定局域网ip地址和MAC地址。如果没有静态ip，可以使用花生壳。详细操作可以google，在这里就不详述了。</li>
-<li>在本地计算机上安装远程唤醒工具wakeonlan:</li>
-</ul>
-<p>sudo apt-get install wakeonlan</p>
-<p><strong>3.2.**</strong>唤醒远程计算机**</p>
-<p>执行下面的命令就可以唤醒远程的计算机了：</p>
-<p>#host_address为远程计算机的域名或ip地址，mac_address为远程计算机的mac地址,mac地址是’:’间隔的形式</p>
-<p>wakeonlan -i host_address mac_address</p>
-<p>&nbsp;</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0/" data-id="cild65jjm001x3sx5nrq9aqms" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0-1/" data-id="cild85bsh001t9zx56z0kc281" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -400,7 +327,80 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0-2/" data-id="cild65jjo00203sx5uzqdd9fj" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0-2/" data-id="cild85bsk001x9zx5xaknajmo" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0/" class="article-date">
+  <time datetime="2015-01-10T16:28:06.000Z" itemprop="datePublished">2015-01-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/云计算与大数据/">云计算与大数据</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0/">Ubuntu下远程唤醒睡眠</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Ubuntu**</strong>下远程唤醒睡眠**</p>
+<h2 id="1-检查计算机硬件是否支持WOL-wake-on-lan-功能。"><a href="#1-检查计算机硬件是否支持WOL-wake-on-lan-功能。" class="headerlink" title="1.检查计算机硬件是否支持WOL(wake on lan)功能。"></a>1.检查计算机硬件是否支持WOL(wake on lan)功能。</h2><p><strong>1.1.**</strong>检查主板和电源是否支持<strong>**WOL</strong></p>
+<p>进入BIOS的Power Management Setup，设置PME Event Wake Up(这其实是一种Wake On PCI Card模式)为 Enabled。注意，有些机器可能为Wake On Lan或Wake On PCI Card。Wake On Lan模式可以在完全关机状态下唤醒，而Wake On PCI Card模式要在深度休眠状态下唤醒。造成这样的区别主要是因为主板的设计不一样，现在的计算机一般都是Wake On PCI Card模式的。</p>
+<p><strong>1.2.**</strong>检查网卡是否支持<strong><strong>WOL</strong></strong>。**</p>
+<p>安装ethtool，并执行以下命令：</p>
+<p>sudo apt-get install ethtool</p>
+<p>sudo ethtool eth0 |grep Wake-on</p>
+<p>如果显示结果为下面这样，就表示网卡支持WOL：</p>
+<p>Supports Wake-on:pumbg</p>
+<p>Wake-on : g</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>如果不是则需要改动：</p>
+<p>&nbsp;</p>
+<h2 id="2-远程控制计算机进入深度休眠或完全关机状态"><a href="#2-远程控制计算机进入深度休眠或完全关机状态" class="headerlink" title="2.远程控制计算机进入深度休眠或完全关机状态"></a>2.远程控制计算机进入深度休眠或完全关机状态</h2><p>这里主要应用了SSH连接远程计算机，并提交命令请求来达到目的。</p>
+<h2 id="2-1-使用ubuntu终端登陆远程计算机"><a href="#2-1-使用ubuntu终端登陆远程计算机" class="headerlink" title="2.1.使用ubuntu终端登陆远程计算机"></a>2.1.使用ubuntu终端登陆远程计算机</h2><p>关于这一步可以参考<a href="http://www.cnblogs.com/sin90lzc/archive/2012/06/23/2559516.html" target="_blank" rel="external">ubuntu终端连接远程计算机</a></p>
+<h2 id="2-2-登陆远程计算机后，使用如下命令实现深度休眠或关机"><a href="#2-2-登陆远程计算机后，使用如下命令实现深度休眠或关机" class="headerlink" title="2.2.登陆远程计算机后，使用如下命令实现深度休眠或关机"></a>2.2.登陆远程计算机后，使用如下命令实现深度休眠或关机</h2><p><pre>#深度休眠</pre></p>
+<p><pre>sudo pm-hibernate</pre></p>
+<p><pre></pre></p>
+<p><pre>#关机</pre></p>
+<p><pre>sudo shutdown 0</pre><br>&nbsp;</p>
+<p>&nbsp;</p>
+<h2 id="3-唤醒远程计算机"><a href="#3-唤醒远程计算机" class="headerlink" title="3.唤醒远程计算机"></a>3.唤醒远程计算机</h2><p><strong>3.1.**</strong>准备工作**</p>
+<ul>
+<li>知道远程计算机的ip地址或域名和MAC地址，在路由上绑定局域网ip地址和MAC地址。如果没有静态ip，可以使用花生壳。详细操作可以google，在这里就不详述了。</li>
+<li>在本地计算机上安装远程唤醒工具wakeonlan:</li>
+</ul>
+<p>sudo apt-get install wakeonlan</p>
+<p><strong>3.2.**</strong>唤醒远程计算机**</p>
+<p>执行下面的命令就可以唤醒远程的计算机了：</p>
+<p>#host_address为远程计算机的域名或ip地址，mac_address为远程计算机的mac地址,mac地址是’:’间隔的形式</p>
+<p>wakeonlan -i host_address mac_address</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/01/11/ubuntu-e4-b8-8b-e8-bf-9c-e7-a8-8b-e5-94-a4-e9-86-92-e7-9d-a1-e7-9c-a0/" data-id="cild85bsn00209zx5myy8kycw" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -481,7 +481,7 @@
           </li>
         
           <li>
-            <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-2/">从Zero学习String源码</a>
+            <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/">从Zero学习String源码</a>
           </li>
         
       </ul>
