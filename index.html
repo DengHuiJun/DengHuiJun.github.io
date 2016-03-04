@@ -57,7 +57,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://denghui.me"></form>
@@ -103,47 +103,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/04/这些日子的一些思考/" data-id="cild85bss00279zx543clrp9d" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2016/03/04/这些日子的一些思考/" data-id="cild8keqz000tc6x5xdzed1qb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-my-new-post" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/03/03/my-new-post/" class="article-date">
-  <time datetime="2016-03-03T13:29:19.000Z" itemprop="datePublished">2016-03-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/03/my-new-post/">my new post</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/03/my-new-post/" data-id="cild85brq001a9zx51q5ljwrx" class="article-share-link">Delen</a>
-      
-      
     </footer>
   </div>
   
@@ -186,168 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/01/hello-world/" data-id="cild85bro00179zx5fpch430b" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-1/" class="article-date">
-  <time datetime="2015-08-27T11:11:07.000Z" itemprop="datePublished">2015-08-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/android技术解读/">android技术解读</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-1/">从Zero学习String源码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="源码版本：JDK-1-7-0-55"><a href="#源码版本：JDK-1-7-0-55" class="headerlink" title="源码版本：JDK_1.7.0_55"></a><span style="font-size: 16px;">源码版本：JDK_1.7.0_55</span></h1><h2 id="String的常用方法"><a href="#String的常用方法" class="headerlink" title="String的常用方法"></a>String的常用方法</h2><div></div>
-
-<ol>
-<li><code>public final class String //注意final</code></li>
-<li><code>implements java.io.Serializable, Comparable&amp;lt;String&amp;gt;, CharSequence {</code><br>3.4.  <code>//保证只能初始化一次，用字符数组来存</code></li>
-<li><code>private final char value[];</code><br>6.7.  <code>// 存储hashCode，默认为0</code></li>
-<li><code>private int hash;</code><br>9.10.  <code>//判断是否相等</code></li>
-<li><code>public boolean equals(Object anObject) {</code></li>
-<li><code>if (this == anObject) { //同一对象</code></li>
-<li><code>return true;</code></li>
-<li><code>}</code></li>
-<li><code>if (anObject instanceof String) { //若同为String类型</code></li>
-<li><code>String anotherString = (String) anObject;</code></li>
-<li><code>int n = value.length; //本字符串长度</code></li>
-<li><code>if (n == anotherString.value.length) { //长度相同，比较每个字符（ASCII码）是否相同</code></li>
-<li><code>char v1[] = value;</code></li>
-<li><code>char v2[] = anotherString.value;</code></li>
-<li><code>int i = 0;</code></li>
-<li><code>while (n-- != 0) {</code></li>
-<li><code>if (v1[i] != v2[i])</code></li>
-<li><code>return false;</code></li>
-<li><code>i++;</code></li>
-<li><code>}</code></li>
-<li><code>return true; //相等返回</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>return false;</code></li>
-<li><code>}</code><br>32.33.  <code>//比较String的大小，返回的是 &quot;str1 - str2&quot;</code></li>
-<li><code>public int compareTo(String anotherString) {</code></li>
-<li><code>int len1 = value.length;</code></li>
-<li><code>int len2 = anotherString.value.length;</code></li>
-<li><code>int lim = Math.min(len1, len2); //得到小的长度（可以比较的最大长度）</code></li>
-<li><code>char v1[] = value;</code></li>
-<li><code>char v2[] = anotherString.value;</code><br>40.41.  <code>int k = 0;</code></li>
-<li><code>while (k &amp;lt; lim) { //从0比较到lim-1</code></li>
-<li><code>char c1 = v1[k];</code></li>
-<li><code>char c2 = v2[k];</code></li>
-<li><code>if (c1 != c2) {</code></li>
-<li><code>return c1 - c2; //不相等返回</code></li>
-<li><code>}</code></li>
-<li><code>k++;</code></li>
-<li><code>}</code></li>
-<li><code>return len1 - len2; //若v[lim-1]以前都相等,则判断长度，长的值大</code></li>
-<li><code>}</code><br>52.53.  <code>//获得hashCode，赋值给hash</code></li>
-<li><code>public int hashCode() {</code></li>
-<li><code>int h = hash;</code></li>
-<li><code>if (h == 0 &amp;amp;&amp;amp; value.length &amp;gt; 0) {</code></li>
-<li><code>//若之前没有计算过hashCode，且存在String，则生成一个hashCode</code></li>
-<li><code>char val[] = value;</code></li>
-<li><code>for (int i = 0; i &amp;lt; value.length; i++) {</code></li>
-<li><code>h = 31 * h + val[i]; //计算方法，为了唯一性.</code></li>
-<li><code>}</code></li>
-<li><code>hash = h;</code></li>
-<li><code>}</code></li>
-<li><code>return h;</code></li>
-<li><code>}</code></li>
-<li><code>/*看了下&quot;zero&quot;生成hashCode过程：</code></li>
-<li><code>0:122</code></li>
-<li><code>1:3883</code></li>
-<li><code>2:120487</code></li>
-<li><code>3:3735208</code></li>
-<li><code>hashCode:3735208</code></li>
-<li><code>*/</code><br>73.74.  <code>//得到某一字符</code></li>
-<li><code>public char charAt(int index) {</code></li>
-<li><code>if ((index &amp;lt; 0) || (index &amp;gt;= value.length)) { //是否越界</code></li>
-<li><code>throw new StringIndexOutOfBoundsException(index);</code></li>
-<li><code>}</code></li>
-<li><code>return value[index]; //直接下标返回</code></li>
-<li><code>}</code><br>81.82.  <code>//替换方法</code></li>
-<li><code>public String replace(char oldChar, char newChar) {</code></li>
-<li><code>if (oldChar != newChar) {</code></li>
-<li><code>int len = value.length;</code></li>
-<li><code>int i = -1;</code></li>
-<li><code>char[] val = value; /* avoid getfield opcode */</code></li>
-<li><code>while (++i &amp;lt; len) {</code></li>
-<li><code>if (val[i] == oldChar) { //遍历判断第一个oldChar的位置</code></li>
-<li><code>break;</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>if (i &amp;lt; len) { //存在oldChar</code></li>
-<li><code>char buf[] = new char[len]; //重新生成等长字符数组</code></li>
-<li><code>for (int j = 0; j &amp;lt; i; j++) {</code></li>
-<li><code>buf[j] = val[j]; //0至i-1的值保持不变</code></li>
-<li><code>}</code></li>
-<li><code>while (i &amp;lt; len) {</code></li>
-<li><code>char c = val[i];</code></li>
-<li><code>buf[i] = (c == oldChar) ? newChar : c;</code></li>
-<li><code>//找到存在oldChar位置的地方，在新字符数组处赋值为newChar；</code></li>
-<li><code>i++;</code></li>
-<li><code>}</code></li>
-<li><code>return new String(buf, true); //实际上是重新生成了一个String</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>return this;</code></li>
-<li><code>}</code><br>109.110.  <code>//去掉两端的空格</code></li>
-<li><code>public String trim() {</code></li>
-<li><code>int len = value.length;</code></li>
-<li><code>int st = 0;</code></li>
-<li><code>char[] val = value; /* avoid getfield opcode */</code><br>115.116.  <code>while ((st &amp;lt; len) &amp;amp;&amp;amp; (val[st] &amp;lt;= &#39; &#39;)) { //从前往后判断</code></li>
-<li><code>st++;</code></li>
-<li><code>}</code></li>
-<li><code>while ((st &amp;lt; len) &amp;amp;&amp;amp; (val[len - 1] &amp;lt;= &#39; &#39;)) { //后往前</code></li>
-<li><code>len--;</code></li>
-<li><code>}</code></li>
-<li><code>return ((st &amp;gt; 0) || (len &amp;lt; value.length)) ? substring(st, len) : this;</code><br>123.124.  <code>//substring(st, len),里面是用了Arrays里面的copyOfRange方法</code></li>
-<li><code>/*</code></li>
-<li><code>public static char[] copyOfRange(char[] original, int from, int to) {</code></li>
-<li><code>int newLength = to - from;</code></li>
-<li><code>if (newLength &amp;lt; 0)</code></li>
-<li><code>throw new IllegalArgumentException(from + &quot; &amp;gt; &quot; + to);</code></li>
-<li><code>char[] copy = new char[newLength];</code></li>
-<li><code>//native方法</code></li>
-<li><code>System.arraycopy(original, from, copy, 0,</code></li>
-<li><code>Math.min(original.length - from, newLength));</code></li>
-<li><code>return copy;</code></li>
-<li><code>}</code></li>
-<li><code>*/</code></li>
-<li><code>}</code><br>138.139.  <code>public native String intern();</code></li>
-<li><code>...</code></li>
-<li><code>}</code></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-1/" data-id="cild85bqv000m9zx5pywwsota" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2016/03/01/hello-world/" data-id="cild8keqq000lc6x5fcbzr9ed" class="article-share-link">Share</a>
       
       
     </footer>
@@ -508,168 +311,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/" data-id="cild85bqz000o9zx54nr0zu04" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-2/" class="article-date">
-  <time datetime="2015-08-27T11:11:07.000Z" itemprop="datePublished">2015-08-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/android技术解读/">android技术解读</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-2/">从Zero学习String源码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="源码版本：JDK-1-7-0-55"><a href="#源码版本：JDK-1-7-0-55" class="headerlink" title="源码版本：JDK_1.7.0_55"></a><span style="font-size: 16px;">源码版本：JDK_1.7.0_55</span></h1><h2 id="String的常用方法"><a href="#String的常用方法" class="headerlink" title="String的常用方法"></a>String的常用方法</h2><div></div>
-
-<ol>
-<li><code>public final class String //注意final</code></li>
-<li><code>implements java.io.Serializable, Comparable&amp;lt;String&amp;gt;, CharSequence {</code><br>3.4.  <code>//保证只能初始化一次，用字符数组来存</code></li>
-<li><code>private final char value[];</code><br>6.7.  <code>// 存储hashCode，默认为0</code></li>
-<li><code>private int hash;</code><br>9.10.  <code>//判断是否相等</code></li>
-<li><code>public boolean equals(Object anObject) {</code></li>
-<li><code>if (this == anObject) { //同一对象</code></li>
-<li><code>return true;</code></li>
-<li><code>}</code></li>
-<li><code>if (anObject instanceof String) { //若同为String类型</code></li>
-<li><code>String anotherString = (String) anObject;</code></li>
-<li><code>int n = value.length; //本字符串长度</code></li>
-<li><code>if (n == anotherString.value.length) { //长度相同，比较每个字符（ASCII码）是否相同</code></li>
-<li><code>char v1[] = value;</code></li>
-<li><code>char v2[] = anotherString.value;</code></li>
-<li><code>int i = 0;</code></li>
-<li><code>while (n-- != 0) {</code></li>
-<li><code>if (v1[i] != v2[i])</code></li>
-<li><code>return false;</code></li>
-<li><code>i++;</code></li>
-<li><code>}</code></li>
-<li><code>return true; //相等返回</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>return false;</code></li>
-<li><code>}</code><br>32.33.  <code>//比较String的大小，返回的是 &quot;str1 - str2&quot;</code></li>
-<li><code>public int compareTo(String anotherString) {</code></li>
-<li><code>int len1 = value.length;</code></li>
-<li><code>int len2 = anotherString.value.length;</code></li>
-<li><code>int lim = Math.min(len1, len2); //得到小的长度（可以比较的最大长度）</code></li>
-<li><code>char v1[] = value;</code></li>
-<li><code>char v2[] = anotherString.value;</code><br>40.41.  <code>int k = 0;</code></li>
-<li><code>while (k &amp;lt; lim) { //从0比较到lim-1</code></li>
-<li><code>char c1 = v1[k];</code></li>
-<li><code>char c2 = v2[k];</code></li>
-<li><code>if (c1 != c2) {</code></li>
-<li><code>return c1 - c2; //不相等返回</code></li>
-<li><code>}</code></li>
-<li><code>k++;</code></li>
-<li><code>}</code></li>
-<li><code>return len1 - len2; //若v[lim-1]以前都相等,则判断长度，长的值大</code></li>
-<li><code>}</code><br>52.53.  <code>//获得hashCode，赋值给hash</code></li>
-<li><code>public int hashCode() {</code></li>
-<li><code>int h = hash;</code></li>
-<li><code>if (h == 0 &amp;amp;&amp;amp; value.length &amp;gt; 0) {</code></li>
-<li><code>//若之前没有计算过hashCode，且存在String，则生成一个hashCode</code></li>
-<li><code>char val[] = value;</code></li>
-<li><code>for (int i = 0; i &amp;lt; value.length; i++) {</code></li>
-<li><code>h = 31 * h + val[i]; //计算方法，为了唯一性.</code></li>
-<li><code>}</code></li>
-<li><code>hash = h;</code></li>
-<li><code>}</code></li>
-<li><code>return h;</code></li>
-<li><code>}</code></li>
-<li><code>/*看了下&quot;zero&quot;生成hashCode过程：</code></li>
-<li><code>0:122</code></li>
-<li><code>1:3883</code></li>
-<li><code>2:120487</code></li>
-<li><code>3:3735208</code></li>
-<li><code>hashCode:3735208</code></li>
-<li><code>*/</code><br>73.74.  <code>//得到某一字符</code></li>
-<li><code>public char charAt(int index) {</code></li>
-<li><code>if ((index &amp;lt; 0) || (index &amp;gt;= value.length)) { //是否越界</code></li>
-<li><code>throw new StringIndexOutOfBoundsException(index);</code></li>
-<li><code>}</code></li>
-<li><code>return value[index]; //直接下标返回</code></li>
-<li><code>}</code><br>81.82.  <code>//替换方法</code></li>
-<li><code>public String replace(char oldChar, char newChar) {</code></li>
-<li><code>if (oldChar != newChar) {</code></li>
-<li><code>int len = value.length;</code></li>
-<li><code>int i = -1;</code></li>
-<li><code>char[] val = value; /* avoid getfield opcode */</code></li>
-<li><code>while (++i &amp;lt; len) {</code></li>
-<li><code>if (val[i] == oldChar) { //遍历判断第一个oldChar的位置</code></li>
-<li><code>break;</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>if (i &amp;lt; len) { //存在oldChar</code></li>
-<li><code>char buf[] = new char[len]; //重新生成等长字符数组</code></li>
-<li><code>for (int j = 0; j &amp;lt; i; j++) {</code></li>
-<li><code>buf[j] = val[j]; //0至i-1的值保持不变</code></li>
-<li><code>}</code></li>
-<li><code>while (i &amp;lt; len) {</code></li>
-<li><code>char c = val[i];</code></li>
-<li><code>buf[i] = (c == oldChar) ? newChar : c;</code></li>
-<li><code>//找到存在oldChar位置的地方，在新字符数组处赋值为newChar；</code></li>
-<li><code>i++;</code></li>
-<li><code>}</code></li>
-<li><code>return new String(buf, true); //实际上是重新生成了一个String</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>return this;</code></li>
-<li><code>}</code><br>109.110.  <code>//去掉两端的空格</code></li>
-<li><code>public String trim() {</code></li>
-<li><code>int len = value.length;</code></li>
-<li><code>int st = 0;</code></li>
-<li><code>char[] val = value; /* avoid getfield opcode */</code><br>115.116.  <code>while ((st &amp;lt; len) &amp;amp;&amp;amp; (val[st] &amp;lt;= &#39; &#39;)) { //从前往后判断</code></li>
-<li><code>st++;</code></li>
-<li><code>}</code></li>
-<li><code>while ((st &amp;lt; len) &amp;amp;&amp;amp; (val[len - 1] &amp;lt;= &#39; &#39;)) { //后往前</code></li>
-<li><code>len--;</code></li>
-<li><code>}</code></li>
-<li><code>return ((st &amp;gt; 0) || (len &amp;lt; value.length)) ? substring(st, len) : this;</code><br>123.124.  <code>//substring(st, len),里面是用了Arrays里面的copyOfRange方法</code></li>
-<li><code>/*</code></li>
-<li><code>public static char[] copyOfRange(char[] original, int from, int to) {</code></li>
-<li><code>int newLength = to - from;</code></li>
-<li><code>if (newLength &amp;lt; 0)</code></li>
-<li><code>throw new IllegalArgumentException(from + &quot; &amp;gt; &quot; + to);</code></li>
-<li><code>char[] copy = new char[newLength];</code></li>
-<li><code>//native方法</code></li>
-<li><code>System.arraycopy(original, from, copy, 0,</code></li>
-<li><code>Math.min(original.length - from, newLength));</code></li>
-<li><code>return copy;</code></li>
-<li><code>}</code></li>
-<li><code>*/</code></li>
-<li><code>}</code><br>138.139.  <code>public native String intern();</code></li>
-<li><code>...</code></li>
-<li><code>}</code></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-2/" data-id="cild85br0000q9zx5h69e6u2g" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/" data-id="cild8keqg000ec6x5kdl06awt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -710,7 +352,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/" data-id="cild85brk00159zx5o4ryhdb1" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/" data-id="cild8keqj000gc6x5b4r6fgl2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -720,91 +362,9 @@
 
 
   
-    <article id="post-e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b-2" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b-2/" class="article-date">
-  <time datetime="2015-04-15T02:05:47.000Z" itemprop="datePublished">2015-04-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/android技术解读/">android技术解读</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b-2/">反思一下</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看了代码家的经历之后（国内android开发大牛），结合自身。发现自己一直没有达到过废寝忘食的境界。我一直很想在大学留下点什么，来丰富我最后的大学时光。感觉真正意义从心里喜欢上技术（android方向），是在大二暑假。现在已经大三末了…很是惭愧。但也很庆幸能够在毕业之前找到自己喜欢的东西，专心学习自己喜欢的技术。虽然大一大二参加了做了许多学生工作，班级团支书，组织部部长，社团副社长，开会讨论一大推。现在想想一切都是浮云。也许有人会认为在今后的沟通能力，管理能力有帮助。但是真的值得吗？即便我没有参加，就不能很好的沟通吗？（只要不是性格的问题）感觉和同学都一样。正真需要学习的是尊敬，礼仪，气质的提高。当然我也不后悔，大学中我始终认为，大学生应该学习的是人文素养，为人处事，之后才是技能。这才符合一个高级人才的标准。自己今后要走的路还很长，至少目前决定我愿意为科学献身。学习一些能够推动人类科技发展、跨时代的技术。希望自己30年后看到这篇，能会意一笑。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b-2/" data-id="cild85br2000s9zx5brc8zgrc" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b-1/" class="article-date">
-  <time datetime="2015-04-15T02:05:47.000Z" itemprop="datePublished">2015-04-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/android技术解读/">android技术解读</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b-1/">反思一下</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看了代码家的经历之后（国内android开发大牛），结合自身。发现自己一直没有达到过废寝忘食的境界。我一直很想在大学留下点什么，来丰富我最后的大学时光。感觉真正意义从心里喜欢上技术（android方向），是在大二暑假。现在已经大三末了…很是惭愧。但也很庆幸能够在毕业之前找到自己喜欢的东西，专心学习自己喜欢的技术。虽然大一大二参加了做了许多学生工作，班级团支书，组织部部长，社团副社长，开会讨论一大推。现在想想一切都是浮云。也许有人会认为在今后的沟通能力，管理能力有帮助。但是真的值得吗？即便我没有参加，就不能很好的沟通吗？（只要不是性格的问题）感觉和同学都一样。正真需要学习的是尊敬，礼仪，气质的提高。当然我也不后悔，大学中我始终认为，大学生应该学习的是人文素养，为人处事，之后才是技能。这才符合一个高级人才的标准。自己今后要走的路还很长，至少目前决定我愿意为科学献身。学习一些能够推动人类科技发展、跨时代的技术。希望自己30年后看到这篇，能会意一笑。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b-1/" data-id="cild85br7000v9zx5sopmvisq" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn-1/" class="article-date">
+    <a href="/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/" class="article-date">
   <time datetime="2015-03-28T03:35:30.000Z" itemprop="datePublished">2015-03-28</time>
 </a>
     
@@ -820,7 +380,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn-1/">目前转战CSDN</a>
+      <a class="article-title" href="/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/">目前转战CSDN</a>
     </h1>
   
 
@@ -833,7 +393,643 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn-1/" data-id="cild85brf00109zx58pzxekxl" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/" data-id="cild8keql000ic6x5awoqnlk3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-e5-a4-9a-e7-ba-bf-e7-a8-8b-e7-9a-84-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/03/25/android-e5-a4-9a-e7-ba-bf-e7-a8-8b-e7-9a-84-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8/" class="article-date">
+  <time datetime="2015-03-25T13:00:36.000Z" itemprop="datePublished">2015-03-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/android技术解读/">android技术解读</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/25/android-e5-a4-9a-e7-ba-bf-e7-a8-8b-e7-9a-84-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8/">Android多线程的简单使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.何时使用多线程？（耗时操作，避免主线程阻塞）</p>
+<p>当我们进行IO操作，如文件操作，网络操作，数据库操作，以及一些复杂运算和开发定时功能，这时就需要用到多线程编程了。</p>
+<p>2.如何使用？</p>
+<p>接下来做一个定时功能的小Demo，</p>
+<p>首先新建一个android project ，写一个主布局文件：main.xml:</p>
+<p>&nbsp;</p>
+<p><pre>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>&lt;LinearLayout xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“<br>    android:layout_width=”match_parent”<br>    android:layout_height=”match_parent”<br>    android:orientation=”vertical” &gt;</pre></p>
+<pre><code>&amp;lt;TextView
+    android:id=&quot;@+id/tv_title&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;下面是利用多线程和handler写的一个简易计时器：&quot; /&amp;gt;
+
+&amp;lt;TextView
+    android:id=&quot;@+id/tv_time&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;60dp&quot;
+    android:gravity=&quot;center&quot;
+    android:text=&quot;00:00&quot;
+    android:textColor=&quot;@android:color/holo_orange_light&quot;
+    android:textSize=&quot;25sp&quot; /&amp;gt;
+</code></pre><p>   &lt;LinearLayout<br>        android:layout_width=”match_parent”<br>        android:layout_height=”wrap_content”<br>        android:orientation=”horizontal” &gt;</p>
+<pre><code>    &amp;lt;Button
+        android:id=&quot;@+id/btn_start&quot;
+        android:layout_width=&quot;0dp&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_weight=&quot;1&quot;
+        android:text=&quot;开始&quot; /&amp;gt;
+
+    &amp;lt;Button
+        android:id=&quot;@+id/btn_reset&quot;
+        android:layout_width=&quot;0dp&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_weight=&quot;1&quot;
+        android:text=&quot;重置&quot; /&amp;gt;
+&amp;lt;/LinearLayout&amp;gt;
+</code></pre><p>&lt;/LinearLayout&gt;<br>&nbsp;</p>
+<p>然后在MainActivity 初始化控件和设置按钮监听事件：</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><pre>package comzero.threaddemo;</pre></p>
+<p>import android.app.Activity;<br>import android.os.Bundle;<br>import android.os.Handler;<br>import android.os.Message;<br>import android.view.View;<br>import android.view.View.OnClickListener;<br>import android.widget.Button;<br>import android.widget.TextView;<br>import android.widget.Toast;</p>
+<p>/**</p>
+<ul>
+<li>@author dh</li>
+<li><p>*/<br>public class MainActivity extends Activity implements OnClickListener {</p>
+<p> // 定义控件<br> private Button btn_start;<br> private Button btn_reset;<br> private TextView tv_time;</p>
+<p> // 判断是否正在计时<br> public boolean IsStart = false;</p>
+<p> // 走过的总秒数<br> public static int TOTAL = 0;</p>
+<p> // 定义唯一时间句柄标识<br> public static final int TIME_HANDLER = 0x11;</p>
+<p> private Handler handler = new Handler() {</p>
+<pre><code>public void handleMessage(Message msg) {
+    if (msg.what == TIME_HANDLER) {
+        // 接受到，主界面修改显示时间
+        int totals = (Integer) msg.obj;
+        tv_time.setText(ToTime(totals));
+    }
+}
+</code></pre><p> };</p>
+<p> @Override<br> protected void onCreate(Bundle savedInstanceState) {</p>
+<pre><code>super.onCreate(savedInstanceState);
+setContentView(R.layout.main);
+initView();
+//记得设置监听事件
+btn_start.setOnClickListener(this);
+btn_reset.setOnClickListener(this);
+</code></pre><p> }</p>
+<p> // 初始化控件<br> private void initView() {</p>
+<pre><code>btn_start = (Button) findViewById(R.id.btn_start);
+btn_reset = (Button) findViewById(R.id.btn_reset);
+tv_time = (TextView) findViewById(R.id.tv_time);
+</code></pre><p> }</p>
+<p> @Override<br> public void onClick(View v) {</p>
+<pre><code>// TODO Auto-generated method stub
+switch (v.getId()) {
+// 点击开始
+case R.id.btn_start:
+    if (!IsStart) {
+        new TimeThread(handler).start();
+        IsStart = true;
+    } else {
+        Toast.makeText(this, &quot;你已经开始计时了！&quot;, Toast.LENGTH_LONG).show();
+    }
+    break;
+
+// 点击重置
+case R.id.btn_reset:
+    TOTAL = 0;
+    break;
+default:
+    break;
+}
+</code></pre><p> }</p>
+<p> // 把总秒数转换成00：00格式的string<br> private String ToTime(int time) {</p>
+<pre><code>String str = &quot;&quot;;
+int second = 0;
+int minute = 0;
+second = time % 60;
+minute = time / 60;
+if (minute &amp;lt; 10) {
+    if (second &amp;lt; 10) {
+        str = &quot;0&quot; + minute + &quot;:&quot; + &quot;0&quot; + second;
+    } else {
+        str = &quot;0&quot; + minute + &quot;:&quot; + second;
+    }
+} else {
+    if (second &amp;lt; 10) {
+        str = minute + &quot;:&quot; + &quot;0&quot; + second;
+    } else {
+        str = minute + &quot;:&quot; + second;
+    }
+}
+return str;
+</code></pre><p> }<br>}<br>新建一个TimeThread.java来写计时功能:</p>
+</li>
+</ul>
+<p>&nbsp;</p>
+<p><pre>package comzero.threaddemo;</pre></p>
+<p>import android.os.Handler;<br>import android.os.Message;<br>import android.util.Log;</p>
+<p>public class TimeThread extends Thread {<br>    private Handler handler ;</p>
+<pre><code>public TimeThread(Handler handler){
+    this.handler = handler;
+}
+
+@Override
+public void run() {
+    // 计时功能，上限1个小时
+    try {
+        for (int i = 0; i &amp;lt; 3600; i++) {
+            Thread.sleep(1000);
+            MainActivity.TOTAL++;
+
+            //这里类似windows的消息机制，发一个消息到UI线程的消息队列中
+            Message msg = new Message();
+            msg.what = MainActivity.TIME_HANDLER;
+            msg.obj = MainActivity.TOTAL;
+            handler.sendMessage(msg);
+        }
+
+    } catch (InterruptedException e) {
+        Log.d(&quot;OK&quot;, e.toString());
+    }
+}
+</code></pre><p>}<br>这样简单的计时器就完成了，对于handler与Messge有时间再写详细的解释.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/03/25/android-e5-a4-9a-e7-ba-bf-e7-a8-8b-e7-9a-84-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8/" data-id="cild8keq40008c6x5co3bmszq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-qt5-4-e5-ae-9e-e7-8e-b0-e5-a4-9a-e6-92-ad-e7-a8-8b-e5-ba-8f" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/14/qt5-4-e5-ae-9e-e7-8e-b0-e5-a4-9a-e6-92-ad-e7-a8-8b-e5-ba-8f/" class="article-date">
+  <time datetime="2015-01-14T06:58:12.000Z" itemprop="datePublished">2015-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Qt/">Qt</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/14/qt5-4-e5-ae-9e-e7-8e-b0-e5-a4-9a-e6-92-ad-e7-a8-8b-e5-ba-8f/">Qt5.4实现多播程序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>先附上源码：<a href="http://zerodh-wordpress.stor.sinaapp.com/uploads/2015/01/Qt多播源码.zip" target="_blank" rel="external">Qt多播源码</a></p>
+<p>原理：IP多播通信必须依赖于IP<a href="http://baike.baidu.com/view/1516301.htm" target="_blank" rel="external">多播地址</a>，在IPv4中它是一个<a href="http://baike.baidu.com/view/2022499.htm" target="_blank" rel="external">D类IP地址</a>，范围从224.0.0.0到239.255.255.255，并被划分为局部链接多播地址、预留多播地址和管理权限多播地址三类。其中，局部链接<a href="http://baike.baidu.com/view/1516301.htm" target="_blank" rel="external">多播地址</a>范围在224.0.0.0~224.0.0.255，这是为<a href="http://baike.baidu.com/view/7031.htm" target="_blank" rel="external">路由协议</a>和其它用途保留的地址，<a href="http://baike.baidu.com/view/1360.htm" target="_blank" rel="external">路由器</a>并不转发属于此范围的IP包；预留多播地址为224.0.1.0~238.255.255.255，可用于全球范围（如Internet）或<a href="http://baike.baidu.com/view/16603.htm" target="_blank" rel="external">网络协议</a>；管理权限多播地址为239.0.0.0~239.255.255.255，可供组织内部使用，类似于私有IP地址，不能用于Internet，可限制多播范围。</p>
+<p>使用同一个IP<a href="http://baike.baidu.com/view/1516301.htm" target="_blank" rel="external">多播地址</a>接收多播<a href="http://baike.baidu.com/view/25880.htm" target="_blank" rel="external">数据包</a>的所有<a href="http://baike.baidu.com/view/23880.htm" target="_blank" rel="external">主机</a>构成了一个主机组，也称为多播组。一个多播组的成员是随时变动的，一台<a href="http://baike.baidu.com/view/23880.htm" target="_blank" rel="external">主机</a>可以随时加入或离开多播组，多播组成员的数目和所在的地理位置也不受限制，一台主机也可以属于几个多播组。此外，不属于某一个多播组的<a href="http://baike.baidu.com/view/23880.htm" target="_blank" rel="external">主机</a>也可以向该多播组发送<a href="http://baike.baidu.com/view/25880.htm" target="_blank" rel="external">数据包</a>。</p>
+<p>实现：</p>
+<ol>
+<li><strong>1.       **</strong>Sender<strong>**的主要代码：</strong><br><strong>a.**</strong>在构造函数来创建多播组：**</li>
+</ol>
+<p>Sender::Sender(QWidget *parent) :</p>
+<pre><code>QWidget(parent),
+
+ui(new Ui::Sender)
+</code></pre><p>{</p>
+<pre><code>ui-&amp;gt;setupUi(this);
+
+groupAddress = QHostAddress(&quot;239.255.0.1&quot;);
+
+udpSocket = new QUdpSocket(this);
+</code></pre><p>}</p>
+<p>b.发送按钮里，实现向多播组里写入文本数据</p>
+<p>void Sender::on_sendBtn_clicked()</p>
+<p>{</p>
+<pre><code>QString msg = ui-&amp;gt;lineEdit-&amp;gt;text();
+
+QByteArray sendmsg = msg.toLatin1();
+
+QByteArray datagram = &quot;Multicast message:&quot; + sendmsg;
+
+udpSocket-&amp;gt;writeDatagram(datagram.data(), datagram.size(),
+
+                         groupAddress, 45454);
+
+ui-&amp;gt;textEdit-&amp;gt;append(&quot;me:&quot;+msg);
+</code></pre><p>}</p>
+<ol>
+<li><strong>2.       **</strong>Receiver<strong>**的主要代码：</strong></li>
+</ol>
+<hr>
+<p><strong>a.**</strong>构造函数里实现加入多播组：**</p>
+<p>MyReceiver::MyReceiver(QWidget *parent) :</p>
+<pre><code>QWidget(parent),
+
+ui(new Ui::MyReceiver)
+</code></pre><p>{</p>
+<pre><code>ui-&amp;gt;setupUi(this);
+
+ui-&amp;gt;label-&amp;gt;setText(&quot;Meeting is started!&quot;);
+
+groupAddress = QHostAddress(&quot;239.255.0.1&quot;);
+
+udpSocket = new QUdpSocket(this);
+
+udpSocket-&amp;gt;bind(QHostAddress::AnyIPv4, 45454,QAbstractSocket::ShareAddress|QUdpSocket::ReuseAddressHint);
+
+udpSocket-&amp;gt;joinMulticastGroup(groupAddress);
+
+connect(udpSocket, SIGNAL(readyRead()),
+
+        this, SLOT(processPendingDatagrams()));
+
+setWindowTitle(tr(&quot;Meeting Receiver&quot;));
+</code></pre><p>}</p>
+<p><strong>b.**</strong>读取发送者写入的文本数据**</p>
+<p>void MyReceiver::processPendingDatagrams()</p>
+<p>{</p>
+<pre><code>while (udpSocket-&amp;gt;hasPendingDatagrams()) {
+
+    QByteArray datagram;
+
+    datagram.resize(udpSocket-&amp;gt;pendingDatagramSize());
+
+    udpSocket-&amp;gt;readDatagram(datagram.data(), datagram.size());
+
+    QString msg = QString(datagram.data());
+
+    ui-&amp;gt;textEdit-&amp;gt;append(msg);
+
+}
+</code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/01/14/qt5-4-e5-ae-9e-e7-8e-b0-e5-a4-9a-e6-92-ad-e7-a8-8b-e5-ba-8f/" data-id="cild8ker2000vc6x5ufgtizsi" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-qt5-4-e4-b8-ad-e5-ae-9e-e7-8e-b0-e7-ae-80-e6-98-93socket" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/14/qt5-4-e4-b8-ad-e5-ae-9e-e7-8e-b0-e7-ae-80-e6-98-93socket/" class="article-date">
+  <time datetime="2015-01-14T06:28:18.000Z" itemprop="datePublished">2015-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Qt/">Qt</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/14/qt5-4-e4-b8-ad-e5-ae-9e-e7-8e-b0-e7-ae-80-e6-98-93socket/">Qt5.4中实现简易Socket</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>先附上源代码：<a href="http://zerodh-wordpress.stor.sinaapp.com/uploads/2015/01/QtSocket.zip" target="_blank" rel="external">QtSocket</a></p>
+<p>详解：</p>
+<p><strong>1.**</strong>开发环境：win8.1  +  Qt5.4  +  C++<strong>**。</strong></p>
+<p><strong>2.**</strong>服务器主要代码：**</p>
+<p>a.在构造函数里创建服务器：</p>
+<pre><code>ui-&amp;gt;setupUi(this);
+
+flag = true;  //是否打开Server
+
+ui-&amp;gt;statusLb-&amp;gt;setText(&quot;ready ,not open ServerSocket&quot;);
+
+ui-&amp;gt;openBtn-&amp;gt;setText(&quot;Open Server&quot;);
+
+server = new QTcpServer(this);
+
+connect(server, SIGNAL(newConnection()), this, SLOT(newConnectionSlot()));
+</code></pre><p>b.在点击打开的按钮里设置监听事件</p>
+<pre><code>   ui-&amp;gt;statusLb-&amp;gt;setText(&quot;Server is started!&quot;);
+
+   ui-&amp;gt;openBtn-&amp;gt;setText(&quot;Close Server&quot;);
+
+   if(!server-&amp;gt;isListening())
+
+   {
+
+       server-&amp;gt;listen(QHostAddress::Any,9002);
+
+       ui-&amp;gt;textEdit-&amp;gt;append(&quot;open success!&quot;);
+
+       ui-&amp;gt;statusLb-&amp;gt;setText(&quot;Server is Listening!&quot;);
+
+       flag = false;
+
+   }else
+
+   {
+
+       ui-&amp;gt;textEdit-&amp;gt;append(&quot;open failed!has opened!&quot;);
+
+   }
+
+}else
+
+{
+
+    if (server-&amp;gt;isListening())
+
+    {
+
+     server-&amp;gt;close();
+
+     ui-&amp;gt;statusLb-&amp;gt;setText(&quot;Server is Closed!&quot;);
+
+     ui-&amp;gt;openBtn-&amp;gt;setText(&quot;Open Server&quot;);
+
+     flag = true;
+
+    }
+
+}
+</code></pre><p>c.在新连接的槽函数里设置响应客户端的事件，一旦有新的socket连接，马上向该socket中写入”welcome”字符串。</p>
+<pre><code>ui-&amp;gt;textEdit-&amp;gt;append(&quot;a new Client!&quot;);
+
+socket = server-&amp;gt;_nextPendingConnection_();
+
+connect(socket, SIGNAL(disconnected()), socket, SLOT(deleteLater()));
+
+connect(socket, SIGNAL(readyRead()),this, SLOT(dataReceived()));
+
+int length = 0; QString vMsgStr = QObject::tr(&quot;Welcome !&quot;);   if((length=socket-&amp;gt;write(vMsgStr.toLatin1(),vMsgStr.length()))!=vMsgStr.length()){}
+</code></pre><p>d.设置读取数据的函数。</p>
+<pre><code>while(socket-&amp;gt;_bytesAvailable_())
+
+{
+
+ QByteArray vTemp;
+
+ vTemp = socket-&amp;gt;readLine();
+
+ QString vTempStr(vTemp);
+
+ ui-&amp;gt;textEdit-&amp;gt;append(&quot;Client:&quot;+vTempStr);
+
+}
+</code></pre><p>c.设置发送按钮的事件。</p>
+<pre><code>int length = 0;
+
+QString vMsgStr = &quot;Server:&quot;+ui -&amp;gt;lineEdit-&amp;gt;text();     if((length=socket-&amp;gt;write(vMsgStr.toLatin1(),vMsgStr.length()))!=vMsgStr.length()){}
+
+ui-&amp;gt;textEdit-&amp;gt;append(vMsgStr);
+</code></pre><p>&nbsp;</p>
+<p><strong>3.**</strong>客户端主要代码：**</p>
+<p>a.构造函数里创建新的socket：</p>
+<pre><code>ui-&amp;gt;setupUi(this);
+
+socket = new QTcpSocket(this);
+
+ui-&amp;gt;label-&amp;gt;setText(&quot;not connected!&quot;);
+
+connect(socket, SIGNAL(connected()), this, SLOT(connectedSlot()));
+
+connect(socket, SIGNAL(disconnected()), this, SLOT(disconnectedSlot()));
+
+connect(socket, SIGNAL(readyRead()),this, SLOT(dataReceived()));
+</code></pre><p>connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));</p>
+<p>b.发送按钮的事件：向socket中写入数据：</p>
+<pre><code>int length = 0;
+
+QString vMsgStr = ui-&amp;gt;lineEdit-&amp;gt;text();
+
+if((length = socket-&amp;gt;write(vMsgStr.toLatin1(),vMsgStr.length())) != vMsgStr.length())
+
+{}
+</code></pre><p>ui-&gt;textEdit-&gt;append(“this:”+vMsgStr);</p>
+<p>c.接收的处理事件：</p>
+<pre><code>while(socket-&amp;gt;_bytesAvailable_())
+
+{
+
+ QString vTemp;
+
+ vTemp = socket-&amp;gt;readLine();
+
+ ui-&amp;gt;textEdit-&amp;gt;append(vTemp);
+
+}
+</code></pre><p>d.连接功能：</p>
+<pre><code>m_HostAddress.setAddress(QObject::tr(&quot;127.0.0.1&quot;));
+
+socket-&amp;gt;_connectToHost_(m_HostAddress, 9002);
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/01/14/qt5-4-e4-b8-ad-e5-ae-9e-e7-8e-b0-e7-ae-80-e6-98-93socket/" data-id="cild8keqx000rc6x5vb5wihmx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mysql-e7-9a-84-e5-b8-b8-e7-94-a8api-e6-8e-a5-e5-8f-a3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/13/mysql-e7-9a-84-e5-b8-b8-e7-94-a8api-e6-8e-a5-e5-8f-a3/" class="article-date">
+  <time datetime="2015-01-13T05:46:48.000Z" itemprop="datePublished">2015-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/13/mysql-e7-9a-84-e5-b8-b8-e7-94-a8api-e6-8e-a5-e5-8f-a3/">MySQL的常用API接口</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/01/13/mysql-e7-9a-84-e5-b8-b8-e7-94-a8api-e6-8e-a5-e5-8f-a3/" data-id="cild8keqt000oc6x5bvbox0qp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql/" class="article-date">
+  <time datetime="2015-01-12T11:35:45.000Z" itemprop="datePublished">2015-01-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql/">VS2013下C++连接MySQL</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><span style="font-size: 1.17em;">这里利用mysql自己的api函数进行连接。当然还可以用ADO的方式连接。</span></p>
+<ol>
+<li>安装mysql，Visual Studio 2013 .这里不再介绍安装了….本人是用的mysql 5.6。</li>
+<li>打开VS2013,新建一个空工程（win32控制台程序），进入到工程的目录下，将mysql的lib的目录下的libmysql.dll和libmysql.lib这2个文件拷贝过去。</li>
+<li>同样将mysql的include目录下的：my_alloc.h，my_list.h，mysql.h，mysql_com.h，mysql_time.h，mysql_version.h，typelib.h这几个头文件拷贝到你新建的工程目录下。</li>
+<li>在VS2013中的工程下，右键 头文件 -&gt; 添加 -&gt; 现有项  -&gt; 将步骤3中的头文件全部添加进来。</li>
+<li>这样你就可以利用mysql的API开始使用mysql了。<br>接下来贴出一个简单的小例子：</li>
+</ol>
+<p>#include &lt;iostream&gt;</p>
+<p>#include &lt;winsock2.h&gt;</p>
+<p>#include “mysql.h”</p>
+<p>//#pragma comment(lib, “ws2_32.lib”)</p>
+<p>#pragma comment(lib,”libmysql.lib”)</p>
+<p>using namespace std;</p>
+<p>int main(int argc, char* argv[])</p>
+<p>{</p>
+<pre><code>mysql_library_init(NULL, 0, 0);
+
+MYSQL mysql;
+
+mysql_init(&amp;amp;mysql);
+
+if (0 == mysql_options(&amp;amp;mysql, MYSQL_SET_CHARSET_NAME, &quot;utf8&quot;))//设置字符集
+
+{
+
+     cout &amp;lt;&amp;lt; &quot;设置字符集成功\n\n&quot; &amp;lt;&amp;lt; endl;
+
+}
+
+if (!mysql_real_connect(&amp;amp;mysql, &quot;localhost&quot;, &quot;root&quot;, &quot;password&quot;, &quot;databaseName&quot;, 0, NULL, CLIENT_MULTI_STATEMENTS))
+</code></pre><p>//连接数据库</p>
+<pre><code>{
+
+     cout &amp;lt;&amp;lt; &quot;Connect Failed!&quot; &amp;lt;&amp;lt; endl;
+
+}
+
+else
+
+{
+
+     cout &amp;lt;&amp;lt; &quot;welcome to mysql/n &quot;;
+
+}
+
+mysql_query(&amp;amp;mysql, &quot;select * from manager&quot;);          //执行SQL语句
+
+MYSQL_RES *result = mysql_store_result(&amp;amp;mysql);       //获取资源
+
+int rowcount = mysql_num_rows(result);                //获取记录数
+
+unsigned int fieldcount = mysql_num_fields(result);   //获取字段数
+
+MYSQL_FIELD *field = NULL;                            //字段
+
+MYSQL_ROW row = NULL;                         //记录
+
+while (row = mysql_fetch_row(result))
+
+{
+
+     for (unsigned int i = 0; i&amp;lt;fieldcount; i++)
+
+     {
+
+           field = mysql_fetch_field_direct(result, i);
+
+           cout &amp;lt;&amp;lt; field-&amp;gt;name &amp;lt;&amp;lt; &quot;:&quot; &amp;lt;&amp;lt; row[i] &amp;lt;&amp;lt; &quot;\n&quot;;
+
+     }
+
+}
+
+mysql_free_result(result);
+
+mysql_close(&amp;amp;mysql);
+
+mysql_server_end();
+
+mysql_library_end();
+
+return 0;
+</code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql/" data-id="cild8ker60010c6x5k7r0yldh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -846,7 +1042,7 @@
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -854,7 +1050,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categorieën</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Qt/">Qt</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android技术解读/">android技术解读</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/云计算与大数据/">云计算与大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a></li></ul>
     </div>
@@ -864,7 +1060,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Labels</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
     </div>
@@ -883,7 +1079,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
     </div>
@@ -893,7 +1089,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
@@ -902,19 +1098,19 @@
           </li>
         
           <li>
-            <a href="/2016/03/03/my-new-post/">my new post</a>
-          </li>
-        
-          <li>
             <a href="/2016/03/01/hello-world/">Hello World</a>
           </li>
         
           <li>
-            <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-1/">从Zero学习String源码</a>
+            <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/">从Zero学习String源码</a>
           </li>
         
           <li>
-            <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/">从Zero学习String源码</a>
+            <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/">反思一下</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/">目前转战CSDN</a>
           </li>
         
       </ul>
