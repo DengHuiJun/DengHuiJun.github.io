@@ -3,21 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | 若冰</title>
+  <title>VS2013下C++连接MySQL | 若冰</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="这里利用mysql自己的api函数进行连接。当然还可以用ADO的方式连接。
+
+安装mysql，Visual Studio 2013 .这里不再介绍安装了….本人是用的mysql 5.6。
+打开VS2013,新建一个空工程（win32控制台程序），进入到工程的目录下，将mysql的lib的目录下的libmysql.dll和libmysql.lib这2个文件拷贝过去。
+同样将mysql的include">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://denghui.me/2016/03/01/hello-world/index.html">
+<meta property="og:title" content="VS2013下C++连接MySQL">
+<meta property="og:url" content="http://denghui.me/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql-1/index.html">
 <meta property="og:site_name" content="若冰">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-03-01T08:46:04.000Z">
+<meta property="og:description" content="这里利用mysql自己的api函数进行连接。当然还可以用ADO的方式连接。
+
+安装mysql，Visual Studio 2013 .这里不再介绍安装了….本人是用的mysql 5.6。
+打开VS2013,新建一个空工程（win32控制台程序），进入到工程的目录下，将mysql的lib的目录下的libmysql.dll和libmysql.lib这2个文件拷贝过去。
+同样将mysql的include">
+<meta property="og:updated_time" content="2016-03-03T14:17:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="VS2013下C++连接MySQL">
+<meta name="twitter:description" content="这里利用mysql自己的api函数进行连接。当然还可以用ADO的方式连接。
+
+安装mysql，Visual Studio 2013 .这里不再介绍安装了….本人是用的mysql 5.6。
+打开VS2013,新建一个空工程（win32控制台程序），进入到工程的目录下，将mysql的lib的目录下的libmysql.dll和libmysql.lib这2个文件拷贝过去。
+同样将mysql的include">
   
     <link rel="alternate" href="/atom.xml" title="若冰" type="application/atom+xml">
   
@@ -70,12 +79,16 @@ Quick">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/01/hello-world/" class="article-date">
-  <time datetime="2016-03-01T08:46:04.000Z" itemprop="datePublished">2016-03-01</time>
+    <a href="/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql-1/" class="article-date">
+  <time datetime="2015-01-12T11:35:45.000Z" itemprop="datePublished">2015-01-12</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -84,7 +97,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      VS2013下C++连接MySQL
     </h1>
   
 
@@ -92,20 +105,95 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p><span style="font-size: 1.17em;">这里利用mysql自己的api函数进行连接。当然还可以用ADO的方式连接。</span></p>
+<ol>
+<li>安装mysql，Visual Studio 2013 .这里不再介绍安装了….本人是用的mysql 5.6。</li>
+<li>打开VS2013,新建一个空工程（win32控制台程序），进入到工程的目录下，将mysql的lib的目录下的libmysql.dll和libmysql.lib这2个文件拷贝过去。</li>
+<li>同样将mysql的include目录下的：my_alloc.h，my_list.h，mysql.h，mysql_com.h，mysql_time.h，mysql_version.h，typelib.h这几个头文件拷贝到你新建的工程目录下。</li>
+<li>在VS2013中的工程下，右键 头文件 -&gt; 添加 -&gt; 现有项  -&gt; 将步骤3中的头文件全部添加进来。</li>
+<li>这样你就可以利用mysql的API开始使用mysql了。<br>接下来贴出一个简单的小例子：</li>
+</ol>
+<p>#include &lt;iostream&gt;</p>
+<p>#include &lt;winsock2.h&gt;</p>
+<p>#include “mysql.h”</p>
+<p>//#pragma comment(lib, “ws2_32.lib”)</p>
+<p>#pragma comment(lib,”libmysql.lib”)</p>
+<p>using namespace std;</p>
+<p>int main(int argc, char* argv[])</p>
+<p>{</p>
+<pre><code>mysql_library_init(NULL, 0, 0);
+
+MYSQL mysql;
+
+mysql_init(&amp;amp;mysql);
+
+if (0 == mysql_options(&amp;amp;mysql, MYSQL_SET_CHARSET_NAME, &quot;utf8&quot;))//设置字符集
+
+{
+
+     cout &amp;lt;&amp;lt; &quot;设置字符集成功\n\n&quot; &amp;lt;&amp;lt; endl;
+
+}
+
+if (!mysql_real_connect(&amp;amp;mysql, &quot;localhost&quot;, &quot;root&quot;, &quot;password&quot;, &quot;databaseName&quot;, 0, NULL, CLIENT_MULTI_STATEMENTS))
+</code></pre><p>//连接数据库</p>
+<pre><code>{
+
+     cout &amp;lt;&amp;lt; &quot;Connect Failed!&quot; &amp;lt;&amp;lt; endl;
+
+}
+
+else
+
+{
+
+     cout &amp;lt;&amp;lt; &quot;welcome to mysql/n &quot;;
+
+}
+
+mysql_query(&amp;amp;mysql, &quot;select * from manager&quot;);          //执行SQL语句
+
+MYSQL_RES *result = mysql_store_result(&amp;amp;mysql);       //获取资源
+
+int rowcount = mysql_num_rows(result);                //获取记录数
+
+unsigned int fieldcount = mysql_num_fields(result);   //获取字段数
+
+MYSQL_FIELD *field = NULL;                            //字段
+
+MYSQL_ROW row = NULL;                         //记录
+
+while (row = mysql_fetch_row(result))
+
+{
+
+     for (unsigned int i = 0; i&amp;lt;fieldcount; i++)
+
+     {
+
+           field = mysql_fetch_field_direct(result, i);
+
+           cout &amp;lt;&amp;lt; field-&amp;gt;name &amp;lt;&amp;lt; &quot;:&quot; &amp;lt;&amp;lt; row[i] &amp;lt;&amp;lt; &quot;\n&quot;;
+
+     }
+
+}
+
+mysql_free_result(result);
+
+mysql_close(&amp;amp;mysql);
+
+mysql_server_end();
+
+mysql_library_end();
+
+return 0;
+</code></pre><p>}</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/01/hello-world/" data-id="cild65jin00173sx5x1tu4jat" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql-1/" data-id="cild65jjp00223sx5qhqb5bsn" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -114,19 +202,19 @@ Quick">
     
 <nav id="article-nav">
   
-    <a href="/2016/03/03/my-new-post/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Nieuwer</strong>
       <div class="article-nav-title">
         
-          my new post
+          VS2013下C++连接MySQL
         
       </div>
     </a>
   
   
-    <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-1/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql-2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Ouder</strong>
-      <div class="article-nav-title">从Zero学习String源码</div>
+      <div class="article-nav-title">VS2013下C++连接MySQL</div>
     </a>
   
 </nav>

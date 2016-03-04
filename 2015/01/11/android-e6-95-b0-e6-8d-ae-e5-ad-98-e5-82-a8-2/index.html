@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | 若冰</title>
+  <title>Android数据存储 | 若冰</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="四种数据存储方式：
+1.SharedPreferences2.SQLite3.Content Provider4.FileSharedPreferences:1.是一种轻型的数据存储方式2.本质是基于XML文件存储key-value键值对数据3.通常用来存储一些简单的配置信息SharedPreferences对象本身只能获取数据而不支持存储和修改，存储和修改是通过Editor对象实现。具体步骤：1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://denghui.me/2016/03/01/hello-world/index.html">
+<meta property="og:title" content="Android数据存储">
+<meta property="og:url" content="http://denghui.me/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-2/index.html">
 <meta property="og:site_name" content="若冰">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-03-01T08:46:04.000Z">
+<meta property="og:description" content="四种数据存储方式：
+1.SharedPreferences2.SQLite3.Content Provider4.FileSharedPreferences:1.是一种轻型的数据存储方式2.本质是基于XML文件存储key-value键值对数据3.通常用来存储一些简单的配置信息SharedPreferences对象本身只能获取数据而不支持存储和修改，存储和修改是通过Editor对象实现。具体步骤：1">
+<meta property="og:updated_time" content="2016-03-03T14:20:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="Android数据存储">
+<meta name="twitter:description" content="四种数据存储方式：
+1.SharedPreferences2.SQLite3.Content Provider4.FileSharedPreferences:1.是一种轻型的数据存储方式2.本质是基于XML文件存储key-value键值对数据3.通常用来存储一些简单的配置信息SharedPreferences对象本身只能获取数据而不支持存储和修改，存储和修改是通过Editor对象实现。具体步骤：1">
   
     <link rel="alternate" href="/atom.xml" title="若冰" type="application/atom+xml">
   
@@ -70,12 +70,16 @@ Quick">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/01/hello-world/" class="article-date">
-  <time datetime="2016-03-01T08:46:04.000Z" itemprop="datePublished">2016-03-01</time>
+    <a href="/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-2/" class="article-date">
+  <time datetime="2015-01-11T10:22:13.000Z" itemprop="datePublished">2015-01-11</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/android技术解读/">android技术解读</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -84,7 +88,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      Android数据存储
     </h1>
   
 
@@ -92,20 +96,12 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
+        <p>四种数据存储方式：</p>
+<div style="padding-left: 30px;">1.SharedPreferences</div><br><div style="padding-left: 30px;">2.SQLite</div><br><div style="padding-left: 30px;">3.Content Provider</div><br><div style="padding-left: 30px;">4.File</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;">SharedPreferences:</div><br><div style="padding-left: 30px;">1.是一种轻型的数据存储方式</div><br><div style="padding-left: 30px;">2.本质是基于XML文件存储key-value键值对数据</div><br><div style="padding-left: 30px;">3.通常用来存储一些简单的配置信息</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;">SharedPreferences对象本身只能获取数据而不支持存储和修改，存储和修改是通过Editor对象实现。</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;">具体步骤：</div><br><div style="padding-left: 30px;">1.获取SharedPreferences对象；</div><br><div style="padding-left: 30px;">2.获取SharedPreferences.Editor对象；</div><br><div style="padding-left: 30px;">3.通过Editor接口的putXX方法保存key-value对。</div><br><div style="padding-left: 30px;">4.通过Editor接口的commit方法保存key-value对。</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;">SQLite简介：</div><br><div style="padding-left: 30px;">支持高达2TB大小的数据库</div><br><div style="padding-left: 30px;">以单个文件的形式存在</div><br><div style="padding-left: 30px;">以B-Tree的数据结构存在磁盘</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;">SQLiteDatabase db = openOrCreateDatabase(“user.db”,MODE_PRIVATE,null);</div><br><div style="padding-left: 30px;">db.execSQL(“加入执行语句”);</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;">Cursor c = db.rawQuery(“查询表”,null);</div><br><div style="padding-left: 30px;">//游标对象用来更细节的查询，类似于结果的集合</div><br><div style="padding-left: 30px;">if(c!=null)</div><br><div style="padding-left: 30px;">{</div><br><div style="padding-left: 30px;">}</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;">建议用现成的内置语句操作数据库。</div><br><div style="padding-left: 30px;">ContentValues：用于存储一组可以被ContentResolver处理的值</div><br><div style="padding-left: 30px;">代码示例：</div><br><div style="padding-left: 30px;">ContentValues values = new ContentValues();//类似hashMap key value</div><br><div style="padding-left: 30px;">values.put(“name”,”张三”)；</div><br><div style="padding-left: 30px;">执行对应的sql操作</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 30px;">SQLiteOpenHelper :</div><br><div style="padding-left: 30px;"></div><br><div style="padding-left: 90px;"></div>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/01/hello-world/" data-id="cild65jin00173sx5x1tu4jat" class="article-share-link">Delen</a>
+      <a data-url="http://denghui.me/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-2/" data-id="cild65jhk000i3sx5b4wqm54k" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -114,19 +110,19 @@ Quick">
     
 <nav id="article-nav">
   
-    <a href="/2016/03/03/my-new-post/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Nieuwer</strong>
       <div class="article-nav-title">
         
-          my new post
+          Android数据存储
         
       </div>
     </a>
   
   
-    <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81-1/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/01/11/android-e6-95-b0-e6-8d-ae-e5-ad-98-e5-82-a8-1/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Ouder</strong>
-      <div class="article-nav-title">从Zero学习String源码</div>
+      <div class="article-nav-title">Android数据存储</div>
     </a>
   
 </nav>
