@@ -5,31 +5,16 @@
   
   <title>从Zero学习String源码 | 若冰</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="源码版本：JDK_1.7.0_55String的常用方法
-
-
-public final class String //注意final
-implements java.io.Serializable, Comparable&amp;amp;lt;String&amp;amp;gt;, CharSequence {3.4.  //保证只能初始化一次，用字符数组来存
-private final char value[]">
+  <meta name="description" content="源码版本：JDK_1.7.0_55String的常用方法1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从Zero学习String源码">
 <meta property="og:url" content="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/index.html">
 <meta property="og:site_name" content="若冰">
-<meta property="og:description" content="源码版本：JDK_1.7.0_55String的常用方法
-
-
-public final class String //注意final
-implements java.io.Serializable, Comparable&amp;amp;lt;String&amp;amp;gt;, CharSequence {3.4.  //保证只能初始化一次，用字符数组来存
-private final char value[]">
-<meta property="og:updated_time" content="2016-03-04T05:14:35.000Z">
+<meta property="og:description" content="源码版本：JDK_1.7.0_55String的常用方法1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909">
+<meta property="og:updated_time" content="2016-03-04T05:26:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从Zero学习String源码">
-<meta name="twitter:description" content="源码版本：JDK_1.7.0_55String的常用方法
-
-
-public final class String //注意final
-implements java.io.Serializable, Comparable&amp;amp;lt;String&amp;amp;gt;, CharSequence {3.4.  //保证只能初始化一次，用字符数组来存
-private final char value[]">
+<meta name="twitter:description" content="源码版本：JDK_1.7.0_55String的常用方法1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909">
   
     <link rel="alternate" href="/atom.xml" title="若冰" type="application/atom+xml">
   
@@ -71,9 +56,9 @@ private final char value[]">
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://denghui.me"></form>
@@ -108,132 +93,11 @@ private final char value[]">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="源码版本：JDK-1-7-0-55"><a href="#源码版本：JDK-1-7-0-55" class="headerlink" title="源码版本：JDK_1.7.0_55"></a><span style="font-size: 16px;">源码版本：JDK_1.7.0_55</span></h1><h2 id="String的常用方法"><a href="#String的常用方法" class="headerlink" title="String的常用方法"></a>String的常用方法</h2><div></div>
-
-<ol>
-<li><code>public final class String //注意final</code></li>
-<li><code>implements java.io.Serializable, Comparable&amp;lt;String&amp;gt;, CharSequence {</code><br>3.4.  <code>//保证只能初始化一次，用字符数组来存</code></li>
-<li><code>private final char value[];</code><br>6.7.  <code>// 存储hashCode，默认为0</code></li>
-<li><code>private int hash;</code><br>9.10.  <code>//判断是否相等</code></li>
-<li><code>public boolean equals(Object anObject) {</code></li>
-<li><code>if (this == anObject) { //同一对象</code></li>
-<li><code>return true;</code></li>
-<li><code>}</code></li>
-<li><code>if (anObject instanceof String) { //若同为String类型</code></li>
-<li><code>String anotherString = (String) anObject;</code></li>
-<li><code>int n = value.length; //本字符串长度</code></li>
-<li><code>if (n == anotherString.value.length) { //长度相同，比较每个字符（ASCII码）是否相同</code></li>
-<li><code>char v1[] = value;</code></li>
-<li><code>char v2[] = anotherString.value;</code></li>
-<li><code>int i = 0;</code></li>
-<li><code>while (n-- != 0) {</code></li>
-<li><code>if (v1[i] != v2[i])</code></li>
-<li><code>return false;</code></li>
-<li><code>i++;</code></li>
-<li><code>}</code></li>
-<li><code>return true; //相等返回</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>return false;</code></li>
-<li><code>}</code><br>32.33.  <code>//比较String的大小，返回的是 &quot;str1 - str2&quot;</code></li>
-<li><code>public int compareTo(String anotherString) {</code></li>
-<li><code>int len1 = value.length;</code></li>
-<li><code>int len2 = anotherString.value.length;</code></li>
-<li><code>int lim = Math.min(len1, len2); //得到小的长度（可以比较的最大长度）</code></li>
-<li><code>char v1[] = value;</code></li>
-<li><code>char v2[] = anotherString.value;</code><br>40.41.  <code>int k = 0;</code></li>
-<li><code>while (k &amp;lt; lim) { //从0比较到lim-1</code></li>
-<li><code>char c1 = v1[k];</code></li>
-<li><code>char c2 = v2[k];</code></li>
-<li><code>if (c1 != c2) {</code></li>
-<li><code>return c1 - c2; //不相等返回</code></li>
-<li><code>}</code></li>
-<li><code>k++;</code></li>
-<li><code>}</code></li>
-<li><code>return len1 - len2; //若v[lim-1]以前都相等,则判断长度，长的值大</code></li>
-<li><code>}</code><br>52.53.  <code>//获得hashCode，赋值给hash</code></li>
-<li><code>public int hashCode() {</code></li>
-<li><code>int h = hash;</code></li>
-<li><code>if (h == 0 &amp;amp;&amp;amp; value.length &amp;gt; 0) {</code></li>
-<li><code>//若之前没有计算过hashCode，且存在String，则生成一个hashCode</code></li>
-<li><code>char val[] = value;</code></li>
-<li><code>for (int i = 0; i &amp;lt; value.length; i++) {</code></li>
-<li><code>h = 31 * h + val[i]; //计算方法，为了唯一性.</code></li>
-<li><code>}</code></li>
-<li><code>hash = h;</code></li>
-<li><code>}</code></li>
-<li><code>return h;</code></li>
-<li><code>}</code></li>
-<li><code>/*看了下&quot;zero&quot;生成hashCode过程：</code></li>
-<li><code>0:122</code></li>
-<li><code>1:3883</code></li>
-<li><code>2:120487</code></li>
-<li><code>3:3735208</code></li>
-<li><code>hashCode:3735208</code></li>
-<li><code>*/</code><br>73.74.  <code>//得到某一字符</code></li>
-<li><code>public char charAt(int index) {</code></li>
-<li><code>if ((index &amp;lt; 0) || (index &amp;gt;= value.length)) { //是否越界</code></li>
-<li><code>throw new StringIndexOutOfBoundsException(index);</code></li>
-<li><code>}</code></li>
-<li><code>return value[index]; //直接下标返回</code></li>
-<li><code>}</code><br>81.82.  <code>//替换方法</code></li>
-<li><code>public String replace(char oldChar, char newChar) {</code></li>
-<li><code>if (oldChar != newChar) {</code></li>
-<li><code>int len = value.length;</code></li>
-<li><code>int i = -1;</code></li>
-<li><code>char[] val = value; /* avoid getfield opcode */</code></li>
-<li><code>while (++i &amp;lt; len) {</code></li>
-<li><code>if (val[i] == oldChar) { //遍历判断第一个oldChar的位置</code></li>
-<li><code>break;</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>if (i &amp;lt; len) { //存在oldChar</code></li>
-<li><code>char buf[] = new char[len]; //重新生成等长字符数组</code></li>
-<li><code>for (int j = 0; j &amp;lt; i; j++) {</code></li>
-<li><code>buf[j] = val[j]; //0至i-1的值保持不变</code></li>
-<li><code>}</code></li>
-<li><code>while (i &amp;lt; len) {</code></li>
-<li><code>char c = val[i];</code></li>
-<li><code>buf[i] = (c == oldChar) ? newChar : c;</code></li>
-<li><code>//找到存在oldChar位置的地方，在新字符数组处赋值为newChar；</code></li>
-<li><code>i++;</code></li>
-<li><code>}</code></li>
-<li><code>return new String(buf, true); //实际上是重新生成了一个String</code></li>
-<li><code>}</code></li>
-<li><code>}</code></li>
-<li><code>return this;</code></li>
-<li><code>}</code><br>109.110.  <code>//去掉两端的空格</code></li>
-<li><code>public String trim() {</code></li>
-<li><code>int len = value.length;</code></li>
-<li><code>int st = 0;</code></li>
-<li><code>char[] val = value; /* avoid getfield opcode */</code><br>115.116.  <code>while ((st &amp;lt; len) &amp;amp;&amp;amp; (val[st] &amp;lt;= &#39; &#39;)) { //从前往后判断</code></li>
-<li><code>st++;</code></li>
-<li><code>}</code></li>
-<li><code>while ((st &amp;lt; len) &amp;amp;&amp;amp; (val[len - 1] &amp;lt;= &#39; &#39;)) { //后往前</code></li>
-<li><code>len--;</code></li>
-<li><code>}</code></li>
-<li><code>return ((st &amp;gt; 0) || (len &amp;lt; value.length)) ? substring(st, len) : this;</code><br>123.124.  <code>//substring(st, len),里面是用了Arrays里面的copyOfRange方法</code></li>
-<li><code>/*</code></li>
-<li><code>public static char[] copyOfRange(char[] original, int from, int to) {</code></li>
-<li><code>int newLength = to - from;</code></li>
-<li><code>if (newLength &amp;lt; 0)</code></li>
-<li><code>throw new IllegalArgumentException(from + &quot; &amp;gt; &quot; + to);</code></li>
-<li><code>char[] copy = new char[newLength];</code></li>
-<li><code>//native方法</code></li>
-<li><code>System.arraycopy(original, from, copy, 0,</code></li>
-<li><code>Math.min(original.length - from, newLength));</code></li>
-<li><code>return copy;</code></li>
-<li><code>}</code></li>
-<li><code>*/</code></li>
-<li><code>}</code><br>138.139.  <code>public native String intern();</code></li>
-<li><code>...</code></li>
-<li><code>}</code></li>
-</ol>
-
+        <h2 id="源码版本：JDK-1-7-0-55"><a href="#源码版本：JDK-1-7-0-55" class="headerlink" title="源码版本：JDK_1.7.0_55"></a>源码版本：JDK_1.7.0_55</h2><h2 id="String的常用方法"><a href="#String的常用方法" class="headerlink" title="String的常用方法"></a>String的常用方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line">public final class String  //注意final</span><br><span class="line">    implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence &#123;</span><br><span class="line">    </span><br><span class="line">    //保证只能初始化一次，用字符数组来存</span><br><span class="line">    private final char value[];</span><br><span class="line">    </span><br><span class="line">    // 存储hashCode，默认为0</span><br><span class="line">    private int hash; </span><br><span class="line">    </span><br><span class="line">    //判断是否相等</span><br><span class="line">    public boolean equals(Object anObject) &#123;</span><br><span class="line">        if (this == anObject) &#123;  //同一对象</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        if (anObject instanceof String) &#123; //若同为String类型</span><br><span class="line">            String anotherString = (String) anObject;</span><br><span class="line">            int n = value.length;  //本字符串长度</span><br><span class="line">            if (n == anotherString.value.length) &#123; //长度相同，比较每个字符（ASCII码）是否相同</span><br><span class="line">                char v1[] = value;</span><br><span class="line">                char v2[] = anotherString.value;</span><br><span class="line">                int i = 0;</span><br><span class="line">                while (n-- != 0) &#123;</span><br><span class="line">                    if (v1[i] != v2[i])</span><br><span class="line">                            return false;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                return true;  //相等返回</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //比较String的大小，返回的是 &quot;str1 - str2&quot;</span><br><span class="line">    public int compareTo(String anotherString) &#123;</span><br><span class="line">        int len1 = value.length;</span><br><span class="line">        int len2 = anotherString.value.length;</span><br><span class="line">        int lim = Math.min(len1, len2);  //得到小的长度（可以比较的最大长度）</span><br><span class="line">        char v1[] = value;</span><br><span class="line">        char v2[] = anotherString.value;</span><br><span class="line"></span><br><span class="line">        int k = 0;  </span><br><span class="line">        while (k &lt; lim) &#123;  //从0比较到lim-1</span><br><span class="line">            char c1 = v1[k];</span><br><span class="line">            char c2 = v2[k];</span><br><span class="line">            if (c1 != c2) &#123;</span><br><span class="line">                return c1 - c2; //不相等返回</span><br><span class="line">            &#125;</span><br><span class="line">            k++;</span><br><span class="line">        &#125;</span><br><span class="line">        return len1 - len2;  //若v[lim-1]以前都相等,则判断长度，长的值大</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //获得hashCode，赋值给hash</span><br><span class="line">    public int hashCode() &#123;</span><br><span class="line">        int h = hash;</span><br><span class="line">        if (h == 0 &amp;&amp; value.length &gt; 0) &#123; </span><br><span class="line">        //若之前没有计算过hashCode，且存在String，则生成一个hashCode</span><br><span class="line">            char val[] = value;</span><br><span class="line">            for (int i = 0; i &lt; value.length; i++) &#123;</span><br><span class="line">                h = 31 * h + val[i];  //计算方法，为了唯一性.</span><br><span class="line">            &#125;</span><br><span class="line">            hash = h;</span><br><span class="line">        &#125;</span><br><span class="line">        return h;</span><br><span class="line">    &#125;</span><br><span class="line">    /*看了下&quot;zero&quot;生成hashCode过程：</span><br><span class="line">        0:122</span><br><span class="line">        1:3883</span><br><span class="line">        2:120487</span><br><span class="line">        3:3735208</span><br><span class="line">        hashCode:3735208</span><br><span class="line">    */</span><br><span class="line">    </span><br><span class="line">    //得到某一字符</span><br><span class="line">    public char charAt(int index) &#123;</span><br><span class="line">        if ((index &lt; 0) || (index &gt;= value.length)) &#123; //是否越界</span><br><span class="line">            throw new StringIndexOutOfBoundsException(index);</span><br><span class="line">        &#125;</span><br><span class="line">        return value[index]; //直接下标返回</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //替换方法</span><br><span class="line">    public String replace(char oldChar, char newChar) &#123;</span><br><span class="line">        if (oldChar != newChar) &#123;</span><br><span class="line">            int len = value.length;</span><br><span class="line">            int i = -1;</span><br><span class="line">            char[] val = value; /* avoid getfield opcode */</span><br><span class="line">            while (++i &lt; len) &#123;</span><br><span class="line">                if (val[i] == oldChar) &#123; //遍历判断第一个oldChar的位置</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; len) &#123; //存在oldChar</span><br><span class="line">                char buf[] = new char[len]; //重新生成等长字符数组</span><br><span class="line">                for (int j = 0; j &lt; i; j++) &#123;</span><br><span class="line">                    buf[j] = val[j];  //0至i-1的值保持不变</span><br><span class="line">                &#125;</span><br><span class="line">                while (i &lt; len) &#123;</span><br><span class="line">                    char c = val[i];</span><br><span class="line">                    buf[i] = (c == oldChar) ? newChar : c; </span><br><span class="line">                    //找到存在oldChar位置的地方，在新字符数组处赋值为newChar；</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                return new String(buf, true);  //实际上是重新生成了一个String</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //去掉两端的空格</span><br><span class="line">    public String trim() &#123;</span><br><span class="line">        int len = value.length;</span><br><span class="line">        int st = 0;</span><br><span class="line">        char[] val = value;    /* avoid getfield opcode */</span><br><span class="line"></span><br><span class="line">        while ((st &lt; len) &amp;&amp; (val[st] &lt;= &apos; &apos;)) &#123;  //从前往后判断</span><br><span class="line">            st++;</span><br><span class="line">        &#125;</span><br><span class="line">        while ((st &lt; len) &amp;&amp; (val[len - 1] &lt;= &apos; &apos;)) &#123; //后往前</span><br><span class="line">            len--;</span><br><span class="line">        &#125;</span><br><span class="line">        return ((st &gt; 0) || (len &lt; value.length)) ? substring(st, len) : this;</span><br><span class="line">        </span><br><span class="line">        //substring(st, len),里面是用了Arrays里面的copyOfRange方法</span><br><span class="line">        /*</span><br><span class="line">        public static char[] copyOfRange(char[] original, int from, int to) &#123;</span><br><span class="line">            int newLength = to - from;</span><br><span class="line">            if (newLength &lt; 0)</span><br><span class="line">                throw new IllegalArgumentException(from + &quot; &gt; &quot; + to);</span><br><span class="line">            char[] copy = new char[newLength];</span><br><span class="line">            //native方法   </span><br><span class="line">            System.arraycopy(original, from, copy, 0,  </span><br><span class="line">                             Math.min(original.length - from, newLength));</span><br><span class="line">            return copy;</span><br><span class="line">        &#125;</span><br><span class="line">        */</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public native String intern();</span><br><span class="line">     ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/" data-id="cild996ud0005i7x5lceydx8e" class="article-share-link">Partager</a>
+      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/" data-id="cild9i4vv0002k5x5gvz8bk8o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -243,7 +107,7 @@ private final char value[]">
 <nav id="article-nav">
   
     <a href="/2016/03/04/这些日子的一些思考/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Récent</strong>
+      <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
           2015的总结，2016的展望
@@ -253,8 +117,8 @@ private final char value[]">
   
   
     <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
-      <div class="article-nav-title">反思一下</div>
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">接下来的路</div>
     </a>
   
 </nav>
@@ -268,9 +132,9 @@ private final char value[]">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Catégories</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a></li></ul>
     </div>
   </div>
 
@@ -278,7 +142,7 @@ private final char value[]">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
     </div>
@@ -288,7 +152,7 @@ private final char value[]">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/品悟/" style="font-size: 10px;">品悟</a>
     </div>
@@ -307,7 +171,7 @@ private final char value[]">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
@@ -320,15 +184,15 @@ private final char value[]">
           </li>
         
           <li>
-            <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/">反思一下</a>
+            <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/">接下来的路</a>
           </li>
         
           <li>
-            <a href="/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/">目前转战CSDN</a>
+            <a href="/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/">CSDN上的链接</a>
           </li>
         
           <li>
-            <a href="/2015/01/12/vs2013-e4-b8-8bc-e8-bf-9e-e6-8e-a5mysql/">VS2013下C++连接MySQL</a>
+            <a href="/2015/01/11/13/">Ubuntu14.04下搭建Hadoop2.4.0 集群</a>
           </li>
         
       </ul>
@@ -344,7 +208,7 @@ private final char value[]">
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 ZeroGeek<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
