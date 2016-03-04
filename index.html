@@ -55,9 +55,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://denghui.me"></form>
@@ -103,10 +103,333 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/04/这些日子的一些思考/" data-id="cild9i4w70007k5x5nss4ak5t" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/04/这些日子的一些思考/" data-id="cild9zf2u000alwx5o4ub8ov2" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-GC基本原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/25/GC基本原理/" class="article-date">
+  <time datetime="2015-09-25T01:35:56.000Z" itemprop="datePublished">2015-09-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/25/GC基本原理/">GC基本原理学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Java的内存动态分配和垃圾收集的问题，都交给了JVM来处理。意注，将JVM运行数据区（虚拟机栈【栈帧】，程序计数器，堆内存）粗略的分为栈和堆（所有线程共享），回收的是堆中的对象实例。不是栈中的引用类型。<br><a href="http://7rflcx.com1.z0.glb.clouddn.com/JVM内存.png" target="_blank" rel="external">绘制的内存图</a></p>
+<p>那么JVM是如何处理的？<br>从三个问题来分析：</p>
+<ol>
+<li>哪些内存需要回收？</li>
+<li>什么时候进行回收？</li>
+<li>如何回收？</li>
+</ol>
+<blockquote>
+<p>注：现代收集器基本采用分代收集算法，堆分为：新生代和老年代。</p>
+</blockquote>
+<h2 id="1-哪些内存需要回收？什么时候回收？"><a href="#1-哪些内存需要回收？什么时候回收？" class="headerlink" title="1. 哪些内存需要回收？什么时候回收？"></a>1. 哪些内存需要回收？什么时候回收？</h2><h3 id="1-1-了解下对象的创建："><a href="#1-1-了解下对象的创建：" class="headerlink" title="1.1 了解下对象的创建："></a>1.1 了解下对象的创建：</h3><ol>
+<li>通过new 关键字。</li>
+<li>JVM遇到new指令，检查是否能在常量池中定位到一个类的符号引用。</li>
+<li>检查是否已被加载，解析，初始化过。</li>
+<li>没有，则执行相应的类加载过程。</li>
+<li>类加载检查通过后，为新生对象分配内存。（类加载后确定对象所需内存大小）</li>
+<li>从Java堆中划分出一块确定的内存。</li>
+</ol>
+<h3 id="1-2-若为“死亡”的对象，则需要回收，如何判断对象是否存活？"><a href="#1-2-若为“死亡”的对象，则需要回收，如何判断对象是否存活？" class="headerlink" title="1.2 若为“死亡”的对象，则需要回收，如何判断对象是否存活？"></a>1.2 若为“死亡”的对象，则需要回收，如何判断对象是否存活？</h3><h4 id="1-2-1-引用计数算法"><a href="#1-2-1-引用计数算法" class="headerlink" title="1.2.1 引用计数算法"></a>1.2.1 引用计数算法</h4><ul>
+<li>给对象添加一个引用计数器</li>
+<li>每当有一个地方引用它时，计数器指加1</li>
+<li>当引用失效时，计数器指减1</li>
+<li>任何时刻计数器为0的对象就是需要回收的<br><strong>Java虚拟机没有采用这种方法来管理内存，主要原因是它难以解决对象之间相互循环引用的问题。（python中采用）</strong></li>
+</ul>
+<h4 id="1-2-2-可达性分析算法"><a href="#1-2-2-可达性分析算法" class="headerlink" title="1.2.2 可达性分析算法"></a>1.2.2 可达性分析算法</h4><ul>
+<li>用一个“GC Roots”的对象（指一系列中的其中一个并非某一种）作为起始点</li>
+<li>从该节点向下搜索，搜索走过的路径称为引用链</li>
+<li>若一个对象没有与任何引用链相连，即不可达</li>
+<li>证明该对象是不可用，死亡<br><strong>Java,C#采用此方法。</strong></li>
+</ul>
+<h4 id="1-2-3-哪些可作为GC-Roots的对象？"><a href="#1-2-3-哪些可作为GC-Roots的对象？" class="headerlink" title="1.2.3 哪些可作为GC Roots的对象？"></a>1.2.3 哪些可作为GC Roots的对象？</h4><ul>
+<li>虚拟机栈(栈帧中的本地变量表)中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中JNI引用的对象<h4 id="1-2-4-无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。"><a href="#1-2-4-无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。" class="headerlink" title="1.2.4 无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。"></a>1.2.4 无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。</h4></li>
+<li><strong>强引用</strong>：Java中普遍存在的（如：Object obj = new Object()），只要强引用还在，垃圾收集器永远不会回收掉被引用的对象实例。</li>
+<li><strong>软引用</strong>：用于有用但非必需的对象。在系统要发生内存溢出异常之前，将会把这些对象列进回收范围之中进行第二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出异常。[SoftReference]</li>
+<li><strong>弱引用</strong>：用于非必需对象。被弱引用关联的对象只能生存到下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。[WeakReference]</li>
+<li><strong>虚引用</strong>：不影响生存时间，唯一目的就是能在这个对象被收集器回收时收到一个系统通知。[PhantomReference]</li>
+</ul>
+<h4 id="1-2-5-详解，真正的”死亡”对象（两次标记后进行回收）"><a href="#1-2-5-详解，真正的”死亡”对象（两次标记后进行回收）" class="headerlink" title="1.2.5 详解，真正的”死亡”对象（两次标记后进行回收）"></a>1.2.5 详解，真正的”死亡”对象（<strong>两次标记后进行回收</strong>）</h4><p>事实上，不可达的对象，也并非“非死不可”，这时它们处于“缓刑”阶段，真正死亡至少要经历两次标记过程：</p>
+<h5 id="1-2-5-1-第一次标记"><a href="#1-2-5-1-第一次标记" class="headerlink" title="1.2.5.1 第一次标记"></a>1.2.5.1 第一次标记</h5><ul>
+<li>对对象进行可达性分析后发现没有与GC Roots相连接的引用链</li>
+<li>筛选是否有必要执行finalize()方法[没有覆盖finalize()方法或finalize()方法已经被JVM调用过，视为“无需执行”]<h5 id="1-2-5-2-第二次标记【需要执行finalize-通过筛选】"><a href="#1-2-5-2-第二次标记【需要执行finalize-通过筛选】" class="headerlink" title="1.2.5.2 第二次标记【需要执行finalize(),通过筛选】"></a>1.2.5.2 第二次标记【需要执行finalize(),通过筛选】</h5></li>
+<li>将该对象放置F-Queue的队列中</li>
+<li>JVM自动建立一个低优先级的Finalizer线程去执行它（会触发执行，但不一定等待它运行结束）</li>
+<li>GC对F-Queue中的对象进行标记（对象可通过finalize()拯救自己，重新关联引用链等）<br><strong>不建议使用finalize()</strong></li>
+</ul>
+<h3 id="1-3-上面讲的是需要回收的堆内存，关于回收方法区-或HotSpot虚拟机中的永久代），效率低"><a href="#1-3-上面讲的是需要回收的堆内存，关于回收方法区-或HotSpot虚拟机中的永久代），效率低" class="headerlink" title="1.3 上面讲的是需要回收的堆内存，关于回收方法区(或HotSpot虚拟机中的永久代），效率低"></a>1.3 上面讲的是需要回收的堆内存，关于回收方法区(或HotSpot虚拟机中的永久代），效率低</h3><h4 id="1-3-1-废弃常量"><a href="#1-3-1-废弃常量" class="headerlink" title="1.3.1 废弃常量"></a>1.3.1 废弃常量</h4><ul>
+<li>与堆类似，没有任何对象和其它地方引用的常量</li>
+<li>随内存回收，被系统清理出常量池<h4 id="1-3-2-无用的类"><a href="#1-3-2-无用的类" class="headerlink" title="1.3.2 无用的类"></a>1.3.2 无用的类</h4></li>
+<li>该类所有的实例都已经被回收（堆中无该类的实例）</li>
+<li>加载该类的ClassLoader已经被回收</li>
+<li>该类对应的java.lang.Class对象没有在任何地方被引用，无法通过反射访问该类的方法。</li>
+</ul>
+<h2 id="2-如何回收？【垃圾收集算法】"><a href="#2-如何回收？【垃圾收集算法】" class="headerlink" title="2. 如何回收？【垃圾收集算法】"></a>2. 如何回收？【垃圾收集算法】</h2><h3 id="2-1-标记-清除-Mark-Sweep-算法"><a href="#2-1-标记-清除-Mark-Sweep-算法" class="headerlink" title="2.1 标记-清除[Mark-Sweep]算法"></a>2.1 标记-清除[Mark-Sweep]算法</h3><ul>
+<li>标记出所有需要回收的对象</li>
+<li>统一回收(清除)所有被标记的对象<blockquote>
+<p>缺点：效率不高；标记清除后会产生大量不连续的内存碎片。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-2-复制-Copying-算法"><a href="#2-2-复制-Copying-算法" class="headerlink" title="2.2 复制[Copying]算法"></a>2.2 复制[Copying]算法</h3><ul>
+<li>将可用内存按容量划分为大小相等的两块</li>
+<li>每次只使用其中的一块</li>
+<li>当使用的这块内存用完了，则将还存活的对象复制到另一块上面</li>
+<li>把使用过的那块内存一次性清理掉<blockquote>
+<p>优点：实现简单，运行高效，可按顺序分配内存。<br>&nbsp;缺点：内存直接缩小为原来一半，代价太大；对象存活率较高时，效率变低。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-3-标记-整理-Mark-Compact-算法"><a href="#2-3-标记-整理-Mark-Compact-算法" class="headerlink" title="2.3 标记-整理[Mark-Compact]算法"></a>2.3 标记-整理[Mark-Compact]算法</h3><ul>
+<li>标记出所有需要回收的对象</li>
+<li>让所有存活的对象都向一端移动（整理）</li>
+<li>清理掉存活对象端以外的内存<blockquote>
+<p>适合堆中的老年代的垃圾收集</p>
+<h3 id="2-4-分代收集-Generational-Collection-算法（商业虚拟机主要采用方法）"><a href="#2-4-分代收集-Generational-Collection-算法（商业虚拟机主要采用方法）" class="headerlink" title="2.4 分代收集[Generational Collection]算法（商业虚拟机主要采用方法）"></a>2.4 分代收集[Generational Collection]算法（商业虚拟机主要采用方法）</h3></blockquote>
+</li>
+<li>根据对象存活周期的不同将内存划分为几块</li>
+<li>一般分为新生代和老年代</li>
+<li>不同年代采用最适当的收集算法</li>
+<li>新生代，一般复制算法</li>
+<li>老年代，一般“标记-清理”或“标记-整理”<br><strong>具体如何回收，需依据具体的垃圾收集器实现</strong><h2 id="关于内存泄露"><a href="#关于内存泄露" class="headerlink" title="关于内存泄露"></a>关于内存泄露</h2></li>
+</ul>
+<ol>
+<li>OutOfMemoryError异常，java堆溢出：-Xms ，-Xmx<br>对象不断被创建，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么在对象数量到达最大堆的容量限制后就会产生内存溢出异常。</li>
+<li>VM Stack溢出。-Xss</li>
+<li>常量池溢出。-XX：PermSize，-XX:MaxPermSize</li>
+</ol>
+<p>参考：<a href="http://item.jd.com/11252778.html" target="_blank" rel="external">《深入理解Java虚拟机》</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/09/25/GC基本原理/" data-id="cild9zf250000lwx5oqcch9jx" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Picasso开源库解析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/28/Picasso开源库解析/" class="article-date">
+  <time datetime="2015-08-28T01:08:12.000Z" itemprop="datePublished">2015-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/28/Picasso开源库解析/">Picasso开源库解析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Picasso-是-Square-开源的图片缓存库，主要特点有："><a href="#Picasso-是-Square-开源的图片缓存库，主要特点有：" class="headerlink" title="Picasso 是 Square 开源的图片缓存库，主要特点有："></a>Picasso 是 Square 开源的图片缓存库，主要特点有：</h2><ul>
+<li>包含内存缓存和磁盘缓存两级缓存。</li>
+<li>在 Adapter 中自动处理 ImageView 的缓存并且取消之前的图片下载任务。</li>
+<li>方便进行图片转换处理。</li>
+</ul>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Picasso.with(this)  //Context</span><br><span class="line">        .load(&quot;http://7xjung.com1.z0.glb.clouddn.com/randomview.png&quot;) //图片地址</span><br><span class="line">        .placeholder(R.drawable.abc_btn_check_material) //占位图（等待下载）</span><br><span class="line">        .error(R.drawable.abc_btn_radio_material) //加载错误</span><br><span class="line">        .resize(200,200) //设置显示大小</span><br><span class="line">        .centerCrop()  //自适应布局，减小内存</span><br><span class="line">        .into(mLoadIv); //用来显示图片控件的ID</span><br></pre></td></tr></table></figure>
+<p>下载地址 ： <a href="https://github.com/square/picasso" target="_blank" rel="external">https://github.com/square/picasso</a></p>
+<h2 id="分析工作流程"><a href="#分析工作流程" class="headerlink" title="分析工作流程"></a>分析工作流程</h2><p>分析的是第一次加载图片的情况，没有缓存。</p>
+<p>Picasso.with(this):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static Picasso with(Context context) &#123;</span><br><span class="line">  if (singleton == null) &#123;</span><br><span class="line">    synchronized (Picasso.class) &#123;  </span><br><span class="line">      if (singleton == null) &#123;</span><br><span class="line">        singleton = new Builder(context).build();  //获取实例对象</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return singleton;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//这里使用了单例模式，而且是双重检测锁的方法。 另外还使用到了Builder模式，Picasso对象的创建非常复杂。</span><br></pre></td></tr></table></figure>
+<p>得到的是context.getApplicationContext();</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public Builder(Context context) &#123;</span><br><span class="line">  if (context == null) &#123;</span><br><span class="line">    throw new IllegalArgumentException(&quot;Context must not be null.&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  this.context = context.getApplicationContext();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Picasso的部分成员变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p>看下build（）方法，返回Picasso，初始化各种服务，下载器，缓存器，线程池，是否resize图片，调度器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public Picasso build() &#123;</span><br><span class="line">     Context context = this.context;</span><br><span class="line"></span><br><span class="line">     if (downloader == null) &#123;</span><br><span class="line">       downloader = Utils.createDefaultDownloader(context);</span><br><span class="line">     &#125;</span><br><span class="line">     if (cache == null) &#123;</span><br><span class="line">       cache = new LruCache(context);</span><br><span class="line">     &#125;</span><br><span class="line">     if (service == null) &#123;</span><br><span class="line">       service = new PicassoExecutorService();</span><br><span class="line">     &#125;</span><br><span class="line">     if (transformer == null) &#123;</span><br><span class="line">       transformer = RequestTransformer.IDENTITY;</span><br><span class="line">     &#125;</span><br><span class="line">     Stats stats = new Stats(cache);</span><br><span class="line">     Dispatcher dispatcher = new Dispatcher(context, service, HANDLER, downloader, cache, stats);</span><br><span class="line">     return new Picasso(context, dispatcher, cache, listener, transformer, requestHandlers, stats,</span><br><span class="line">         defaultBitmapConfig, indicatorsEnabled, loggingEnabled);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> //这里先初始化Downloader，Cache（使用的LRU算法），PicassoExecutorService（这是Picasso自己实现的线程池），Transformer（当请求被submit时可以调用来修改请求）。</span><br></pre></td></tr></table></figure></p>
+<p>之后调用load（），有4个重载方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public RequestCreator load(String path) &#123;</span><br><span class="line">    if (path == null) &#123;</span><br><span class="line">      return new RequestCreator(this, null, 0);</span><br><span class="line">    &#125;</span><br><span class="line">    if (path.trim().length() == 0) &#123;</span><br><span class="line">      throw new IllegalArgumentException(&quot;Path must not be empty.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return load(Uri.parse(path));  //调用load(Uri uri)</span><br><span class="line">  &#125;</span><br><span class="line">public RequestCreator load(File file) &#123;</span><br><span class="line">    if (file == null) &#123;</span><br><span class="line">      return new RequestCreator(this, null, 0);</span><br><span class="line">    &#125;</span><br><span class="line">    return load(Uri.fromFile(file)); //调用load(Uri uri)</span><br><span class="line">  &#125;</span><br><span class="line">public RequestCreator load(int resourceId) &#123;</span><br><span class="line">    if (resourceId == 0) &#123;</span><br><span class="line">      throw new IllegalArgumentException(&quot;Resource ID must not be zero.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return new RequestCreator(this, null, resourceId);</span><br><span class="line">  &#125;</span><br><span class="line">public RequestCreator load(Uri uri) &#123;</span><br><span class="line">    return new RequestCreator(this, uri, 0);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>最终都是执行</p>
+<blockquote>
+<p>new RequestCreator(this, uri, 0)</p>
+</blockquote>
+<p>那么RequsetCreator是什么呢？（创造图片下载的请求）</p>
+<blockquote>
+<p>private final Request.Builder data;  //this.data</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">RequestCreator(Picasso picasso, Uri uri, int resourceId) &#123;</span><br><span class="line">   if (picasso.shutdown) &#123;</span><br><span class="line">     throw new IllegalStateException(</span><br><span class="line">         &quot;Picasso instance already shut down. Cannot submit new requests.&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   this.picasso = picasso;</span><br><span class="line">   this.data = new Request.Builder(uri, resourceId, picasso.defaultBitmapConfig);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>Request类中的Builder()方法，初始化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Builder(Uri uri, int resourceId, Bitmap.Config bitmapConfig) &#123;</span><br><span class="line">  this.uri = uri;</span><br><span class="line">  this.resourceId = resourceId;</span><br><span class="line">  this.config = bitmapConfig;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之后是into()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void into(ImageView target) &#123;</span><br><span class="line">  into(target, null);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关键在于下面这个方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">  public void into(ImageView target, Callback callback) &#123;</span><br><span class="line">    long started = System.nanoTime();</span><br><span class="line">    checkMain(); //Looper.getMainLooper().getThread() == Thread.currentThread()，检查是不是主线程执行的。</span><br><span class="line"></span><br><span class="line">    if (target == null) &#123;</span><br><span class="line">      throw new IllegalArgumentException(&quot;Target must not be null.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (!data.hasImage()) &#123; //boolean hasImage() &#123;return uri != null || resourceId != 0;&#125;，是否为空</span><br><span class="line">      picasso.cancelRequest(target);</span><br><span class="line">      if (setPlaceholder) &#123;</span><br><span class="line">        setPlaceholder(target, getPlaceholderDrawable());</span><br><span class="line">      &#125;</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (deferred) &#123; //public RequestCreator fit() &#123;deferred = true;return this;&#125;判断是否改变图片大小，适配控件；deferred在这里是默认值false</span><br><span class="line">      if (data.hasSize()) &#123;</span><br><span class="line">        throw new IllegalStateException(&quot;Fit cannot be used with resize.&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">      int width = target.getWidth();</span><br><span class="line">      int height = target.getHeight();</span><br><span class="line">      if (width == 0 || height == 0) &#123;</span><br><span class="line">        if (setPlaceholder) &#123;</span><br><span class="line">          setPlaceholder(target, getPlaceholderDrawable());</span><br><span class="line">        &#125;</span><br><span class="line">        picasso.defer(target, new DeferredRequestCreator(this, target, callback));</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      data.resize(width, height);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Request request = createRequest(started); //这里创建了请求，给请求唯一的id，url，并且转换request</span><br><span class="line">    String requestKey = createKey(request); //给请求创建了一个key</span><br><span class="line"></span><br><span class="line">    if (shouldReadFromMemoryCache(memoryPolicy)) &#123; //读取缓存</span><br><span class="line">      Bitmap bitmap = picasso.quickMemoryCacheCheck(requestKey);</span><br><span class="line">      if (bitmap != null) &#123;</span><br><span class="line">        picasso.cancelRequest(target);//如果cache里能找到，就取消请求，直接设置</span><br><span class="line">        setBitmap(target, picasso.context, bitmap, MEMORY, noFade, picasso.indicatorsEnabled);</span><br><span class="line">        if (picasso.loggingEnabled) &#123;</span><br><span class="line">          log(OWNER_MAIN, VERB_COMPLETED, request.plainId(), &quot;from &quot; + MEMORY);</span><br><span class="line">        &#125;</span><br><span class="line">        if (callback != null) &#123;</span><br><span class="line">          callback.onSuccess();</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (setPlaceholder) &#123;</span><br><span class="line">      setPlaceholder(target, getPlaceholderDrawable());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Action action = //Action是一个抽象类</span><br><span class="line">        new ImageViewAction(picasso, target, request, memoryPolicy, networkPolicy, errorResId,</span><br><span class="line">            errorDrawable, requestKey, tag, callback, noFade);</span><br><span class="line"></span><br><span class="line">    picasso.enqueueAndSubmit(action);</span><br><span class="line">  &#125;</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">创建回调方法：下载完图片，再通过控件显示</span><br></pre></td></tr></table></figure>
+<p>  ImageViewAction(Picasso picasso, ImageView imageView, Request data, int memoryPolicy,<br>      int networkPolicy, int errorResId, Drawable errorDrawable, String key, Object tag,<br>      Callback callback, boolean noFade) {<br>    super(picasso, imageView, data, memoryPolicy, networkPolicy, errorResId, errorDrawable, key,<br>        tag, noFade);<br>    this.callback = callback;<br>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Action构造方法</span><br></pre></td></tr></table></figure></p>
+<p>  Action(Picasso picasso, T target, Request request, int memoryPolicy, int networkPolicy,<br>      int errorResId, Drawable errorDrawable, String key, Object tag, boolean noFade) {<br>    this.picasso = picasso;<br>    this.request = request;<br>    this.target =<br>        target == null ? null : new RequestWeakReference<t>(this, target, picasso.referenceQueue);<br>    this.memoryPolicy = memoryPolicy;<br>    this.networkPolicy = networkPolicy;<br>    this.noFade = noFade;<br>    this.errorResId = errorResId;<br>    this.errorDrawable = errorDrawable;<br>    this.key = key;<br>    this.tag = (tag != null ? tag : this);<br>  }<br>  // Action代表了一个具体的加载任务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Action中用了一个弱引用，创建请求队列</span><br></pre></td></tr></table></figure></t></p>
+<p>  static class RequestWeakReference<m> extends WeakReference<m> {<br>    final Action action;</m></m></p>
+<pre><code>public RequestWeakReference(Action action, M referent, ReferenceQueue&lt;? super M&gt; q) {
+  super(referent, q);
+  this.action = action;
+}
+</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">最后调用的一个方法：picasso.enqueueAndSubmit(action);</span><br></pre></td></tr></table></figure></p>
+<p>  void enqueueAndSubmit(Action action) {<br>    Object target = action.getTarget();<br>    if (target != null &amp;&amp; targetToAction.get(target) != action) {<br>      // This will also check we are on the main thread.<br>      cancelExistingRequest(target);<br>      targetToAction.put(target, action);  //  final Map<object, action=""> targetToAction;映射结构<br>    }<br>    submit(action);<br>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">分给调度器执行任务（分发任务）  </span><br><span class="line">&gt;   final Dispatcher dispatcher;</span><br></pre></td></tr></table></figure></object,></p>
+<p>  void submit(Action action) {<br>    dispatcher.dispatchSubmit(action);<br>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">发送到消息队列</span><br></pre></td></tr></table></figure></p>
+<p>  void dispatchSubmit(Action action) {<br>    handler.sendMessage(handler.obtainMessage(REQUEST_SUBMIT, action));<br>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">看下handler如何工作的？</span><br></pre></td></tr></table></figure></p>
+<pre><code>//Dispatcher构造方法的语句
+</code></pre><p>  this.handler = new DispatcherHandler(dispatcherThread.getLooper(), this);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">定义了一个静态内部类，执行不同的请求：</span><br></pre></td></tr></table></figure></p>
+<p>private static class DispatcherHandler extends Handler {<br>    private final Dispatcher dispatcher;</p>
+<pre><code>public DispatcherHandler(Looper looper, Dispatcher dispatcher) {
+  super(looper);
+  this.dispatcher = dispatcher;
+}
+
+@Override public void handleMessage(final Message msg) {
+  switch (msg.what) {
+    case REQUEST_SUBMIT: {
+      Action action = (Action) msg.obj;
+      dispatcher.performSubmit(action);
+      break;
+    }
+    ......//省略其它case
+  }
+}
+</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">请求REQUEST_SUBMIT之后的方法：</span><br></pre></td></tr></table></figure></p>
+<p>  void performSubmit(Action action) {<br>    performSubmit(action, true);<br>  }</p>
+<p>  void performSubmit(Action action, boolean dismissFailed) {<br>    if (pausedTags.contains(action.getTag())) {<br>      pausedActions.put(action.getTarget(), action);  //  final Map<object, action=""> pausedActions;<br>      if (action.getPicasso().loggingEnabled) {<br>        log(OWNER_DISPATCHER, VERB_PAUSED, action.request.logId(),<br>            “because tag ‘“ + action.getTag() + “‘ is paused”);<br>      }<br>      return;<br>    }</object,></p>
+<pre><code>BitmapHunter hunter = hunterMap.get(action.getKey());  //BitmapHunter实现了Runnable方法
+if (hunter != null) {
+  hunter.attach(action);  //注意这个attach()，将action加入到一个List中，actions.add(action);
+  return;
+}
+
+if (service.isShutdown()) {
+  if (action.getPicasso().loggingEnabled) {
+    log(OWNER_DISPATCHER, VERB_IGNORED, action.request.logId(), &quot;because shut down&quot;);
+  }
+  return;
+}
+
+hunter = forRequest(action.getPicasso(), this, cache, stats, action);
+hunter.future = service.submit(hunter);  //交给线程池去执行, 初始化的PicassoExecutorService, &lt;T&gt; Future&lt;T&gt; submit(Runnable task, T result);
+hunterMap.put(action.getKey(), hunter);  //管理起来，防止任务重复
+if (dismissFailed) {
+  failedActions.remove(action.getTarget());
+}
+
+if (action.getPicasso().loggingEnabled) {
+  log(OWNER_DISPATCHER, VERB_ENQUEUED, action.request.logId());
+}
+</code></pre><p>  }</p>
+<p>  //线程池中结合优先级去执行任务的，之前有设定Picasso类中的枚举类型Priority。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">终于找到了图片加载的来源，就是BitmapHunter的run()执行的：</span><br><span class="line">&gt; result = hunt()</span><br><span class="line"></span><br><span class="line">下面是hunt()方法</span><br></pre></td></tr></table></figure>
+<p> Bitmap hunt() throws IOException {<br>    Bitmap bitmap = null;</p>
+<pre><code>if (shouldReadFromMemoryCache(memoryPolicy)) {
+  bitmap = cache.get(key);
+  if (bitmap != null) {
+    stats.dispatchCacheHit();
+    loadedFrom = MEMORY;
+    if (picasso.loggingEnabled) {
+      log(OWNER_HUNTER, VERB_DECODED, data.logId(), &quot;from cache&quot;);
+    }
+    return bitmap;
+  }
+}
+
+data.networkPolicy = retryCount == 0 ? NetworkPolicy.OFFLINE.index : networkPolicy;
+RequestHandler.Result result = requestHandler.load(data, networkPolicy);
+if (result != null) {
+  loadedFrom = result.getLoadedFrom();
+  exifRotation = result.getExifOrientation();
+
+  bitmap = result.getBitmap();
+
+  // If there was no Bitmap then we need to decode it from the stream.
+  if (bitmap == null) {
+    InputStream is = result.getStream();
+    try {
+      bitmap = decodeStream(is, data);
+    } finally {
+      Utils.closeQuietly(is);
+    }
+  }
+}
+
+if (bitmap != null) {
+  if (picasso.loggingEnabled) {
+    log(OWNER_HUNTER, VERB_DECODED, data.logId());
+  }
+  stats.dispatchBitmapDecoded(bitmap);
+  if (data.needsTransformation() || exifRotation != 0) {
+    synchronized (DECODE_LOCK) {
+      if (data.needsMatrixTransform() || exifRotation != 0) {
+        bitmap = transformResult(data, bitmap, exifRotation);
+        if (picasso.loggingEnabled) {
+          log(OWNER_HUNTER, VERB_TRANSFORMED, data.logId());
+        }
+      }
+      if (data.hasCustomTransformations()) {
+        bitmap = applyCustomTransformations(data.transformations, bitmap);
+        if (picasso.loggingEnabled) {
+          log(OWNER_HUNTER, VERB_TRANSFORMED, data.logId(), &quot;from custom transformations&quot;);
+        }
+      }
+    }
+    if (bitmap != null) {
+      stats.dispatchBitmapTransformed(bitmap);
+    }
+  }
+}
+return bitmap;
+</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Picasso的Handler来处理接受到的消息（主线程中）</span><br></pre></td></tr></table></figure></p>
+<p> static final Handler HANDLER = new Handler(Looper.getMainLooper()) {<br>    @Override public void handleMessage(Message msg) {<br>      switch (msg.what) {<br>        case HUNTER_BATCH_COMPLETE: {<br>          @SuppressWarnings(“unchecked”) List<bitmaphunter> batch = (List<bitmaphunter>) msg.obj;<br>          //noinspection ForLoopReplaceableByForEach<br>          for (int i = 0, n = batch.size(); i &lt; n; i++) {<br>            BitmapHunter hunter = batch.get(i);<br>            hunter.picasso.complete(hunter);  //这里获取到result<br>          }<br>          break;<br>        }<br>        case REQUEST_GCED: {<br>          Action action = (Action) msg.obj;<br>          if (action.getPicasso().loggingEnabled) {<br>            log(OWNER_MAIN, VERB_CANCELED, action.request.logId(), “target got garbage collected”);<br>          }<br>          action.picasso.cancelExistingRequest(action.getTarget());<br>          break;<br>        }<br>        case REQUEST_BATCH_RESUME:<br>          @SuppressWarnings(“unchecked”) List<action> batch = (List<action>) msg.obj;<br>          //noinspection ForLoopReplaceableByForEach<br>          for (int i = 0, n = batch.size(); i &lt; n; i++) {<br>            Action action = batch.get(i);<br>            action.picasso.resumeAction(action);<br>          }<br>          break;<br>        default:<br>          throw new AssertionError(“Unknown handler message received: “ + msg.what);<br>      }<br>    }<br>  };<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">完成后是调用的ImageViewAction里的方法，</span><br></pre></td></tr></table></figure></action></action></bitmaphunter></bitmaphunter></p>
+<p>  @Override public void complete(Bitmap result, Picasso.LoadedFrom from) {<br>    if (result == null) {<br>      throw new AssertionError(<br>          String.format(“Attempted to complete action with no result!\n%s”, this));<br>    }<br>    ImageView target = this.target.get();<br>    if (target == null) {<br>      return;<br>    }<br>    Context context = picasso.context;<br>    boolean indicatorsEnabled = picasso.indicatorsEnabled;</p>
+<pre><code>//这里来设置图片
+PicassoDrawable.setBitmap(target, context, result, from, noFade, indicatorsEnabled);
+if (callback != null) {
+  callback.onSuccess(); //调用回调方法
+}
+</code></pre><p>  }<br>```</p>
+<p>//关于线程池的分析又是一大波。。。</p>
+<p>主要涉及的类：Picasso，Request，RequestCreator, Action, ImageViewAction, Utils，Dispatcher, BitmapHunter…</p>
+<h2 id="整体架构分析"><a href="#整体架构分析" class="headerlink" title="整体架构分析"></a>整体架构分析</h2><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnphp6.com/archives/87269" target="_blank" rel="external">http://www.cnphp6.com/archives/87269</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/08/28/Picasso开源库解析/" data-id="cild9zf2l0005lwx5bgg05u1r" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
 
     </footer>
   </div>
@@ -145,7 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/" data-id="cild9i4vv0002k5x5gvz8bk8o" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/" data-id="cild9zf2f0003lwx5j42qi2hm" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -182,7 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/" data-id="cild9i4vn0000k5x52wr127lz" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/" data-id="cild9zf2n0006lwx5h614ujba" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
@@ -221,7 +544,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/" data-id="cild9i4w30006k5x5yr5pw9mz" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/" data-id="cild9zf2p0008lwx5mj06nii0" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -398,7 +721,7 @@ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/01/11/13/" data-id="cild9i4w10004k5x5v4fdcj97" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2015/01/11/13/" data-id="cild9zf2c0002lwx5cu5tdj31" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -415,7 +738,7 @@ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">Catégories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a></li></ul>
     </div>
@@ -425,9 +748,9 @@ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Mot-clés</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
     </div>
   </div>
 
@@ -435,9 +758,9 @@ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nuage de mot-clés</h3>
     <div class="widget tagcloud">
-      <a href="/tags/品悟/" style="font-size: 10px;">品悟</a>
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/品悟/" style="font-size: 20px;">品悟</a>
     </div>
   </div>
 
@@ -446,7 +769,7 @@ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
     </div>
   </div>
 
@@ -454,7 +777,7 @@ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
         
@@ -463,19 +786,19 @@ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
           </li>
         
           <li>
+            <a href="/2015/09/25/GC基本原理/">GC基本原理学习</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/28/Picasso开源库解析/">Picasso开源库解析</a>
+          </li>
+        
+          <li>
             <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/">从Zero学习String源码</a>
           </li>
         
           <li>
             <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/">接下来的路</a>
-          </li>
-        
-          <li>
-            <a href="/2015/03/28/e7-9b-ae-e5-89-8d-e8-bd-ac-e6-88-98csdn/">CSDN上的链接</a>
-          </li>
-        
-          <li>
-            <a href="/2015/01/11/13/">Ubuntu14.04下搭建Hadoop2.4.0 集群</a>
           </li>
         
       </ul>
@@ -491,7 +814,7 @@ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 ZeroGeek<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

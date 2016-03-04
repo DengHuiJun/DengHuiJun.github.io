@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>GC基本原理学习 | 若冰</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="引言Java的内存动态分配和垃圾收集的问题，都交给了JVM来处理。意注，将JVM运行数据区（虚拟机栈【栈帧】，程序计数器，堆内存）粗略的分为栈和堆（所有线程共享），回收的是堆中的对象实例。不是栈中的引用类型。绘制的内存图
+那么JVM是如何处理的？从三个问题来分析：
+
+哪些内存需要回收？
+什么时候进行回收？
+如何回收？
+
+
+注：现代收集器基本采用分代收集算法，堆分为：新生代和老年代。
+
+1. 哪些内">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GC基本原理学习">
+<meta property="og:url" content="http://denghui.me/2015/09/25/GC基本原理/index.html">
+<meta property="og:site_name" content="若冰">
+<meta property="og:description" content="引言Java的内存动态分配和垃圾收集的问题，都交给了JVM来处理。意注，将JVM运行数据区（虚拟机栈【栈帧】，程序计数器，堆内存）粗略的分为栈和堆（所有线程共享），回收的是堆中的对象实例。不是栈中的引用类型。绘制的内存图
+那么JVM是如何处理的？从三个问题来分析：
+
+哪些内存需要回收？
+什么时候进行回收？
+如何回收？
+
+
+注：现代收集器基本采用分代收集算法，堆分为：新生代和老年代。
+
+1. 哪些内">
+<meta property="og:updated_time" content="2016-03-04T05:42:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GC基本原理学习">
+<meta name="twitter:description" content="引言Java的内存动态分配和垃圾收集的问题，都交给了JVM来处理。意注，将JVM运行数据区（虚拟机栈【栈帧】，程序计数器，堆内存）粗略的分为栈和堆（所有线程共享），回收的是堆中的对象实例。不是栈中的引用类型。绘制的内存图
+那么JVM是如何处理的？从三个问题来分析：
+
+哪些内存需要回收？
+什么时候进行回收？
+如何回收？
+
+
+注：现代收集器基本采用分代收集算法，堆分为：新生代和老年代。
+
+1. 哪些内">
+  
+    <link rel="alternate" href="/atom.xml" title="若冰" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">若冰</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Not only Android developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://denghui.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-GC基本原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/25/GC基本原理/" class="article-date">
+  <time datetime="2015-09-25T01:35:56.000Z" itemprop="datePublished">2015-09-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      GC基本原理学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Java的内存动态分配和垃圾收集的问题，都交给了JVM来处理。意注，将JVM运行数据区（虚拟机栈【栈帧】，程序计数器，堆内存）粗略的分为栈和堆（所有线程共享），回收的是堆中的对象实例。不是栈中的引用类型。<br><a href="http://7rflcx.com1.z0.glb.clouddn.com/JVM内存.png" target="_blank" rel="external">绘制的内存图</a></p>
+<p>那么JVM是如何处理的？<br>从三个问题来分析：</p>
+<ol>
+<li>哪些内存需要回收？</li>
+<li>什么时候进行回收？</li>
+<li>如何回收？</li>
+</ol>
+<blockquote>
+<p>注：现代收集器基本采用分代收集算法，堆分为：新生代和老年代。</p>
+</blockquote>
+<h2 id="1-哪些内存需要回收？什么时候回收？"><a href="#1-哪些内存需要回收？什么时候回收？" class="headerlink" title="1. 哪些内存需要回收？什么时候回收？"></a>1. 哪些内存需要回收？什么时候回收？</h2><h3 id="1-1-了解下对象的创建："><a href="#1-1-了解下对象的创建：" class="headerlink" title="1.1 了解下对象的创建："></a>1.1 了解下对象的创建：</h3><ol>
+<li>通过new 关键字。</li>
+<li>JVM遇到new指令，检查是否能在常量池中定位到一个类的符号引用。</li>
+<li>检查是否已被加载，解析，初始化过。</li>
+<li>没有，则执行相应的类加载过程。</li>
+<li>类加载检查通过后，为新生对象分配内存。（类加载后确定对象所需内存大小）</li>
+<li>从Java堆中划分出一块确定的内存。</li>
+</ol>
+<h3 id="1-2-若为“死亡”的对象，则需要回收，如何判断对象是否存活？"><a href="#1-2-若为“死亡”的对象，则需要回收，如何判断对象是否存活？" class="headerlink" title="1.2 若为“死亡”的对象，则需要回收，如何判断对象是否存活？"></a>1.2 若为“死亡”的对象，则需要回收，如何判断对象是否存活？</h3><h4 id="1-2-1-引用计数算法"><a href="#1-2-1-引用计数算法" class="headerlink" title="1.2.1 引用计数算法"></a>1.2.1 引用计数算法</h4><ul>
+<li>给对象添加一个引用计数器</li>
+<li>每当有一个地方引用它时，计数器指加1</li>
+<li>当引用失效时，计数器指减1</li>
+<li>任何时刻计数器为0的对象就是需要回收的<br><strong>Java虚拟机没有采用这种方法来管理内存，主要原因是它难以解决对象之间相互循环引用的问题。（python中采用）</strong></li>
+</ul>
+<h4 id="1-2-2-可达性分析算法"><a href="#1-2-2-可达性分析算法" class="headerlink" title="1.2.2 可达性分析算法"></a>1.2.2 可达性分析算法</h4><ul>
+<li>用一个“GC Roots”的对象（指一系列中的其中一个并非某一种）作为起始点</li>
+<li>从该节点向下搜索，搜索走过的路径称为引用链</li>
+<li>若一个对象没有与任何引用链相连，即不可达</li>
+<li>证明该对象是不可用，死亡<br><strong>Java,C#采用此方法。</strong></li>
+</ul>
+<h4 id="1-2-3-哪些可作为GC-Roots的对象？"><a href="#1-2-3-哪些可作为GC-Roots的对象？" class="headerlink" title="1.2.3 哪些可作为GC Roots的对象？"></a>1.2.3 哪些可作为GC Roots的对象？</h4><ul>
+<li>虚拟机栈(栈帧中的本地变量表)中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中JNI引用的对象<h4 id="1-2-4-无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。"><a href="#1-2-4-无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。" class="headerlink" title="1.2.4 无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。"></a>1.2.4 无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。</h4></li>
+<li><strong>强引用</strong>：Java中普遍存在的（如：Object obj = new Object()），只要强引用还在，垃圾收集器永远不会回收掉被引用的对象实例。</li>
+<li><strong>软引用</strong>：用于有用但非必需的对象。在系统要发生内存溢出异常之前，将会把这些对象列进回收范围之中进行第二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出异常。[SoftReference]</li>
+<li><strong>弱引用</strong>：用于非必需对象。被弱引用关联的对象只能生存到下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。[WeakReference]</li>
+<li><strong>虚引用</strong>：不影响生存时间，唯一目的就是能在这个对象被收集器回收时收到一个系统通知。[PhantomReference]</li>
+</ul>
+<h4 id="1-2-5-详解，真正的”死亡”对象（两次标记后进行回收）"><a href="#1-2-5-详解，真正的”死亡”对象（两次标记后进行回收）" class="headerlink" title="1.2.5 详解，真正的”死亡”对象（两次标记后进行回收）"></a>1.2.5 详解，真正的”死亡”对象（<strong>两次标记后进行回收</strong>）</h4><p>事实上，不可达的对象，也并非“非死不可”，这时它们处于“缓刑”阶段，真正死亡至少要经历两次标记过程：</p>
+<h5 id="1-2-5-1-第一次标记"><a href="#1-2-5-1-第一次标记" class="headerlink" title="1.2.5.1 第一次标记"></a>1.2.5.1 第一次标记</h5><ul>
+<li>对对象进行可达性分析后发现没有与GC Roots相连接的引用链</li>
+<li>筛选是否有必要执行finalize()方法[没有覆盖finalize()方法或finalize()方法已经被JVM调用过，视为“无需执行”]<h5 id="1-2-5-2-第二次标记【需要执行finalize-通过筛选】"><a href="#1-2-5-2-第二次标记【需要执行finalize-通过筛选】" class="headerlink" title="1.2.5.2 第二次标记【需要执行finalize(),通过筛选】"></a>1.2.5.2 第二次标记【需要执行finalize(),通过筛选】</h5></li>
+<li>将该对象放置F-Queue的队列中</li>
+<li>JVM自动建立一个低优先级的Finalizer线程去执行它（会触发执行，但不一定等待它运行结束）</li>
+<li>GC对F-Queue中的对象进行标记（对象可通过finalize()拯救自己，重新关联引用链等）<br><strong>不建议使用finalize()</strong></li>
+</ul>
+<h3 id="1-3-上面讲的是需要回收的堆内存，关于回收方法区-或HotSpot虚拟机中的永久代），效率低"><a href="#1-3-上面讲的是需要回收的堆内存，关于回收方法区-或HotSpot虚拟机中的永久代），效率低" class="headerlink" title="1.3 上面讲的是需要回收的堆内存，关于回收方法区(或HotSpot虚拟机中的永久代），效率低"></a>1.3 上面讲的是需要回收的堆内存，关于回收方法区(或HotSpot虚拟机中的永久代），效率低</h3><h4 id="1-3-1-废弃常量"><a href="#1-3-1-废弃常量" class="headerlink" title="1.3.1 废弃常量"></a>1.3.1 废弃常量</h4><ul>
+<li>与堆类似，没有任何对象和其它地方引用的常量</li>
+<li>随内存回收，被系统清理出常量池<h4 id="1-3-2-无用的类"><a href="#1-3-2-无用的类" class="headerlink" title="1.3.2 无用的类"></a>1.3.2 无用的类</h4></li>
+<li>该类所有的实例都已经被回收（堆中无该类的实例）</li>
+<li>加载该类的ClassLoader已经被回收</li>
+<li>该类对应的java.lang.Class对象没有在任何地方被引用，无法通过反射访问该类的方法。</li>
+</ul>
+<h2 id="2-如何回收？【垃圾收集算法】"><a href="#2-如何回收？【垃圾收集算法】" class="headerlink" title="2. 如何回收？【垃圾收集算法】"></a>2. 如何回收？【垃圾收集算法】</h2><h3 id="2-1-标记-清除-Mark-Sweep-算法"><a href="#2-1-标记-清除-Mark-Sweep-算法" class="headerlink" title="2.1 标记-清除[Mark-Sweep]算法"></a>2.1 标记-清除[Mark-Sweep]算法</h3><ul>
+<li>标记出所有需要回收的对象</li>
+<li>统一回收(清除)所有被标记的对象<blockquote>
+<p>缺点：效率不高；标记清除后会产生大量不连续的内存碎片。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-2-复制-Copying-算法"><a href="#2-2-复制-Copying-算法" class="headerlink" title="2.2 复制[Copying]算法"></a>2.2 复制[Copying]算法</h3><ul>
+<li>将可用内存按容量划分为大小相等的两块</li>
+<li>每次只使用其中的一块</li>
+<li>当使用的这块内存用完了，则将还存活的对象复制到另一块上面</li>
+<li>把使用过的那块内存一次性清理掉<blockquote>
+<p>优点：实现简单，运行高效，可按顺序分配内存。<br>&nbsp;缺点：内存直接缩小为原来一半，代价太大；对象存活率较高时，效率变低。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-3-标记-整理-Mark-Compact-算法"><a href="#2-3-标记-整理-Mark-Compact-算法" class="headerlink" title="2.3 标记-整理[Mark-Compact]算法"></a>2.3 标记-整理[Mark-Compact]算法</h3><ul>
+<li>标记出所有需要回收的对象</li>
+<li>让所有存活的对象都向一端移动（整理）</li>
+<li>清理掉存活对象端以外的内存<blockquote>
+<p>适合堆中的老年代的垃圾收集</p>
+<h3 id="2-4-分代收集-Generational-Collection-算法（商业虚拟机主要采用方法）"><a href="#2-4-分代收集-Generational-Collection-算法（商业虚拟机主要采用方法）" class="headerlink" title="2.4 分代收集[Generational Collection]算法（商业虚拟机主要采用方法）"></a>2.4 分代收集[Generational Collection]算法（商业虚拟机主要采用方法）</h3></blockquote>
+</li>
+<li>根据对象存活周期的不同将内存划分为几块</li>
+<li>一般分为新生代和老年代</li>
+<li>不同年代采用最适当的收集算法</li>
+<li>新生代，一般复制算法</li>
+<li>老年代，一般“标记-清理”或“标记-整理”<br><strong>具体如何回收，需依据具体的垃圾收集器实现</strong><h2 id="关于内存泄露"><a href="#关于内存泄露" class="headerlink" title="关于内存泄露"></a>关于内存泄露</h2></li>
+</ul>
+<ol>
+<li>OutOfMemoryError异常，java堆溢出：-Xms ，-Xmx<br>对象不断被创建，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么在对象数量到达最大堆的容量限制后就会产生内存溢出异常。</li>
+<li>VM Stack溢出。-Xss</li>
+<li>常量池溢出。-XX：PermSize，-XX:MaxPermSize</li>
+</ol>
+<p>参考：<a href="http://item.jd.com/11252778.html" target="_blank" rel="external">《深入理解Java虚拟机》</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2015/09/25/GC基本原理/" data-id="cild9zf250000lwx5oqcch9jx" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/04/这些日子的一些思考/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          2015的总结，2016的展望
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/28/Picasso开源库解析/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">Picasso开源库解析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Catégories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/品悟/" style="font-size: 20px;">品悟</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/03/04/这些日子的一些思考/">2015的总结，2016的展望</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/25/GC基本原理/">GC基本原理学习</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/28/Picasso开源库解析/">Picasso开源库解析</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/">从Zero学习String源码</a>
+          </li>
+        
+          <li>
+            <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/">接下来的路</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 ZeroGeek<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
