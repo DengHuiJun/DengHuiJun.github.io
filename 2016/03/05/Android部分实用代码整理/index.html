@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android部分实用代码整理 | 若冰</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[TOC]
+读取字符串12345678javaprivate String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException &amp;#123;        Reader reader = null;        reader = new InputStreamReader(str">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android部分实用代码整理">
+<meta property="og:url" content="http://denghui.me/2016/03/05/Android部分实用代码整理/index.html">
+<meta property="og:site_name" content="若冰">
+<meta property="og:description" content="[TOC]
+读取字符串12345678javaprivate String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException &amp;#123;        Reader reader = null;        reader = new InputStreamReader(str">
+<meta property="og:updated_time" content="2016-03-05T10:51:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android部分实用代码整理">
+<meta name="twitter:description" content="[TOC]
+读取字符串12345678javaprivate String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException &amp;#123;        Reader reader = null;        reader = new InputStreamReader(str">
+  
+    <link rel="alternate" href="/atom.xml" title="若冰" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">若冰</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Not only Android developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://denghui.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android部分实用代码整理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/05/Android部分实用代码整理/" class="article-date">
+  <time datetime="2016-03-05T10:48:29.000Z" itemprop="datePublished">2016-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android部分实用代码整理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<h2 id="读取字符串"><a href="#读取字符串" class="headerlink" title="读取字符串"></a>读取字符串</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java</span><br><span class="line">private String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException &#123;</span><br><span class="line">        Reader reader = null;</span><br><span class="line">        reader = new InputStreamReader(stream, &quot;UTF-8&quot;);</span><br><span class="line">        char[] buffer = new char[len];</span><br><span class="line">        reader.read(buffer);</span><br><span class="line">        return new String(buffer);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="网络下载"><a href="#网络下载" class="headerlink" title="网络下载"></a>网络下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private InputStream downloadUrl(String urlString) throws IOException &#123;</span><br><span class="line">        // BEGIN_INCLUDE(get_inputstream)</span><br><span class="line">        URL url = new URL(urlString);</span><br><span class="line">        HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">        conn.setReadTimeout(10000 /* milliseconds */);</span><br><span class="line">        conn.setConnectTimeout(15000 /* milliseconds */);</span><br><span class="line">        conn.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">        conn.setDoInput(true);</span><br><span class="line">        // Start the query</span><br><span class="line">        conn.connect();</span><br><span class="line">        InputStream stream = conn.getInputStream();</span><br><span class="line">        return stream;</span><br><span class="line">        // END_INCLUDE(get_inputstream)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="图片下载"><a href="#图片下载" class="headerlink" title="图片下载"></a>图片下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">private void downloadImageFromUri(String address) &#123;</span><br><span class="line">	URL url;</span><br><span class="line">	try &#123;</span><br><span class="line">		url = new URL(address);</span><br><span class="line">	&#125; catch (MalformedURLException e1) &#123;</span><br><span class="line">		url = null;</span><br><span class="line">	&#125;</span><br><span class="line">    URLConnection conn;</span><br><span class="line">    InputStream in;</span><br><span class="line">    Bitmap bitmap;</span><br><span class="line">	try &#123;</span><br><span class="line">		conn = url.openConnection();</span><br><span class="line">		conn.connect();</span><br><span class="line">		in = conn.getInputStream();</span><br><span class="line">		bitmap = BitmapFactory.decodeStream(in); </span><br><span class="line">		in.close();</span><br><span class="line">	&#125; catch (IOException e) &#123;</span><br><span class="line">		bitmap = null;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	if (bitmap != null) &#123;</span><br><span class="line">		ImageView img = (ImageView) findViewById(R.id.ivBasicImage); </span><br><span class="line">		img.setImageBitmap(bitmap);	</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="读取联系人"><a href="#读取联系人" class="headerlink" title="读取联系人"></a>读取联系人</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">private void loadContacts() &#123;</span><br><span class="line">		Uri allContacts = Uri.parse(&quot;content://contacts/people&quot;);</span><br><span class="line">		CursorLoader cursorLoader = new CursorLoader(this, allContacts, </span><br><span class="line">		   null, // the columns to retrive </span><br><span class="line">		   null, // the selection criteria</span><br><span class="line">		   null, // the selection args</span><br><span class="line">		   null // the sort order</span><br><span class="line">		);</span><br><span class="line">        </span><br><span class="line">		Cursor c = cursorLoader.loadInBackground();</span><br><span class="line">		if (c.moveToFirst()) &#123; </span><br><span class="line">			do &#123;</span><br><span class="line">			     // Get Contact ID</span><br><span class="line">				int idIndex = c.getColumnIndex(ContactsContract.Contacts._ID);</span><br><span class="line">				String contactID = c.getString(idIndex);</span><br><span class="line"></span><br><span class="line">				// Get Contact Name</span><br><span class="line">				int nameIndex = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);</span><br><span class="line">				String contactDisplayName = c.getString(nameIndex);</span><br><span class="line">				names.add(contactDisplayName);</span><br><span class="line"></span><br><span class="line">				Log.d(&quot;debug&quot;, contactID + &quot;, &quot; + contactDisplayName); </span><br><span class="line">			&#125; while (c.moveToNext());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="获取TextView显示的字符串宽度"><a href="#获取TextView显示的字符串宽度" class="headerlink" title="获取TextView显示的字符串宽度"></a>获取TextView显示的字符串宽度</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">TextView textView = (TextView) findViewById(R.id.test);</span><br><span class="line">textView.setText(text);</span><br><span class="line"></span><br><span class="line">int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);</span><br><span class="line">textView.measure(spec, spec);</span><br><span class="line"></span><br><span class="line">// getMeasuredWidth</span><br><span class="line">int measuredWidth = textView.getMeasuredWidth();</span><br><span class="line"></span><br><span class="line">// new textpaint measureText</span><br><span class="line">TextPaint newPaint = new TextPaint();</span><br><span class="line">float textSize = getResources().getDisplayMetrics().scaledDensity * 15;</span><br><span class="line">newPaint.setTextSize(textSize);</span><br><span class="line">float newPaintWidth = newPaint.measureText(text);</span><br><span class="line"></span><br><span class="line">// textView getPaint measureText</span><br><span class="line">TextPaint textPaint = textView.getPaint();</span><br><span class="line">float textPaintWidth = textPaint.measureText(text);</span><br></pre></td></tr></table></figure>
+<h2 id="Service中显示Status-Bar-Notifications"><a href="#Service中显示Status-Bar-Notifications" class="headerlink" title="Service中显示Status Bar Notifications"></a>Service中显示Status Bar Notifications</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Notification notification = new Notification(R.drawable.icon, getText(R.string.ticker_text),</span><br><span class="line">        System.currentTimeMillis());</span><br><span class="line">Intent notificationIntent = new Intent(this, ExampleActivity.class);</span><br><span class="line">PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);</span><br><span class="line">notification.setLatestEventInfo(this, getText(R.string.notification_title),</span><br><span class="line">        getText(R.string.notification_message), pendingIntent);</span><br><span class="line">startForeground(ONGOING_NOTIFICATION_ID, notification);</span><br></pre></td></tr></table></figure>
+<h2 id="结合AsyncTask与ProgressBar"><a href="#结合AsyncTask与ProgressBar" class="headerlink" title="结合AsyncTask与ProgressBar"></a>结合AsyncTask与ProgressBar</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">private class TaskSeven extends AsyncTask&lt;Void, Integer, Void&gt; &#123;</span><br><span class="line">        int mValue = 0;</span><br><span class="line">        @Override</span><br><span class="line">        protected void onProgressUpdate(Integer... values) &#123;</span><br><span class="line">            super.onProgressUpdate(values);</span><br><span class="line">            mTaskSevenPb.setProgress(mValue); //关键</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        protected Void doInBackground(Void... params) &#123;</span><br><span class="line">            while (mValue &lt; 100) &#123;</span><br><span class="line">                mValue += 20;</span><br><span class="line">                publishProgress(mValue); //关键</span><br><span class="line">                try &#123;</span><br><span class="line">                    Thread.sleep(1000);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        protected void onPostExecute(Void aVoid) &#123;</span><br><span class="line">            mSevenTv.setText(&quot;Over&quot;);</span><br><span class="line">            Toast.makeText(getApplicationContext(),&quot;TaskFour Ok&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="运用SharePreference存储和读区（注意权限）"><a href="#运用SharePreference存储和读区（注意权限）" class="headerlink" title="运用SharePreference存储和读区（注意权限）"></a>运用SharePreference存储和读区（注意权限）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private static SharedPreferences mMusicSP;</span><br><span class="line">public static final String MUSIC_SP_KEY = &quot;musicUrl&quot;;</span><br><span class="line">public static final String MUSIC_SP_DEFAULT = &quot;noUrl&quot;;</span><br><span class="line"></span><br><span class="line">public static boolean saveMusicUrlByPf(Context context,String url) &#123;</span><br><span class="line">    mMusicSP = context.getSharedPreferences(context.getResources().getString(R.string.share_preferences_key)</span><br><span class="line">            ,Context.MODE_PRIVATE);</span><br><span class="line">    SharedPreferences.Editor editor = mMusicSP.edit();</span><br><span class="line">    editor.putString(MUSIC_SP_KEY,url);</span><br><span class="line">    editor.commit();</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static String getMusicUrlByPf(Context context) &#123;</span><br><span class="line">    mMusicSP = context.getSharedPreferences(context.getResources().getString(R.string.share_preferences_key)</span><br><span class="line">            ,Context.MODE_PRIVATE);</span><br><span class="line">    String tempUrl = mMusicSP.getString(MUSIC_SP_KEY,MUSIC_SP_DEFAULT);</span><br><span class="line">    return tempUrl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="按2次返回键退出程序"><a href="#按2次返回键退出程序" class="headerlink" title="按2次返回键退出程序"></a>按2次返回键退出程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onKeyDown(int keyCode, KeyEvent event) &#123;</span><br><span class="line">    if(keyCode == KeyEvent.KEYCODE_BACK) &#123;</span><br><span class="line">        if ((System.currentTimeMillis() - mBackKeyTime) &gt; 2000) &#123;</span><br><span class="line">            mBackKeyTime = System.currentTimeMillis();</span><br><span class="line">            Toast.makeText(this, &quot;再按一次退出程序&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            finish();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="显示／隐藏软件盘"><a href="#显示／隐藏软件盘" class="headerlink" title="显示／隐藏软件盘"></a>显示／隐藏软件盘</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);  </span><br><span class="line">imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);  //显示</span><br><span class="line"></span><br><span class="line">imm.hideSoftInputFromWindow(view.getWindowToken(), 0);  //强制隐藏键盘</span><br></pre></td></tr></table></figure>
+<h2 id="使背景模糊，用于启动的Tips"><a href="#使背景模糊，用于启动的Tips" class="headerlink" title="使背景模糊，用于启动的Tips"></a>使背景模糊，用于启动的Tips</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,</span><br><span class="line">        WindowManager.LayoutParams.FLAG_BLUR_BEHIND);</span><br></pre></td></tr></table></figure>
+<h2 id="TextView使用技巧"><a href="#TextView使用技巧" class="headerlink" title="TextView使用技巧"></a>TextView使用技巧</h2><ul>
+<li>设置图片：drawableTop(上),drawableButtom(下),drawableLeft(左),drawableRight(右)另外,你也可以使用drawablePadding来设置图片与文字间的间距！</li>
+<li>使用autoLink属性识别链接类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TextView t1 = (TextView)findViewById(R.id.txtOne);</span><br><span class="line">String s1 = &quot;&lt;font color=&apos;blue&apos;&gt;&lt;b&gt;百度一下，你就知道~：&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&quot;;</span><br><span class="line">s1 += &quot;&lt;a href = &apos;http://www.baidu.com&apos;&gt;百度&lt;/a&gt;&quot;;</span><br><span class="line">t1.setText(Html.fromHtml(s1));</span><br><span class="line">t1.setMovementMethod(LinkMovementMethod.getInstance());</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可为图片添加超链接</li>
+</ul>
+<h2 id="巧用String分割"><a href="#巧用String分割" class="headerlink" title="巧用String分割"></a>巧用String分割</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public final static String[] DEFAULT_SECTIONS = &quot;常用 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z&quot;.split(&quot; &quot;);</span><br></pre></td></tr></table></figure>
+<h2 id="验证邮箱"><a href="#验证邮箱" class="headerlink" title="验证邮箱"></a>验证邮箱</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private boolean validEmail(String email)&#123;</span><br><span class="line">    Pattern emailPattern=Pattern.compile(&quot;\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*&quot;);</span><br><span class="line">    Matcher emailMatcher=emailPattern.matcher(email);</span><br><span class="line">    return emailMatcher.matches();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="调用系统接口发送短信"><a href="#调用系统接口发送短信" class="headerlink" title="调用系统接口发送短信"></a>调用系统接口发送短信</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Uri smsToUri = Uri.parse( &quot;smsto:&quot; ); // This ensures only SMS apps respond</span><br><span class="line">Intent intent = new Intent(Intent.ACTION_SENDTO , smsToUri);</span><br><span class="line">intent.putExtra(&quot;sms_body&quot;, message);</span><br><span class="line">intent.putExtra(&quot;address&quot;, phoneNumber);</span><br><span class="line">if (intent.resolveActivity(getPackageManager()) != null) &#123;</span><br><span class="line">	startActivity(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Activity的切换动画"><a href="#Activity的切换动画" class="headerlink" title="Activity的切换动画"></a>Activity的切换动画</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">overridePendingTransition(SLIDE_UP_IN, SLIDE_DOWN_OUT);</span><br></pre></td></tr></table></figure>
+<p>Activity的切换动画指的是从一个activity跳转到另外一个activity时的动画。用2个xml来传递参数，anim下</p>
+<h2 id="设置FLAG-ACTIVITY-CLEAR-TOP来清除历史栈"><a href="#设置FLAG-ACTIVITY-CLEAR-TOP来清除历史栈" class="headerlink" title="设置FLAG_ACTIVITY_CLEAR_TOP来清除历史栈"></a>设置FLAG_ACTIVITY_CLEAR_TOP来清除历史栈</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(mContext, MainActivity.class);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/03/05/Android部分实用代码整理/" data-id="cilfwwyey0002refyqcyzz3zb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/06/android_design_support_library的实际使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android Design Support Library的简单学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/04/这些日子的一些思考/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2015的总结，2016的展望</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/品悟/" style="font-size: 10px;">品悟</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/03/06/android_design_support_library的实际使用/">Android Design Support Library的简单学习</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/05/Android部分实用代码整理/">Android部分实用代码整理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/04/这些日子的一些思考/">2015的总结，2016的展望</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/25/GC基本原理/">GC基本原理学习</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/28/Picasso开源库解析/">Picasso开源库解析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 ZeroGeek<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
