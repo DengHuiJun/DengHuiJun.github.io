@@ -55,9 +55,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://denghui.me"></form>
@@ -67,6 +67,165 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-Java并发编程实战一" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/30/Java并发编程实战一/" class="article-date">
+  <time datetime="2016-03-30T00:29:38.000Z" itemprop="datePublished">2016-03-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/30/Java并发编程实战一/">Java并发编程之初篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="不同进程之间的通信机制"><a href="#不同进程之间的通信机制" class="headerlink" title="不同进程之间的通信机制"></a>不同进程之间的通信机制</h4><ol>
+<li>套接字</li>
+<li>信号处理器</li>
+<li>共享内存</li>
+<li>信号量</li>
+<li>文件</li>
+</ol>
+<h4 id="为什么引入并发"><a href="#为什么引入并发" class="headerlink" title="为什么引入并发"></a>为什么引入并发</h4><ul>
+<li>资源利用率</li>
+<li>公平性（同等的使用权）</li>
+<li>便利性（多任务）</li>
+</ul>
+<h4 id="性能问题"><a href="#性能问题" class="headerlink" title="性能问题"></a>性能问题</h4><ul>
+<li>服务时间长</li>
+<li>响应不灵敏</li>
+<li>吞吐率过低</li>
+<li>资源消耗过高</li>
+<li>可伸缩性较低</li>
+<li>上下文切换频繁</li>
+</ul>
+<h2 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h2><pre><code>同一个进程中的所有线程都将共享进程的内存地址空间，因此这些线程都能访问相同的变量并在同一个堆上分配对象，此时没有相关同步机制，会导致不可预测的结果。
+
+
+一个对象是否需要线程安全的，取决于它是否同时被多个线程访问
+</code></pre><h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><ul>
+<li>synchronized 独占的加锁方式</li>
+<li>volatile类型的变量</li>
+<li>显示锁（Lock）</li>
+<li>原子变量</li>
+</ul>
+<p>实际并发编程中，尽可能地使用现有的线程安全对象来管理类的状态，如java.util.concurrent包中的类</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/03/30/Java并发编程实战一/" data-id="cimehjmcu0003ewx5skkzq7iv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mac-os下反编译apk文件步骤" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/23/mac-os下反编译apk文件步骤/" class="article-date">
+  <time datetime="2016-03-23T10:30:34.000Z" itemprop="datePublished">2016-03-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/23/mac-os下反编译apk文件步骤/">mac下反编译.apk文件查看代码指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h3><ul>
+<li>dex2jar</li>
+<li>jd-gui</li>
+</ul>
+<p>下载链接：</p>
+<p><a href="http://7xsfta.com1.z0.glb.clouddn.com/jd-gui-osx-1.4.0.tar" target="_blank" rel="external">http://7xsfta.com1.z0.glb.clouddn.com/jd-gui-osx-1.4.0.tar</a></p>
+<p><a href="http://7xsfta.com1.z0.glb.clouddn.com/dex2jar-0.0.9.15.zip" target="_blank" rel="external">http://7xsfta.com1.z0.glb.clouddn.com/dex2jar-0.0.9.15.zip</a></p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><h4 id="1-将-apk-改为-zip-并解压"><a href="#1-将-apk-改为-zip-并解压" class="headerlink" title="1. 将.apk 改为 .zip 并解压"></a>1. 将.apk 改为 .zip 并解压</h4><p>这里我用 tct.apk (未混淆) 为例，解压后得到：<br><img src="http://7xsfta.com1.z0.glb.clouddn.com/tct%E8%A7%A3%E5%8E%8B%E5%90%8E%E7%9B%AE%E5%BD%95.png" alt="解压目录"></p>
+<p>主要会用到 classes.dex </p>
+<h4 id="2-使用-dex2jar-工具-将-classes-dex-生成-jar-文件"><a href="#2-使用-dex2jar-工具-将-classes-dex-生成-jar-文件" class="headerlink" title="2. 使用 dex2jar 工具 将 classes.dex 生成 .jar 文件"></a>2. 使用 dex2jar 工具 将 classes.dex 生成 .jar 文件</h4><ul>
+<li>首先给dex2jar工具添加可执行权限： chmod +x dex2jar.sh </li>
+<li>终端输入： sudo sh dex2jar.sh ~/Downloads/tct/classes.dex</li>
+<li>得到了一个 classes_dex2jar.jar 文件 ，这个就是源码了</li>
+</ul>
+<p><img src="http://7xsfta.com1.z0.glb.clouddn.com/%E7%BC%96%E8%AF%91%E5%90%8E%E7%94%9F%E4%BA%A7jar.png" alt=""></p>
+<h4 id="3-使用jd－gui-来查看"><a href="#3-使用jd－gui-来查看" class="headerlink" title="3. 使用jd－gui 来查看"></a>3. 使用jd－gui 来查看</h4><p>双击打开，选择相应jar文件<br><img src="http://7xsfta.com1.z0.glb.clouddn.com/jdgui1.png" alt=""></p>
+<p>打开后的界面</p>
+<p><img src="http://7xsfta.com1.z0.glb.clouddn.com/jdgui2.png" alt=""><br>选择了jar文件后</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/03/23/mac-os下反编译apk文件步骤/" data-id="cimehjmdt000newx5ksvnwjr0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-RxJava启航篇" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/21/RxJava启航篇/" class="article-date">
+  <time datetime="2016-03-20T22:26:30.000Z" itemprop="datePublished">2016-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/21/RxJava启航篇/">RxJava启航篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/03/21/RxJava启航篇/" data-id="cimehjmdn000kewx5hkw6jqji" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-Android应用部署与发布" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -161,7 +320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/16/Android应用部署与发布/" data-id="cim14tsg20000h2fyndf4j5xl" class="article-share-link">Partager</a>
+      <a data-url="http://denghui.me/2016/03/16/Android应用部署与发布/" data-id="cimehjmda000bewx5g4djycjm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -201,7 +360,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/14/学习Apache的MINA网络框架/" data-id="cim14tshe000th2fy7hq1ync7" class="article-share-link">Partager</a>
+      <a data-url="http://denghui.me/2016/03/14/学习Apache的MINA网络框架/" data-id="cimehjme6000tewx5myrr6uy4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -286,7 +445,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/12/Android屏幕适配/" data-id="cim14tsgb0002h2fynawk5yj3" class="article-share-link">Partager</a>
+      <a data-url="http://denghui.me/2016/03/12/Android屏幕适配/" data-id="cimehjmd10006ewx5wgfeafbn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -351,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/06/android_design_support_library的实际使用/" data-id="cim14tsh1000hh2fyxb4v9jcg" class="article-share-link">Partager</a>
+      <a data-url="http://denghui.me/2016/03/06/android_design_support_library的实际使用/" data-id="cimehjme0000oewx515hm8300" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -414,7 +573,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/05/Android部分实用代码整理/" data-id="cim14tsgo0007h2fy9j2d2vgz" class="article-share-link">Partager</a>
+      <a data-url="http://denghui.me/2016/03/05/Android部分实用代码整理/" data-id="cimehjmcn0001ewx57rqc3vsu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -461,7 +620,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/04/这些日子的一些思考/" data-id="cim14tshb000sh2fygmoqau3f" class="article-share-link">Partager</a>
+      <a data-url="http://denghui.me/2016/03/04/这些日子的一些思考/" data-id="cimehjme9000vewx503fragh9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
@@ -589,285 +748,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/09/25/GC基本原理/" data-id="cim14tsgs000bh2fyt091iz1j" class="article-share-link">Partager</a>
+      <a data-url="http://denghui.me/2015/09/25/GC基本原理/" data-id="cimehjmd40008ewx5h0u3l1ss" class="article-share-link">Share</a>
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Picasso开源库解析" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/28/Picasso开源库解析/" class="article-date">
-  <time datetime="2015-08-28T01:08:12.000Z" itemprop="datePublished">2015-08-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/28/Picasso开源库解析/">Picasso开源库解析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Picasso-是-Square-开源的图片缓存库，主要特点有："><a href="#Picasso-是-Square-开源的图片缓存库，主要特点有：" class="headerlink" title="Picasso 是 Square 开源的图片缓存库，主要特点有："></a>Picasso 是 Square 开源的图片缓存库，主要特点有：</h2><ul>
-<li>包含内存缓存和磁盘缓存两级缓存。</li>
-<li>在 Adapter 中自动处理 ImageView 的缓存并且取消之前的图片下载任务。</li>
-<li>方便进行图片转换处理。</li>
-</ul>
-<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Picasso.with(this)  //Context</span><br><span class="line">        .load(&quot;http://7xjung.com1.z0.glb.clouddn.com/randomview.png&quot;) //图片地址</span><br><span class="line">        .placeholder(R.drawable.abc_btn_check_material) //占位图（等待下载）</span><br><span class="line">        .error(R.drawable.abc_btn_radio_material) //加载错误</span><br><span class="line">        .resize(200,200) //设置显示大小</span><br><span class="line">        .centerCrop()  //自适应布局，减小内存</span><br><span class="line">        .into(mLoadIv); //用来显示图片控件的ID</span><br></pre></td></tr></table></figure>
-<p>下载地址 ： <a href="https://github.com/square/picasso" target="_blank" rel="external">https://github.com/square/picasso</a></p>
-<h2 id="分析工作流程"><a href="#分析工作流程" class="headerlink" title="分析工作流程"></a>分析工作流程</h2><p>分析的是第一次加载图片的情况，没有缓存。</p>
-<p>Picasso.with(this):</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static Picasso with(Context context) &#123;</span><br><span class="line">  if (singleton == null) &#123;</span><br><span class="line">    synchronized (Picasso.class) &#123;  </span><br><span class="line">      if (singleton == null) &#123;</span><br><span class="line">        singleton = new Builder(context).build();  //获取实例对象</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return singleton;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//这里使用了单例模式，而且是双重检测锁的方法。 另外还使用到了Builder模式，Picasso对象的创建非常复杂。</span><br></pre></td></tr></table></figure>
-<p>得到的是context.getApplicationContext();</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public Builder(Context context) &#123;</span><br><span class="line">  if (context == null) &#123;</span><br><span class="line">    throw new IllegalArgumentException(&quot;Context must not be null.&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  this.context = context.getApplicationContext();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Picasso的部分成员变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
-<p>看下build（）方法，返回Picasso，初始化各种服务，下载器，缓存器，线程池，是否resize图片，调度器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public Picasso build() &#123;</span><br><span class="line">     Context context = this.context;</span><br><span class="line"></span><br><span class="line">     if (downloader == null) &#123;</span><br><span class="line">       downloader = Utils.createDefaultDownloader(context);</span><br><span class="line">     &#125;</span><br><span class="line">     if (cache == null) &#123;</span><br><span class="line">       cache = new LruCache(context);</span><br><span class="line">     &#125;</span><br><span class="line">     if (service == null) &#123;</span><br><span class="line">       service = new PicassoExecutorService();</span><br><span class="line">     &#125;</span><br><span class="line">     if (transformer == null) &#123;</span><br><span class="line">       transformer = RequestTransformer.IDENTITY;</span><br><span class="line">     &#125;</span><br><span class="line">     Stats stats = new Stats(cache);</span><br><span class="line">     Dispatcher dispatcher = new Dispatcher(context, service, HANDLER, downloader, cache, stats);</span><br><span class="line">     return new Picasso(context, dispatcher, cache, listener, transformer, requestHandlers, stats,</span><br><span class="line">         defaultBitmapConfig, indicatorsEnabled, loggingEnabled);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> //这里先初始化Downloader，Cache（使用的LRU算法），PicassoExecutorService（这是Picasso自己实现的线程池），Transformer（当请求被submit时可以调用来修改请求）。</span><br></pre></td></tr></table></figure></p>
-<p>之后调用load（），有4个重载方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public RequestCreator load(String path) &#123;</span><br><span class="line">    if (path == null) &#123;</span><br><span class="line">      return new RequestCreator(this, null, 0);</span><br><span class="line">    &#125;</span><br><span class="line">    if (path.trim().length() == 0) &#123;</span><br><span class="line">      throw new IllegalArgumentException(&quot;Path must not be empty.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return load(Uri.parse(path));  //调用load(Uri uri)</span><br><span class="line">  &#125;</span><br><span class="line">public RequestCreator load(File file) &#123;</span><br><span class="line">    if (file == null) &#123;</span><br><span class="line">      return new RequestCreator(this, null, 0);</span><br><span class="line">    &#125;</span><br><span class="line">    return load(Uri.fromFile(file)); //调用load(Uri uri)</span><br><span class="line">  &#125;</span><br><span class="line">public RequestCreator load(int resourceId) &#123;</span><br><span class="line">    if (resourceId == 0) &#123;</span><br><span class="line">      throw new IllegalArgumentException(&quot;Resource ID must not be zero.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return new RequestCreator(this, null, resourceId);</span><br><span class="line">  &#125;</span><br><span class="line">public RequestCreator load(Uri uri) &#123;</span><br><span class="line">    return new RequestCreator(this, uri, 0);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>最终都是执行</p>
-<blockquote>
-<p>new RequestCreator(this, uri, 0)</p>
-</blockquote>
-<p>那么RequsetCreator是什么呢？（创造图片下载的请求）</p>
-<blockquote>
-<p>private final Request.Builder data;  //this.data</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">RequestCreator(Picasso picasso, Uri uri, int resourceId) &#123;</span><br><span class="line">   if (picasso.shutdown) &#123;</span><br><span class="line">     throw new IllegalStateException(</span><br><span class="line">         &quot;Picasso instance already shut down. Cannot submit new requests.&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   this.picasso = picasso;</span><br><span class="line">   this.data = new Request.Builder(uri, resourceId, picasso.defaultBitmapConfig);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>Request类中的Builder()方法，初始化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Builder(Uri uri, int resourceId, Bitmap.Config bitmapConfig) &#123;</span><br><span class="line">  this.uri = uri;</span><br><span class="line">  this.resourceId = resourceId;</span><br><span class="line">  this.config = bitmapConfig;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>之后是into()</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void into(ImageView target) &#123;</span><br><span class="line">  into(target, null);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关键在于下面这个方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">  public void into(ImageView target, Callback callback) &#123;</span><br><span class="line">    long started = System.nanoTime();</span><br><span class="line">    checkMain(); //Looper.getMainLooper().getThread() == Thread.currentThread()，检查是不是主线程执行的。</span><br><span class="line"></span><br><span class="line">    if (target == null) &#123;</span><br><span class="line">      throw new IllegalArgumentException(&quot;Target must not be null.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (!data.hasImage()) &#123; //boolean hasImage() &#123;return uri != null || resourceId != 0;&#125;，是否为空</span><br><span class="line">      picasso.cancelRequest(target);</span><br><span class="line">      if (setPlaceholder) &#123;</span><br><span class="line">        setPlaceholder(target, getPlaceholderDrawable());</span><br><span class="line">      &#125;</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (deferred) &#123; //public RequestCreator fit() &#123;deferred = true;return this;&#125;判断是否改变图片大小，适配控件；deferred在这里是默认值false</span><br><span class="line">      if (data.hasSize()) &#123;</span><br><span class="line">        throw new IllegalStateException(&quot;Fit cannot be used with resize.&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">      int width = target.getWidth();</span><br><span class="line">      int height = target.getHeight();</span><br><span class="line">      if (width == 0 || height == 0) &#123;</span><br><span class="line">        if (setPlaceholder) &#123;</span><br><span class="line">          setPlaceholder(target, getPlaceholderDrawable());</span><br><span class="line">        &#125;</span><br><span class="line">        picasso.defer(target, new DeferredRequestCreator(this, target, callback));</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      data.resize(width, height);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Request request = createRequest(started); //这里创建了请求，给请求唯一的id，url，并且转换request</span><br><span class="line">    String requestKey = createKey(request); //给请求创建了一个key</span><br><span class="line"></span><br><span class="line">    if (shouldReadFromMemoryCache(memoryPolicy)) &#123; //读取缓存</span><br><span class="line">      Bitmap bitmap = picasso.quickMemoryCacheCheck(requestKey);</span><br><span class="line">      if (bitmap != null) &#123;</span><br><span class="line">        picasso.cancelRequest(target);//如果cache里能找到，就取消请求，直接设置</span><br><span class="line">        setBitmap(target, picasso.context, bitmap, MEMORY, noFade, picasso.indicatorsEnabled);</span><br><span class="line">        if (picasso.loggingEnabled) &#123;</span><br><span class="line">          log(OWNER_MAIN, VERB_COMPLETED, request.plainId(), &quot;from &quot; + MEMORY);</span><br><span class="line">        &#125;</span><br><span class="line">        if (callback != null) &#123;</span><br><span class="line">          callback.onSuccess();</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (setPlaceholder) &#123;</span><br><span class="line">      setPlaceholder(target, getPlaceholderDrawable());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Action action = //Action是一个抽象类</span><br><span class="line">        new ImageViewAction(picasso, target, request, memoryPolicy, networkPolicy, errorResId,</span><br><span class="line">            errorDrawable, requestKey, tag, callback, noFade);</span><br><span class="line"></span><br><span class="line">    picasso.enqueueAndSubmit(action);</span><br><span class="line">  &#125;</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">创建回调方法：下载完图片，再通过控件显示</span><br></pre></td></tr></table></figure>
-<p>  ImageViewAction(Picasso picasso, ImageView imageView, Request data, int memoryPolicy,<br>      int networkPolicy, int errorResId, Drawable errorDrawable, String key, Object tag,<br>      Callback callback, boolean noFade) {<br>    super(picasso, imageView, data, memoryPolicy, networkPolicy, errorResId, errorDrawable, key,<br>        tag, noFade);<br>    this.callback = callback;<br>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Action构造方法</span><br></pre></td></tr></table></figure></p>
-<p>  Action(Picasso picasso, T target, Request request, int memoryPolicy, int networkPolicy,<br>      int errorResId, Drawable errorDrawable, String key, Object tag, boolean noFade) {<br>    this.picasso = picasso;<br>    this.request = request;<br>    this.target =<br>        target == null ? null : new RequestWeakReference<t>(this, target, picasso.referenceQueue);<br>    this.memoryPolicy = memoryPolicy;<br>    this.networkPolicy = networkPolicy;<br>    this.noFade = noFade;<br>    this.errorResId = errorResId;<br>    this.errorDrawable = errorDrawable;<br>    this.key = key;<br>    this.tag = (tag != null ? tag : this);<br>  }<br>  // Action代表了一个具体的加载任务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Action中用了一个弱引用，创建请求队列</span><br></pre></td></tr></table></figure></t></p>
-<p>  static class RequestWeakReference<m> extends WeakReference<m> {<br>    final Action action;</m></m></p>
-<pre><code>public RequestWeakReference(Action action, M referent, ReferenceQueue&lt;? super M&gt; q) {
-  super(referent, q);
-  this.action = action;
-}
-</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">最后调用的一个方法：picasso.enqueueAndSubmit(action);</span><br></pre></td></tr></table></figure></p>
-<p>  void enqueueAndSubmit(Action action) {<br>    Object target = action.getTarget();<br>    if (target != null &amp;&amp; targetToAction.get(target) != action) {<br>      // This will also check we are on the main thread.<br>      cancelExistingRequest(target);<br>      targetToAction.put(target, action);  //  final Map<object, action=""> targetToAction;映射结构<br>    }<br>    submit(action);<br>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">分给调度器执行任务（分发任务）  </span><br><span class="line">&gt;   final Dispatcher dispatcher;</span><br></pre></td></tr></table></figure></object,></p>
-<p>  void submit(Action action) {<br>    dispatcher.dispatchSubmit(action);<br>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">发送到消息队列</span><br></pre></td></tr></table></figure></p>
-<p>  void dispatchSubmit(Action action) {<br>    handler.sendMessage(handler.obtainMessage(REQUEST_SUBMIT, action));<br>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">看下handler如何工作的？</span><br></pre></td></tr></table></figure></p>
-<pre><code>//Dispatcher构造方法的语句
-</code></pre><p>  this.handler = new DispatcherHandler(dispatcherThread.getLooper(), this);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">定义了一个静态内部类，执行不同的请求：</span><br></pre></td></tr></table></figure></p>
-<p>private static class DispatcherHandler extends Handler {<br>    private final Dispatcher dispatcher;</p>
-<pre><code>public DispatcherHandler(Looper looper, Dispatcher dispatcher) {
-  super(looper);
-  this.dispatcher = dispatcher;
-}
-
-@Override public void handleMessage(final Message msg) {
-  switch (msg.what) {
-    case REQUEST_SUBMIT: {
-      Action action = (Action) msg.obj;
-      dispatcher.performSubmit(action);
-      break;
-    }
-    ......//省略其它case
-  }
-}
-</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">请求REQUEST_SUBMIT之后的方法：</span><br></pre></td></tr></table></figure></p>
-<p>  void performSubmit(Action action) {<br>    performSubmit(action, true);<br>  }</p>
-<p>  void performSubmit(Action action, boolean dismissFailed) {<br>    if (pausedTags.contains(action.getTag())) {<br>      pausedActions.put(action.getTarget(), action);  //  final Map<object, action=""> pausedActions;<br>      if (action.getPicasso().loggingEnabled) {<br>        log(OWNER_DISPATCHER, VERB_PAUSED, action.request.logId(),<br>            “because tag ‘“ + action.getTag() + “‘ is paused”);<br>      }<br>      return;<br>    }</object,></p>
-<pre><code>BitmapHunter hunter = hunterMap.get(action.getKey());  //BitmapHunter实现了Runnable方法
-if (hunter != null) {
-  hunter.attach(action);  //注意这个attach()，将action加入到一个List中，actions.add(action);
-  return;
-}
-
-if (service.isShutdown()) {
-  if (action.getPicasso().loggingEnabled) {
-    log(OWNER_DISPATCHER, VERB_IGNORED, action.request.logId(), &quot;because shut down&quot;);
-  }
-  return;
-}
-
-hunter = forRequest(action.getPicasso(), this, cache, stats, action);
-hunter.future = service.submit(hunter);  //交给线程池去执行, 初始化的PicassoExecutorService, &lt;T&gt; Future&lt;T&gt; submit(Runnable task, T result);
-hunterMap.put(action.getKey(), hunter);  //管理起来，防止任务重复
-if (dismissFailed) {
-  failedActions.remove(action.getTarget());
-}
-
-if (action.getPicasso().loggingEnabled) {
-  log(OWNER_DISPATCHER, VERB_ENQUEUED, action.request.logId());
-}
-</code></pre><p>  }</p>
-<p>  //线程池中结合优先级去执行任务的，之前有设定Picasso类中的枚举类型Priority。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">终于找到了图片加载的来源，就是BitmapHunter的run()执行的：</span><br><span class="line">&gt; result = hunt()</span><br><span class="line"></span><br><span class="line">下面是hunt()方法</span><br></pre></td></tr></table></figure>
-<p> Bitmap hunt() throws IOException {<br>    Bitmap bitmap = null;</p>
-<pre><code>if (shouldReadFromMemoryCache(memoryPolicy)) {
-  bitmap = cache.get(key);
-  if (bitmap != null) {
-    stats.dispatchCacheHit();
-    loadedFrom = MEMORY;
-    if (picasso.loggingEnabled) {
-      log(OWNER_HUNTER, VERB_DECODED, data.logId(), &quot;from cache&quot;);
-    }
-    return bitmap;
-  }
-}
-
-data.networkPolicy = retryCount == 0 ? NetworkPolicy.OFFLINE.index : networkPolicy;
-RequestHandler.Result result = requestHandler.load(data, networkPolicy);
-if (result != null) {
-  loadedFrom = result.getLoadedFrom();
-  exifRotation = result.getExifOrientation();
-
-  bitmap = result.getBitmap();
-
-  // If there was no Bitmap then we need to decode it from the stream.
-  if (bitmap == null) {
-    InputStream is = result.getStream();
-    try {
-      bitmap = decodeStream(is, data);
-    } finally {
-      Utils.closeQuietly(is);
-    }
-  }
-}
-
-if (bitmap != null) {
-  if (picasso.loggingEnabled) {
-    log(OWNER_HUNTER, VERB_DECODED, data.logId());
-  }
-  stats.dispatchBitmapDecoded(bitmap);
-  if (data.needsTransformation() || exifRotation != 0) {
-    synchronized (DECODE_LOCK) {
-      if (data.needsMatrixTransform() || exifRotation != 0) {
-        bitmap = transformResult(data, bitmap, exifRotation);
-        if (picasso.loggingEnabled) {
-          log(OWNER_HUNTER, VERB_TRANSFORMED, data.logId());
-        }
-      }
-      if (data.hasCustomTransformations()) {
-        bitmap = applyCustomTransformations(data.transformations, bitmap);
-        if (picasso.loggingEnabled) {
-          log(OWNER_HUNTER, VERB_TRANSFORMED, data.logId(), &quot;from custom transformations&quot;);
-        }
-      }
-    }
-    if (bitmap != null) {
-      stats.dispatchBitmapTransformed(bitmap);
-    }
-  }
-}
-return bitmap;
-</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Picasso的Handler来处理接受到的消息（主线程中）</span><br></pre></td></tr></table></figure></p>
-<p> static final Handler HANDLER = new Handler(Looper.getMainLooper()) {<br>    @Override public void handleMessage(Message msg) {<br>      switch (msg.what) {<br>        case HUNTER_BATCH_COMPLETE: {<br>          @SuppressWarnings(“unchecked”) List<bitmaphunter> batch = (List<bitmaphunter>) msg.obj;<br>          //noinspection ForLoopReplaceableByForEach<br>          for (int i = 0, n = batch.size(); i &lt; n; i++) {<br>            BitmapHunter hunter = batch.get(i);<br>            hunter.picasso.complete(hunter);  //这里获取到result<br>          }<br>          break;<br>        }<br>        case REQUEST_GCED: {<br>          Action action = (Action) msg.obj;<br>          if (action.getPicasso().loggingEnabled) {<br>            log(OWNER_MAIN, VERB_CANCELED, action.request.logId(), “target got garbage collected”);<br>          }<br>          action.picasso.cancelExistingRequest(action.getTarget());<br>          break;<br>        }<br>        case REQUEST_BATCH_RESUME:<br>          @SuppressWarnings(“unchecked”) List<action> batch = (List<action>) msg.obj;<br>          //noinspection ForLoopReplaceableByForEach<br>          for (int i = 0, n = batch.size(); i &lt; n; i++) {<br>            Action action = batch.get(i);<br>            action.picasso.resumeAction(action);<br>          }<br>          break;<br>        default:<br>          throw new AssertionError(“Unknown handler message received: “ + msg.what);<br>      }<br>    }<br>  };<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">完成后是调用的ImageViewAction里的方法，</span><br></pre></td></tr></table></figure></action></action></bitmaphunter></bitmaphunter></p>
-<p>  @Override public void complete(Bitmap result, Picasso.LoadedFrom from) {<br>    if (result == null) {<br>      throw new AssertionError(<br>          String.format(“Attempted to complete action with no result!\n%s”, this));<br>    }<br>    ImageView target = this.target.get();<br>    if (target == null) {<br>      return;<br>    }<br>    Context context = picasso.context;<br>    boolean indicatorsEnabled = picasso.indicatorsEnabled;</p>
-<pre><code>//这里来设置图片
-PicassoDrawable.setBitmap(target, context, result, from, noFade, indicatorsEnabled);
-if (callback != null) {
-  callback.onSuccess(); //调用回调方法
-}
-</code></pre><p>  }<br>```</p>
-<p>//关于线程池的分析又是一大波。。。</p>
-<p>主要涉及的类：Picasso，Request，RequestCreator, Action, ImageViewAction, Utils，Dispatcher, BitmapHunter…</p>
-<h2 id="整体架构分析"><a href="#整体架构分析" class="headerlink" title="整体架构分析"></a>整体架构分析</h2><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnphp6.com/archives/87269" target="_blank" rel="external">http://www.cnphp6.com/archives/87269</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/08/28/Picasso开源库解析/" data-id="cim14tsgx000eh2fy732ibciu" class="article-share-link">Partager</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/" class="article-date">
-  <time datetime="2015-08-27T11:11:07.000Z" itemprop="datePublished">2015-08-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/">从Zero学习String源码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="源码版本：JDK-1-7-0-55"><a href="#源码版本：JDK-1-7-0-55" class="headerlink" title="源码版本：JDK_1.7.0_55"></a>源码版本：JDK_1.7.0_55</h2><h2 id="String的常用方法"><a href="#String的常用方法" class="headerlink" title="String的常用方法"></a>String的常用方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line">public final class String  //注意final</span><br><span class="line">    implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence &#123;</span><br><span class="line">    </span><br><span class="line">    //保证只能初始化一次，用字符数组来存</span><br><span class="line">    private final char value[];</span><br><span class="line">    </span><br><span class="line">    // 存储hashCode，默认为0</span><br><span class="line">    private int hash; </span><br><span class="line">    </span><br><span class="line">    //判断是否相等</span><br><span class="line">    public boolean equals(Object anObject) &#123;</span><br><span class="line">        if (this == anObject) &#123;  //同一对象</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        if (anObject instanceof String) &#123; //若同为String类型</span><br><span class="line">            String anotherString = (String) anObject;</span><br><span class="line">            int n = value.length;  //本字符串长度</span><br><span class="line">            if (n == anotherString.value.length) &#123; //长度相同，比较每个字符（ASCII码）是否相同</span><br><span class="line">                char v1[] = value;</span><br><span class="line">                char v2[] = anotherString.value;</span><br><span class="line">                int i = 0;</span><br><span class="line">                while (n-- != 0) &#123;</span><br><span class="line">                    if (v1[i] != v2[i])</span><br><span class="line">                            return false;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                return true;  //相等返回</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //比较String的大小，返回的是 &quot;str1 - str2&quot;</span><br><span class="line">    public int compareTo(String anotherString) &#123;</span><br><span class="line">        int len1 = value.length;</span><br><span class="line">        int len2 = anotherString.value.length;</span><br><span class="line">        int lim = Math.min(len1, len2);  //得到小的长度（可以比较的最大长度）</span><br><span class="line">        char v1[] = value;</span><br><span class="line">        char v2[] = anotherString.value;</span><br><span class="line"></span><br><span class="line">        int k = 0;  </span><br><span class="line">        while (k &lt; lim) &#123;  //从0比较到lim-1</span><br><span class="line">            char c1 = v1[k];</span><br><span class="line">            char c2 = v2[k];</span><br><span class="line">            if (c1 != c2) &#123;</span><br><span class="line">                return c1 - c2; //不相等返回</span><br><span class="line">            &#125;</span><br><span class="line">            k++;</span><br><span class="line">        &#125;</span><br><span class="line">        return len1 - len2;  //若v[lim-1]以前都相等,则判断长度，长的值大</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //获得hashCode，赋值给hash</span><br><span class="line">    public int hashCode() &#123;</span><br><span class="line">        int h = hash;</span><br><span class="line">        if (h == 0 &amp;&amp; value.length &gt; 0) &#123; </span><br><span class="line">        //若之前没有计算过hashCode，且存在String，则生成一个hashCode</span><br><span class="line">            char val[] = value;</span><br><span class="line">            for (int i = 0; i &lt; value.length; i++) &#123;</span><br><span class="line">                h = 31 * h + val[i];  //计算方法，为了唯一性.</span><br><span class="line">            &#125;</span><br><span class="line">            hash = h;</span><br><span class="line">        &#125;</span><br><span class="line">        return h;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /*看了下&quot;zero&quot;生成hashCode过程：</span><br><span class="line">        0:122</span><br><span class="line">        1:3883</span><br><span class="line">        2:120487</span><br><span class="line">        3:3735208</span><br><span class="line">        hashCode:3735208</span><br><span class="line">    */</span><br><span class="line">    </span><br><span class="line">    //得到某一字符</span><br><span class="line">    public char charAt(int index) &#123;</span><br><span class="line">        if ((index &lt; 0) || (index &gt;= value.length)) &#123; //是否越界</span><br><span class="line">            throw new StringIndexOutOfBoundsException(index);</span><br><span class="line">        &#125;</span><br><span class="line">        return value[index]; //直接下标返回</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //替换方法</span><br><span class="line">    public String replace(char oldChar, char newChar) &#123;</span><br><span class="line">        if (oldChar != newChar) &#123;</span><br><span class="line">            int len = value.length;</span><br><span class="line">            int i = -1;</span><br><span class="line">            char[] val = value; /* avoid getfield opcode */</span><br><span class="line">            while (++i &lt; len) &#123;</span><br><span class="line">                if (val[i] == oldChar) &#123; //遍历判断第一个oldChar的位置</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; len) &#123; //存在oldChar</span><br><span class="line">                char buf[] = new char[len]; //重新生成等长字符数组</span><br><span class="line">                for (int j = 0; j &lt; i; j++) &#123;</span><br><span class="line">                    buf[j] = val[j];  //0至i-1的值保持不变</span><br><span class="line">                &#125;</span><br><span class="line">                while (i &lt; len) &#123;</span><br><span class="line">                    char c = val[i];</span><br><span class="line">                    buf[i] = (c == oldChar) ? newChar : c; </span><br><span class="line">                    //找到存在oldChar位置的地方，在新字符数组处赋值为newChar；</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                return new String(buf, true);  //实际上是重新生成了一个String</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //去掉两端的空格</span><br><span class="line">    public String trim() &#123;</span><br><span class="line">        int len = value.length;</span><br><span class="line">        int st = 0;</span><br><span class="line">        char[] val = value;    /* avoid getfield opcode */</span><br><span class="line"></span><br><span class="line">        while ((st &lt; len) &amp;&amp; (val[st] &lt;= &apos; &apos;)) &#123;  //从前往后判断</span><br><span class="line">            st++;</span><br><span class="line">        &#125;</span><br><span class="line">        while ((st &lt; len) &amp;&amp; (val[len - 1] &lt;= &apos; &apos;)) &#123; //后往前</span><br><span class="line">            len--;</span><br><span class="line">        &#125;</span><br><span class="line">        return ((st &gt; 0) || (len &lt; value.length)) ? substring(st, len) : this;</span><br><span class="line">        </span><br><span class="line">        //substring(st, len),里面是用了Arrays里面的copyOfRange方法</span><br><span class="line">        /*</span><br><span class="line">        public static char[] copyOfRange(char[] original, int from, int to) &#123;</span><br><span class="line">            int newLength = to - from;</span><br><span class="line">            if (newLength &lt; 0)</span><br><span class="line">                throw new IllegalArgumentException(from + &quot; &gt; &quot; + to);</span><br><span class="line">            char[] copy = new char[newLength];</span><br><span class="line">            //native方法   </span><br><span class="line">            System.arraycopy(original, from, copy, 0,  </span><br><span class="line">                             Math.min(original.length - from, newLength));</span><br><span class="line">            return copy;</span><br><span class="line">        &#125;</span><br><span class="line">        */</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public native String intern();</span><br><span class="line">     ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/08/27/e4-bb-8ezero-e5-ad-a6-e4-b9-a0string-e6-ba-90-e7-a0-81/" data-id="cim14tsh6000nh2fyc6eqd4vd" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/" class="article-date">
-  <time datetime="2015-04-15T02:05:47.000Z" itemprop="datePublished">2015-04-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/">接下来的路</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看了代码家的经历之后（国内android开发大牛），结合自身。发现自己一直没有达到过废寝忘食的境界。我一直很想在大学留下点什么，来丰富我最后的大学时光。感觉真正意义从心里喜欢上技术（android方向），是在大二暑假。现在已经大三末了…很是惭愧。但也很庆幸能够在毕业之前找到自己喜欢的东西，专心学习自己喜欢的技术。虽然大一大二参加了做了许多学生工作，班级团支书，组织部部长，社团副社长，开会讨论一大推。现在想想一切都是浮云。也许有人会认为在今后的沟通能力，管理能力有帮助。但是真的值得吗？即便我没有参加，就不能很好的沟通吗？（只要不是性格的问题）感觉和同学都一样。正真需要学习的是尊敬，礼仪，气质的提高。当然我也不后悔，大学中我始终认为，大学生应该学习的是人文素养，为人处事，之后才是技能。这才符合一个高级人才的标准。自己今后要走的路还很长，至少目前决定我愿意为科学献身。学习一些能够推动人类科技发展、跨时代的技术。希望自己30年后看到这篇，能会意一笑。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/" data-id="cim14tsh4000kh2fy79s6th68" class="article-share-link">Partager</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
-
     </footer>
   </div>
   
@@ -886,7 +769,7 @@ if (callback != null) {
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Catégories</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a></li></ul>
     </div>
@@ -896,7 +779,7 @@ if (callback != null) {
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
     </div>
@@ -906,7 +789,7 @@ if (callback != null) {
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/品悟/" style="font-size: 15px;">品悟</a>
     </div>
@@ -925,9 +808,21 @@ if (callback != null) {
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/03/30/Java并发编程实战一/">Java并发编程之初篇</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/23/mac-os下反编译apk文件步骤/">mac下反编译.apk文件查看代码指南</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/21/RxJava启航篇/">RxJava启航篇</a>
+          </li>
         
           <li>
             <a href="/2016/03/16/Android应用部署与发布/">Android应用部署与发布</a>
@@ -935,18 +830,6 @@ if (callback != null) {
         
           <li>
             <a href="/2016/03/14/学习Apache的MINA网络框架/">学习Apache的MINA网络框架</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/12/Android屏幕适配/">Android屏幕适配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/06/android_design_support_library的实际使用/">Android Design Support Library的简单学习</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/05/Android部分实用代码整理/">Android部分实用代码整理</a>
           </li>
         
       </ul>
@@ -962,7 +845,7 @@ if (callback != null) {
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 ZeroGeek<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

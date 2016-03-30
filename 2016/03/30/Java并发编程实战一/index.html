@@ -3,17 +3,87 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: 品悟 | 若冰</title>
+  <title>Java并发编程之初篇 | 若冰</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="冰冻三尺，非一日之寒">
-<meta property="og:type" content="website">
-<meta property="og:title" content="若冰">
-<meta property="og:url" content="http://denghui.me/tags/品悟/index.html">
+  <meta name="description" content="不同进程之间的通信机制
+套接字
+信号处理器
+共享内存
+信号量
+文件
+
+为什么引入并发
+资源利用率
+公平性（同等的使用权）
+便利性（多任务）
+
+性能问题
+服务时间长
+响应不灵敏
+吞吐率过低
+资源消耗过高
+可伸缩性较低
+上下文切换频繁
+
+线程安全性同一个进程中的所有线程都将共享进程的内存地址空间，因此这些线程都能访问相同的变量并在同一个堆上分配对象，此时没有相关同步机制，会导致不可预测的结果。
+
+
+一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java并发编程之初篇">
+<meta property="og:url" content="http://denghui.me/2016/03/30/Java并发编程实战一/index.html">
 <meta property="og:site_name" content="若冰">
-<meta property="og:description" content="冰冻三尺，非一日之寒">
+<meta property="og:description" content="不同进程之间的通信机制
+套接字
+信号处理器
+共享内存
+信号量
+文件
+
+为什么引入并发
+资源利用率
+公平性（同等的使用权）
+便利性（多任务）
+
+性能问题
+服务时间长
+响应不灵敏
+吞吐率过低
+资源消耗过高
+可伸缩性较低
+上下文切换频繁
+
+线程安全性同一个进程中的所有线程都将共享进程的内存地址空间，因此这些线程都能访问相同的变量并在同一个堆上分配对象，此时没有相关同步机制，会导致不可预测的结果。
+
+
+一">
+<meta property="og:updated_time" content="2016-03-30T05:00:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="若冰">
-<meta name="twitter:description" content="冰冻三尺，非一日之寒">
+<meta name="twitter:title" content="Java并发编程之初篇">
+<meta name="twitter:description" content="不同进程之间的通信机制
+套接字
+信号处理器
+共享内存
+信号量
+文件
+
+为什么引入并发
+资源利用率
+公平性（同等的使用权）
+便利性（多任务）
+
+性能问题
+服务时间长
+响应不灵敏
+吞吐率过低
+资源消耗过高
+可伸缩性较低
+上下文切换频繁
+
+线程安全性同一个进程中的所有线程都将共享进程的内存地址空间，因此这些线程都能访问相同的变量并在同一个堆上分配对象，此时没有相关同步机制，会导致不可预测的结果。
+
+
+一">
   
     <link rel="alternate" href="/atom.xml" title="若冰" type="application/atom+xml">
   
@@ -66,68 +136,82 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/04/这些日子的一些思考/" class="archive-article-date">
-  <time datetime="2016-03-04T03:55:52.000Z" itemprop="datePublished">Mar 4</time>
+        <section id="main"><article id="post-Java并发编程实战一" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/30/Java并发编程实战一/" class="article-date">
+  <time datetime="2016-03-30T00:29:38.000Z" itemprop="datePublished">2016-03-30</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/04/这些日子的一些思考/">2015的总结，2016的展望</a>
+    <h1 class="article-title" itemprop="name">
+      Java并发编程之初篇
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/" class="archive-article-date">
-  <time datetime="2015-04-15T02:05:47.000Z" itemprop="datePublished">Apr 15</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/15/e5-8f-8d-e6-80-9d-e4-b8-80-e4-b8-8b/">接下来的路</a>
-    </h1>
-  
+        <h4 id="不同进程之间的通信机制"><a href="#不同进程之间的通信机制" class="headerlink" title="不同进程之间的通信机制"></a>不同进程之间的通信机制</h4><ol>
+<li>套接字</li>
+<li>信号处理器</li>
+<li>共享内存</li>
+<li>信号量</li>
+<li>文件</li>
+</ol>
+<h4 id="为什么引入并发"><a href="#为什么引入并发" class="headerlink" title="为什么引入并发"></a>为什么引入并发</h4><ul>
+<li>资源利用率</li>
+<li>公平性（同等的使用权）</li>
+<li>便利性（多任务）</li>
+</ul>
+<h4 id="性能问题"><a href="#性能问题" class="headerlink" title="性能问题"></a>性能问题</h4><ul>
+<li>服务时间长</li>
+<li>响应不灵敏</li>
+<li>吞吐率过低</li>
+<li>资源消耗过高</li>
+<li>可伸缩性较低</li>
+<li>上下文切换频繁</li>
+</ul>
+<h2 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h2><pre><code>同一个进程中的所有线程都将共享进程的内存地址空间，因此这些线程都能访问相同的变量并在同一个堆上分配对象，此时没有相关同步机制，会导致不可预测的结果。
 
-    </header>
+
+一个对象是否需要线程安全的，取决于它是否同时被多个线程访问
+</code></pre><h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><ul>
+<li>synchronized 独占的加锁方式</li>
+<li>volatile类型的变量</li>
+<li>显示锁（Lock）</li>
+<li>原子变量</li>
+</ul>
+<p>实际并发编程中，尽可能地使用现有的线程安全对象来管理类的状态，如java.util.concurrent包中的类</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/03/30/Java并发编程实战一/" data-id="cimehjmcu0003ewx5skkzq7iv" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/23/mac-os下反编译apk文件步骤/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mac下反编译.apk文件查看代码指南</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
         
