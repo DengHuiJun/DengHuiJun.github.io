@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016/3 | 若冰</title>
+  <title>Java中的等待／通知机制 | 若冰</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="冰冻三尺，非一日之寒">
-<meta property="og:type" content="website">
-<meta property="og:title" content="若冰">
-<meta property="og:url" content="http://denghui.me/archives/2016/03/index.html">
+  <meta name="description" content="等待与通知机制是Java中实现线程间通信的一种方式
+比较典型的就是用于解决生产者与消费者类问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的等待／通知机制">
+<meta property="og:url" content="http://denghui.me/2016/04/11/Java中的wait／notify机制/index.html">
 <meta property="og:site_name" content="若冰">
-<meta property="og:description" content="冰冻三尺，非一日之寒">
+<meta property="og:description" content="等待与通知机制是Java中实现线程间通信的一种方式
+比较典型的就是用于解决生产者与消费者类问题">
+<meta property="og:updated_time" content="2016-04-11T13:56:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="若冰">
-<meta name="twitter:description" content="冰冻三尺，非一日之寒">
+<meta name="twitter:title" content="Java中的等待／通知机制">
+<meta name="twitter:description" content="等待与通知机制是Java中实现线程间通信的一种方式
+比较典型的就是用于解决生产者与消费者类问题">
   
     <link rel="alternate" href="/atom.xml" title="若冰" type="application/atom+xml">
   
@@ -66,191 +70,64 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/30/Java并发编程实战一/" class="archive-article-date">
-  <time datetime="2016-03-30T00:29:38.000Z" itemprop="datePublished">Mar 30</time>
+        <section id="main"><article id="post-Java中的wait／notify机制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/11/Java中的wait／notify机制/" class="article-date">
+  <time datetime="2016-04-11T12:49:59.000Z" itemprop="datePublished">2016-04-11</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/30/Java并发编程实战一/">Java并发编程之初篇</a>
+    <h1 class="article-title" itemprop="name">
+      Java中的等待／通知机制
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/23/mac-os下反编译apk文件步骤/" class="archive-article-date">
-  <time datetime="2016-03-23T10:30:34.000Z" itemprop="datePublished">Mar 23</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/23/mac-os下反编译apk文件步骤/">mac下反编译.apk文件查看代码指南</a>
-    </h1>
-  
+        <p>等待与通知机制是Java中实现线程间通信的一种方式</p>
+<p>比较典型的就是用于解决生产者与消费者类问题</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/21/RxJava启航篇/" class="archive-article-date">
-  <time datetime="2016-03-20T22:26:30.000Z" itemprop="datePublished">Mar 21</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/21/RxJava启航篇/">RxJava启航篇</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/16/Android应用部署与发布/" class="archive-article-date">
-  <time datetime="2016-03-16T01:54:16.000Z" itemprop="datePublished">Mar 16</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/04/11/Java中的wait／notify机制/" data-id="cin5ghpm10005iqfyb84p7z7m" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/16/Android应用部署与发布/">Android应用部署与发布</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/14/学习Apache的MINA网络框架/" class="archive-article-date">
-  <time datetime="2016-03-14T09:28:02.000Z" itemprop="datePublished">Mar 14</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/14/学习Apache的MINA网络框架/">学习Apache的MINA网络框架</a>
-    </h1>
-  
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
-    </header>
+    </footer>
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/12/Android屏幕适配/" class="archive-article-date">
-  <time datetime="2016-03-12T05:46:52.000Z" itemprop="datePublished">Mar 12</time>
-</a>
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/12/Android屏幕适配/">Android屏幕适配</a>
-    </h1>
+    <a href="/2016/04/12/微圈后端数据库设计/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
+  
+    <a href="/2016/03/30/Java并发编程实战一/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java并发编程之初篇</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/06/android_design_support_library的实际使用/" class="archive-article-date">
-  <time datetime="2016-03-06T02:00:21.000Z" itemprop="datePublished">Mar 6</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/06/android_design_support_library的实际使用/">Android Design Support Library的简单学习</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/05/Android部分实用代码整理/" class="archive-article-date">
-  <time datetime="2016-03-05T10:48:29.000Z" itemprop="datePublished">Mar 5</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/05/Android部分实用代码整理/">Android部分实用代码整理</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/04/这些日子的一些思考/" class="archive-article-date">
-  <time datetime="2016-03-04T03:55:52.000Z" itemprop="datePublished">Mar 4</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/04/这些日子的一些思考/">2015的总结，2016的展望</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
 </section>
         

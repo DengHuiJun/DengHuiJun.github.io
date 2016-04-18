@@ -68,6 +68,227 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-重识Java-8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/18/重识Java-8/" class="article-date">
+  <time datetime="2016-04-18T03:35:41.000Z" itemprop="datePublished">2016-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/18/重识Java-8/">重识Java(8)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="记"><a href="#记" class="headerlink" title="记"></a>记</h2><p>花了2天时间看了下 Java：A Beginner‘s Guide，Sixth Editon 的中文版 基于 Java 8.整理出了一些还不太熟悉的知识点，记录如下。</p>
+<h3 id="Chapter-One-Java基础"><a href="#Chapter-One-Java基础" class="headerlink" title="Chapter One:Java基础"></a>Chapter One:Java基础</h3><ul>
+<li>字节码：源代码被Java编译器编译后，生成字节码（bytecode），字节码是在JVM上运行时的指令。</li>
+<li>面向对象三大特性：封装，多态，继承</li>
+<li>JVM要在任何对象被创建之前调用main（）</li>
+<li>使用代码块不会降低运行时效率（反而可能提高效率）</li>
+<li>Java关键字保留了const和goto，但不能使用</li>
+</ul>
+<h3 id="Chapter-Two-数据类型与运算符"><a href="#Chapter-Two-数据类型与运算符" class="headerlink" title="Chapter Two:数据类型与运算符"></a>Chapter Two:数据类型与运算符</h3><ul>
+<li>强类型，解释型</li>
+<li>4种整数类型：byte 8，short 16，int 32，long 64 （注意区分char，保存整数的二进制）</li>
+<li>2种浮点型：float 32，double 64</li>
+<li>char是无符号16位类型（0～65536）</li>
+<li>字符使用Unicode</li>
+<li>字面值注意加符号（如：12L，11.3F，0xFF，014，0b10等）</li>
+<li>变量在进入作用域时被创建，在离开作用域时被销毁</li>
+</ul>
+<h3 id="Chapter-Three-程序控制语句"><a href="#Chapter-Three-程序控制语句" class="headerlink" title="Chapter Three:程序控制语句"></a>Chapter Three:程序控制语句</h3><ul>
+<li>JDK 7之前switch表达式必须是byte，short，int，char类型或枚举，JDK 7开始，加入了String</li>
+<li>不允许重复的case</li>
+<li>通过标记代码块和break 标记，可达到goto效果</li>
+<li>continue可以指定标记来描述要继续执行的包含它的循环（从内部跳转至外部循环）</li>
+</ul>
+<h3 id="Chapter-Four-类，对象和方法"><a href="#Chapter-Four-类，对象和方法" class="headerlink" title="Chapter Four:类，对象和方法"></a>Chapter Four:类，对象和方法</h3><ul>
+<li>finalize（）在对象最后被垃圾回收器销毁之前被调用，确保对象完全终止（该方法定义在Object中）</li>
+</ul>
+<h3 id="Chapter-Five-其他数据类型与运算符"><a href="#Chapter-Five-其他数据类型与运算符" class="headerlink" title="Chapter Five:其他数据类型与运算符"></a>Chapter Five:其他数据类型与运算符</h3><ul>
+<li>for-each形式的for循环是最佳选择（只读情况下）</li>
+<li>String类型常用方法：equals，length，chatAt，compareTo，indexOf，lastIndexOf</li>
+<li>字符串的拼接使用StringBuffer，String一旦创建是不可变的</li>
+<li>位移运算符可用作乘除2，左移1个乘2，右移1个除2</li>
+</ul>
+<h3 id="Chapter-Six-方法和类详解"><a href="#Chapter-Six-方法和类详解" class="headerlink" title="Chapter Six:方法和类详解"></a>Chapter Six:方法和类详解</h3><ul>
+<li>默认访问设置本质上是公有的</li>
+<li>Java中，签名（signature）指的是方法名及其形参列表</li>
+<li>可变长度实参，（数据类型 … 变量名），使用重载，注意避免产生歧义</li>
+</ul>
+<h3 id="Chapter-Seven-继承"><a href="#Chapter-Seven-继承" class="headerlink" title="Chapter Seven:继承"></a>Chapter Seven:继承</h3><ul>
+<li>super 指向超类的引用，this 当前类的引用</li>
+<li>Java中运行时多态，体现在重写和重载</li>
+</ul>
+<h3 id="Chapter-Eight-包和接口"><a href="#Chapter-Eight-包和接口" class="headerlink" title="Chapter Eight:包和接口"></a>Chapter Eight:包和接口</h3><ul>
+<li>Java中，protected创建的成员可以由包中的任何代码访问，但是在包外只能由子类访问</li>
+<li>接口中可定义共享常量（有争议）</li>
+<li>接口能被接口继承（extends）</li>
+<li>JDK8开始，接口可以定义默认方法（使用default关键字）</li>
+<li>JDK8开始，接口可定义static方法，static接口方法不能被实现类继承，也不能被子接口继承</li>
+</ul>
+<h3 id="Chapter-Nine-异常处理"><a href="#Chapter-Nine-异常处理" class="headerlink" title="Chapter Nine:异常处理"></a>Chapter Nine:异常处理</h3><ul>
+<li>异常的产生：1.某些内部错误发生，JVM可以产生异常；2.有程序代码中的错误导致的标准异常；3.使用throw语句手动生成异常</li>
+<li>一般程序不捕获异常，它会被JVM捕获，JVM默认异常处理会终止程序执行，并显示堆栈跟踪和出错消息</li>
+<li>JDK 7 开始 增加try－with－resources自动资源管理；增加多重捕获</li>
+</ul>
+<h3 id="Chapter-Ten-使用I-O"><a href="#Chapter-Ten-使用I-O" class="headerlink" title="Chapter Ten:使用I/O"></a>Chapter Ten:使用I/O</h3><ul>
+<li>使用字节流读写文件（FileInputStream，FileOutputStream）</li>
+<li>读取二进制数据使用DataInputStream和DataOutputStream</li>
+<li>Java还提供随机访问文件RandomAccessFile（）</li>
+<li>字符流BufferedReader和PrintWriter</li>
+<li>可通过Scanner读取控制台输入数据</li>
+</ul>
+<h3 id="Chapter-Eleven-多线程程序设计"><a href="#Chapter-Eleven-多线程程序设计" class="headerlink" title="Chapter Eleven:多线程程序设计"></a>Chapter Eleven:多线程程序设计</h3><ul>
+<li>isAlive()</li>
+<li>Fork/Join框架支持所谓的“并行编程”</li>
+</ul>
+<h3 id="Chapter-Twelve-枚举，自动装箱，静态导入和注释"><a href="#Chapter-Twelve-枚举，自动装箱，静态导入和注释" class="headerlink" title="Chapter Twelve:枚举，自动装箱，静态导入和注释"></a>Chapter Twelve:枚举，自动装箱，静态导入和注释</h3><ul>
+<li>enum关键字，默认为公有的静态成员</li>
+<li>枚举是类类型，预定义values（）返回包含枚举常量的数组和valueOf（String str）返回一个枚举常量</li>
+<li>每一个枚举常量都是一个其枚举类型的对象</li>
+<li>枚举不能继承另一个类；enum不能是超类</li>
+<li>ordinal（）返回该枚举常量在列表中的位置的值，compareTo（）比较相同枚举中的两个常量的顺序值。</li>
+</ul>
+<p>枚举示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">enum Transport &#123;</span><br><span class="line">	CAR(65), TRUCK(55), AIRPLANE(600), BOAT(22);</span><br><span class="line">	private int speed;</span><br><span class="line">	</span><br><span class="line">	Transport(int s) &#123;</span><br><span class="line">		speed = s;</span><br><span class="line">	&#125;</span><br><span class="line">	int getSpeed() &#123;</span><br><span class="line">		return speed;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8大类型封装器：Double，Float，Long，Integer，Short，Byte，Character，Boolean</li>
+<li>从类型封装器中提取值的过程称为拆箱</li>
+<li>把值封装在对象中的过程称为装箱</li>
+<li>使用静态导入时，可直接通过静态成员的名称来引用它们（如：import static java.lang.Math.sqrt  之后可直接使用sqrt（））</li>
+<li>Java提供了一项可以在源文件中嵌入附加信息的功能，这些信息称为注解。</li>
+<li>不带形参的注解称为标记注解（如：@Override ）</li>
+<li>JDK8 开始可以对类型用法进行注解，如强制转换类型或者方法返回类型</li>
+</ul>
+<p>注解创建示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@interface MyAnno &#123;</span><br><span class="line">	String str();</span><br><span class="line">	int val();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Chapter-Thirteen-泛型"><a href="#Chapter-Thirteen-泛型" class="headerlink" title="Chapter Thirteen:泛型"></a>Chapter Thirteen:泛型</h3><ul>
+<li>核心：参数化类型</li>
+<li>优点：自动处理传递给其类型形参的数据类型</li>
+<li>泛型只能用于引用类型</li>
+<li>通配符 “？”</li>
+<li>泛型接口</li>
+<li>JDK5中引入的泛型</li>
+<li>JDK7开始，可使用“&lt;&gt;” 菱形运算符进行类型推断</li>
+<li>擦除特性</li>
+<li>歧义错误</li>
+</ul>
+<h3 id="Chapter-Fourteen-lambda表达式和方法引用"><a href="#Chapter-Fourteen-lambda表达式和方法引用" class="headerlink" title="Chapter Fourteen:lambda表达式和方法引用"></a>Chapter Fourteen:lambda表达式和方法引用</h3><ul>
+<li>称为闭包</li>
+<li>函数式接口</li>
+</ul>
+<p>简单示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">interface MyValue &#123;</span><br><span class="line">	double getValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">MyValue myValue = () -&gt; 98.6</span><br></pre></td></tr></table></figure>
+<ul>
+<li>提供了一种将代码片段转换为对象的方法</li>
+<li>抛出受检异常需要在接口中写明</li>
+<li>方法引用，使用”::”运算符</li>
+<li>构造方法引用，使用 MyClass::new </li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/04/18/重识Java-8/" data-id="cin5ghpnv000ziqfykqsifzvg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-微圈后端数据库设计" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/12/微圈后端数据库设计/" class="article-date">
+  <time datetime="2016-04-11T23:37:36.000Z" itemprop="datePublished">2016-04-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="微圈Bmob后端设计"><a href="#微圈Bmob后端设计" class="headerlink" title="微圈Bmob后端设计"></a>微圈Bmob后端设计</h3><p>关于群组消息推送这块</p>
+<p>涉及的表有：</p>
+<p>用户表User含有关键字段：</p>
+<p>groups Relation<group></group></p>
+<p>informs Relation<inform></inform></p>
+<p>表Group重要字段：</p>
+<p>users Relation<_user></_user></p>
+<p>表Inform重要字段：<br>group Pointer<group></group></p>
+<p>users Relation<_user></_user></p>
+<p>目前难点：</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/04/12/微圈后端数据库设计/" data-id="cin5ghpo10010iqfyiel647q7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java中的wait／notify机制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/11/Java中的wait／notify机制/" class="article-date">
+  <time datetime="2016-04-11T12:49:59.000Z" itemprop="datePublished">2016-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/11/Java中的wait／notify机制/">Java中的等待／通知机制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>等待与通知机制是Java中实现线程间通信的一种方式</p>
+<p>比较典型的就是用于解决生产者与消费者类问题</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/04/11/Java中的wait／notify机制/" data-id="cin5ghpm10005iqfyb84p7z7m" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java并发编程实战一" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/03/30/Java并发编程实战一/" class="article-date">
@@ -121,11 +342,18 @@
 <li>原子变量</li>
 </ul>
 <p>实际并发编程中，尽可能地使用现有的线程安全对象来管理类的状态，如java.util.concurrent包中的类</p>
+<p>为了确保某个线程写入该变量的值对于其他线程来说都是可见的，要求在访问某个共享且可变的变量时所有线程在同一个锁上同步</p>
+<h4 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h4><ul>
+<li>重排序</li>
+<li>重入</li>
+<li>发布（Publish）与逸出（Escape）</li>
+<li>线程封闭</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/30/Java并发编程实战一/" data-id="cimehjmcu0003ewx5skkzq7iv" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/30/Java并发编程实战一/" data-id="cin5ghpm20006iqfyg1pjcciz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -179,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/23/mac-os下反编译apk文件步骤/" data-id="cimehjmdt000newx5ksvnwjr0" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/23/mac-os下反编译apk文件步骤/" data-id="cin5ghpo30013iqfyqpir5z73" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -217,7 +445,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/21/RxJava启航篇/" data-id="cimehjmdn000kewx5hkw6jqji" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/21/RxJava启航篇/" data-id="cin5ghpn7000iiqfy8mz1mkx5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -320,7 +548,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/16/Android应用部署与发布/" data-id="cimehjmda000bewx5g4djycjm" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/16/Android应用部署与发布/" data-id="cin5ghply0003iqfyt4pf42sm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -360,7 +588,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/14/学习Apache的MINA网络框架/" data-id="cimehjme6000tewx5myrr6uy4" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/14/学习Apache的MINA网络框架/" data-id="cin5ghpnl000tiqfyru94bjli" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -445,7 +673,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/12/Android屏幕适配/" data-id="cimehjmd10006ewx5wgfeafbn" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/12/Android屏幕适配/" data-id="cin5ghpls0001iqfyyrhpef9y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -510,247 +738,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/06/android_design_support_library的实际使用/" data-id="cimehjme0000oewx515hm8300" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/06/android_design_support_library的实际使用/" data-id="cin5ghpn3000giqfygdkdodn1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android部分实用代码整理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/03/05/Android部分实用代码整理/" class="article-date">
-  <time datetime="2016-03-05T10:48:29.000Z" itemprop="datePublished">2016-03-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/05/Android部分实用代码整理/">Android部分实用代码整理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[TOC]</p>
-<h2 id="读取字符串"><a href="#读取字符串" class="headerlink" title="读取字符串"></a>读取字符串</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java</span><br><span class="line">private String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException &#123;</span><br><span class="line">        Reader reader = null;</span><br><span class="line">        reader = new InputStreamReader(stream, &quot;UTF-8&quot;);</span><br><span class="line">        char[] buffer = new char[len];</span><br><span class="line">        reader.read(buffer);</span><br><span class="line">        return new String(buffer);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="网络下载"><a href="#网络下载" class="headerlink" title="网络下载"></a>网络下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private InputStream downloadUrl(String urlString) throws IOException &#123;</span><br><span class="line">        // BEGIN_INCLUDE(get_inputstream)</span><br><span class="line">        URL url = new URL(urlString);</span><br><span class="line">        HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">        conn.setReadTimeout(10000 /* milliseconds */);</span><br><span class="line">        conn.setConnectTimeout(15000 /* milliseconds */);</span><br><span class="line">        conn.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">        conn.setDoInput(true);</span><br><span class="line">        // Start the query</span><br><span class="line">        conn.connect();</span><br><span class="line">        InputStream stream = conn.getInputStream();</span><br><span class="line">        return stream;</span><br><span class="line">        // END_INCLUDE(get_inputstream)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="图片下载"><a href="#图片下载" class="headerlink" title="图片下载"></a>图片下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">private void downloadImageFromUri(String address) &#123;</span><br><span class="line">	URL url;</span><br><span class="line">	try &#123;</span><br><span class="line">		url = new URL(address);</span><br><span class="line">	&#125; catch (MalformedURLException e1) &#123;</span><br><span class="line">		url = null;</span><br><span class="line">	&#125;</span><br><span class="line">    URLConnection conn;</span><br><span class="line">    InputStream in;</span><br><span class="line">    Bitmap bitmap;</span><br><span class="line">	try &#123;</span><br><span class="line">		conn = url.openConnection();</span><br><span class="line">		conn.connect();</span><br><span class="line">		in = conn.getInputStream();</span><br><span class="line">		bitmap = BitmapFactory.decodeStream(in); </span><br><span class="line">		in.close();</span><br><span class="line">	&#125; catch (IOException e) &#123;</span><br><span class="line">		bitmap = null;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	if (bitmap != null) &#123;</span><br><span class="line">		ImageView img = (ImageView) findViewById(R.id.ivBasicImage); </span><br><span class="line">		img.setImageBitmap(bitmap);	</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="读取联系人"><a href="#读取联系人" class="headerlink" title="读取联系人"></a>读取联系人</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">private void loadContacts() &#123;</span><br><span class="line">		Uri allContacts = Uri.parse(&quot;content://contacts/people&quot;);</span><br><span class="line">		CursorLoader cursorLoader = new CursorLoader(this, allContacts, </span><br><span class="line">		   null, // the columns to retrive </span><br><span class="line">		   null, // the selection criteria</span><br><span class="line">		   null, // the selection args</span><br><span class="line">		   null // the sort order</span><br><span class="line">		);</span><br><span class="line">        </span><br><span class="line">		Cursor c = cursorLoader.loadInBackground();</span><br><span class="line">		if (c.moveToFirst()) &#123; </span><br><span class="line">			do &#123;</span><br><span class="line">			     // Get Contact ID</span><br><span class="line">				int idIndex = c.getColumnIndex(ContactsContract.Contacts._ID);</span><br><span class="line">				String contactID = c.getString(idIndex);</span><br><span class="line"></span><br><span class="line">				// Get Contact Name</span><br><span class="line">				int nameIndex = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);</span><br><span class="line">				String contactDisplayName = c.getString(nameIndex);</span><br><span class="line">				names.add(contactDisplayName);</span><br><span class="line"></span><br><span class="line">				Log.d(&quot;debug&quot;, contactID + &quot;, &quot; + contactDisplayName); </span><br><span class="line">			&#125; while (c.moveToNext());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="获取TextView显示的字符串宽度"><a href="#获取TextView显示的字符串宽度" class="headerlink" title="获取TextView显示的字符串宽度"></a>获取TextView显示的字符串宽度</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">TextView textView = (TextView) findViewById(R.id.test);</span><br><span class="line">textView.setText(text);</span><br><span class="line"></span><br><span class="line">int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);</span><br><span class="line">textView.measure(spec, spec);</span><br><span class="line"></span><br><span class="line">// getMeasuredWidth</span><br><span class="line">int measuredWidth = textView.getMeasuredWidth();</span><br><span class="line"></span><br><span class="line">// new textpaint measureText</span><br><span class="line">TextPaint newPaint = new TextPaint();</span><br><span class="line">float textSize = getResources().getDisplayMetrics().scaledDensity * 15;</span><br><span class="line">newPaint.setTextSize(textSize);</span><br><span class="line">float newPaintWidth = newPaint.measureText(text);</span><br><span class="line"></span><br><span class="line">// textView getPaint measureText</span><br><span class="line">TextPaint textPaint = textView.getPaint();</span><br><span class="line">float textPaintWidth = textPaint.measureText(text);</span><br></pre></td></tr></table></figure>
-<h2 id="Service中显示Status-Bar-Notifications"><a href="#Service中显示Status-Bar-Notifications" class="headerlink" title="Service中显示Status Bar Notifications"></a>Service中显示Status Bar Notifications</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Notification notification = new Notification(R.drawable.icon, getText(R.string.ticker_text),</span><br><span class="line">        System.currentTimeMillis());</span><br><span class="line">Intent notificationIntent = new Intent(this, ExampleActivity.class);</span><br><span class="line">PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);</span><br><span class="line">notification.setLatestEventInfo(this, getText(R.string.notification_title),</span><br><span class="line">        getText(R.string.notification_message), pendingIntent);</span><br><span class="line">startForeground(ONGOING_NOTIFICATION_ID, notification);</span><br></pre></td></tr></table></figure>
-<h2 id="结合AsyncTask与ProgressBar"><a href="#结合AsyncTask与ProgressBar" class="headerlink" title="结合AsyncTask与ProgressBar"></a>结合AsyncTask与ProgressBar</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">private class TaskSeven extends AsyncTask&lt;Void, Integer, Void&gt; &#123;</span><br><span class="line">        int mValue = 0;</span><br><span class="line">        @Override</span><br><span class="line">        protected void onProgressUpdate(Integer... values) &#123;</span><br><span class="line">            super.onProgressUpdate(values);</span><br><span class="line">            mTaskSevenPb.setProgress(mValue); //关键</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        protected Void doInBackground(Void... params) &#123;</span><br><span class="line">            while (mValue &lt; 100) &#123;</span><br><span class="line">                mValue += 20;</span><br><span class="line">                publishProgress(mValue); //关键</span><br><span class="line">                try &#123;</span><br><span class="line">                    Thread.sleep(1000);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        protected void onPostExecute(Void aVoid) &#123;</span><br><span class="line">            mSevenTv.setText(&quot;Over&quot;);</span><br><span class="line">            Toast.makeText(getApplicationContext(),&quot;TaskFour Ok&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="运用SharePreference存储和读区（注意权限）"><a href="#运用SharePreference存储和读区（注意权限）" class="headerlink" title="运用SharePreference存储和读区（注意权限）"></a>运用SharePreference存储和读区（注意权限）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private static SharedPreferences mMusicSP;</span><br><span class="line">public static final String MUSIC_SP_KEY = &quot;musicUrl&quot;;</span><br><span class="line">public static final String MUSIC_SP_DEFAULT = &quot;noUrl&quot;;</span><br><span class="line"></span><br><span class="line">public static boolean saveMusicUrlByPf(Context context,String url) &#123;</span><br><span class="line">    mMusicSP = context.getSharedPreferences(context.getResources().getString(R.string.share_preferences_key)</span><br><span class="line">            ,Context.MODE_PRIVATE);</span><br><span class="line">    SharedPreferences.Editor editor = mMusicSP.edit();</span><br><span class="line">    editor.putString(MUSIC_SP_KEY,url);</span><br><span class="line">    editor.commit();</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static String getMusicUrlByPf(Context context) &#123;</span><br><span class="line">    mMusicSP = context.getSharedPreferences(context.getResources().getString(R.string.share_preferences_key)</span><br><span class="line">            ,Context.MODE_PRIVATE);</span><br><span class="line">    String tempUrl = mMusicSP.getString(MUSIC_SP_KEY,MUSIC_SP_DEFAULT);</span><br><span class="line">    return tempUrl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="按2次返回键退出程序"><a href="#按2次返回键退出程序" class="headerlink" title="按2次返回键退出程序"></a>按2次返回键退出程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onKeyDown(int keyCode, KeyEvent event) &#123;</span><br><span class="line">    if(keyCode == KeyEvent.KEYCODE_BACK) &#123;</span><br><span class="line">        if ((System.currentTimeMillis() - mBackKeyTime) &gt; 2000) &#123;</span><br><span class="line">            mBackKeyTime = System.currentTimeMillis();</span><br><span class="line">            Toast.makeText(this, &quot;再按一次退出程序&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            finish();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="显示／隐藏软件盘"><a href="#显示／隐藏软件盘" class="headerlink" title="显示／隐藏软件盘"></a>显示／隐藏软件盘</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);  </span><br><span class="line">imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);  //显示</span><br><span class="line"></span><br><span class="line">imm.hideSoftInputFromWindow(view.getWindowToken(), 0);  //强制隐藏键盘</span><br></pre></td></tr></table></figure>
-<h2 id="使背景模糊，用于启动的Tips"><a href="#使背景模糊，用于启动的Tips" class="headerlink" title="使背景模糊，用于启动的Tips"></a>使背景模糊，用于启动的Tips</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,</span><br><span class="line">        WindowManager.LayoutParams.FLAG_BLUR_BEHIND);</span><br></pre></td></tr></table></figure>
-<h2 id="TextView使用技巧"><a href="#TextView使用技巧" class="headerlink" title="TextView使用技巧"></a>TextView使用技巧</h2><ul>
-<li>设置图片：drawableTop(上),drawableButtom(下),drawableLeft(左),drawableRight(右)另外,你也可以使用drawablePadding来设置图片与文字间的间距！</li>
-<li>使用autoLink属性识别链接类型</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TextView t1 = (TextView)findViewById(R.id.txtOne);</span><br><span class="line">String s1 = &quot;&lt;font color=&apos;blue&apos;&gt;&lt;b&gt;百度一下，你就知道~：&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&quot;;</span><br><span class="line">s1 += &quot;&lt;a href = &apos;http://www.baidu.com&apos;&gt;百度&lt;/a&gt;&quot;;</span><br><span class="line">t1.setText(Html.fromHtml(s1));</span><br><span class="line">t1.setMovementMethod(LinkMovementMethod.getInstance());</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可为图片添加超链接</li>
-</ul>
-<h2 id="巧用String分割"><a href="#巧用String分割" class="headerlink" title="巧用String分割"></a>巧用String分割</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public final static String[] DEFAULT_SECTIONS = &quot;常用 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z&quot;.split(&quot; &quot;);</span><br></pre></td></tr></table></figure>
-<h2 id="验证邮箱"><a href="#验证邮箱" class="headerlink" title="验证邮箱"></a>验证邮箱</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private boolean validEmail(String email)&#123;</span><br><span class="line">    Pattern emailPattern=Pattern.compile(&quot;\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*&quot;);</span><br><span class="line">    Matcher emailMatcher=emailPattern.matcher(email);</span><br><span class="line">    return emailMatcher.matches();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="调用系统接口发送短信"><a href="#调用系统接口发送短信" class="headerlink" title="调用系统接口发送短信"></a>调用系统接口发送短信</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Uri smsToUri = Uri.parse( &quot;smsto:&quot; ); // This ensures only SMS apps respond</span><br><span class="line">Intent intent = new Intent(Intent.ACTION_SENDTO , smsToUri);</span><br><span class="line">intent.putExtra(&quot;sms_body&quot;, message);</span><br><span class="line">intent.putExtra(&quot;address&quot;, phoneNumber);</span><br><span class="line">if (intent.resolveActivity(getPackageManager()) != null) &#123;</span><br><span class="line">	startActivity(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Activity的切换动画"><a href="#Activity的切换动画" class="headerlink" title="Activity的切换动画"></a>Activity的切换动画</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">overridePendingTransition(SLIDE_UP_IN, SLIDE_DOWN_OUT);</span><br></pre></td></tr></table></figure>
-<p>Activity的切换动画指的是从一个activity跳转到另外一个activity时的动画。用2个xml来传递参数，anim下</p>
-<h2 id="设置FLAG-ACTIVITY-CLEAR-TOP来清除历史栈"><a href="#设置FLAG-ACTIVITY-CLEAR-TOP来清除历史栈" class="headerlink" title="设置FLAG_ACTIVITY_CLEAR_TOP来清除历史栈"></a>设置FLAG_ACTIVITY_CLEAR_TOP来清除历史栈</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(mContext, MainActivity.class);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/05/Android部分实用代码整理/" data-id="cimehjmcn0001ewx57rqc3vsu" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-这些日子的一些思考" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/03/04/这些日子的一些思考/" class="article-date">
-  <time datetime="2016-03-04T03:55:52.000Z" itemprop="datePublished">2016-03-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/04/这些日子的一些思考/">2015的总结，2016的展望</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>其实2015对我来说是艰辛和值得记住的一年，最重要的是定下职业方向，以及找到合适的工作。觉得有必要写下这一年的体会。</p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="总结篇"><a href="#总结篇" class="headerlink" title="总结篇"></a>总结篇</h4><h4 id="1-关于年初找实习"><a href="#1-关于年初找实习" class="headerlink" title="1. 关于年初找实习"></a>1. 关于年初找实习</h4><p>在年初开学后，就听说一些大神，各种找实习，内推等。自己却什么都没准备好，不过已经决定做Android开发了。但那时内心是不在意的，总觉得能进入大公司（升职加薪，迎接美好的未来…），至少平时也学了不少东西。年少总是轻狂，吹起来什么都懂（不装B的程序员不是好的程序员=.=）。后来发现完全不是自己所想，实际上竞争力是非常大，对于非985，211高校的学生来说（这里不鄙视任何学校，但要承认名校优秀的人确实多）。当然，3，4月知名企业的实习招聘，一个都没上。这时内心是苦恼的，但是我明白，如果不找到个互联网公司实习工作，意味着会和别人差距越来越大。于是在拉勾网和实习僧上网投简历，想在南方工作，所以只投递了广州和深圳的公司，然而岗位又十分有限，在5，6月里，简历通过的只有几个吧，投了近20个公司。其中，有1家需要去广州面试（没去），然后就是深圳市随手科技有限公司，沟通面试（通过QQ或电话）几轮，终于在6月底拿到实习offer。找实习这段时间，真是累坏小爷了，基本晚上都睡不好，忐忑。终究没白忙。于7月15日入职实习至今。10月底评审完，签了三方协议。公司氛围nice，福利ok。感觉自己运气还不错。</p>
-<h4 id="2-初入职场体验"><a href="#2-初入职场体验" class="headerlink" title="2. 初入职场体验"></a>2. 初入职场体验</h4><p>总的来说，导师很不错，用心在指导，同事也是耐心回答问题。每天9点之前到，晚上8点之前就下班了。公司不提倡加班。周末是很悠闲的，一般我会在公司呆一天，还有一天在深圳随便逛逛。我不太赞同拼到天昏地暗，我看来，生活就是生活，工作就是工作，学习＝工作＋生活。工作中，有效沟通还不够，任务能如期完成，压力肯定是有的。在2016.1.9，我结束了实习工作，回到学校。收获还是很大的，了解开发上线项目流程，互联网公司的管理运作，编写代码更加规范。</p>
-<h4 id="3-年前的一次旅行"><a href="#3-年前的一次旅行" class="headerlink" title="3. 年前的一次旅行"></a>3. 年前的一次旅行</h4><p>可以说是任性的，1.10号和同学在回湘潭的火车上，临时决定去东北玩一阵子，并买了车票，1.14考完试就去，长沙到长春，28个小时。体验了滑雪，看了哈尔滨冰雪大世界，俄罗斯美女表演。之后去北京呆了2天，冷的不行，风太大，没敢出去逛。1.24回到家。</p>
-<h3 id="展望编"><a href="#展望编" class="headerlink" title="展望编"></a>展望编</h3><p>2016年主要提升技术水平，提高熟练度，整理Android所有知识点，基础知识（数据库，操作系统，数据结构与算法，Java并发编程）的学习巩固。</p>
-<h4 id="1-搭建独立博客，坚持写博客"><a href="#1-搭建独立博客，坚持写博客" class="headerlink" title="1. 搭建独立博客，坚持写博客"></a>1. 搭建独立博客，坚持写博客</h4><p>目前已采用 hexo框架 ＋ github Page 搭建完成，域名为 denghui.me ，争取半个月一篇</p>
-<h4 id="2-独立设计并开发一个上线应用"><a href="#2-独立设计并开发一个上线应用" class="headerlink" title="2. 独立设计并开发一个上线应用"></a>2. 独立设计并开发一个上线应用</h4><p>目前想法 ：MyPlan － 系统工具 </p>
-<h4 id="3-入手单反，懂点摄影知识"><a href="#3-入手单反，懂点摄影知识" class="headerlink" title="3. 入手单反，懂点摄影知识"></a>3. 入手单反，懂点摄影知识</h4><p>记录生活，体验生活</p>
-<h4 id="4-英语口语的学习"><a href="#4-英语口语的学习" class="headerlink" title="4. 英语口语的学习"></a>4. 英语口语的学习</h4><p>总有预感以后要用到，能进行简单的对话，流利的自我介绍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/04/这些日子的一些思考/" data-id="cimehjme9000vewx503fragh9" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-GC基本原理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/25/GC基本原理/" class="article-date">
-  <time datetime="2015-09-25T01:35:56.000Z" itemprop="datePublished">2015-09-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/25/GC基本原理/">GC基本原理学习</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Java的内存动态分配和垃圾收集的问题，都交给了JVM来处理。意注，将JVM运行数据区（虚拟机栈【栈帧】，程序计数器，堆内存）粗略的分为栈和堆（所有线程共享），回收的是堆中的对象实例。不是栈中的引用类型。<br><a href="http://7rflcx.com1.z0.glb.clouddn.com/JVM内存.png" target="_blank" rel="external">绘制的内存图</a></p>
-<p>那么JVM是如何处理的？<br>从三个问题来分析：</p>
-<ol>
-<li>哪些内存需要回收？</li>
-<li>什么时候进行回收？</li>
-<li>如何回收？</li>
-</ol>
-<blockquote>
-<p>注：现代收集器基本采用分代收集算法，堆分为：新生代和老年代。</p>
-</blockquote>
-<h2 id="1-哪些内存需要回收？什么时候回收？"><a href="#1-哪些内存需要回收？什么时候回收？" class="headerlink" title="1. 哪些内存需要回收？什么时候回收？"></a>1. 哪些内存需要回收？什么时候回收？</h2><h3 id="1-1-了解下对象的创建："><a href="#1-1-了解下对象的创建：" class="headerlink" title="1.1 了解下对象的创建："></a>1.1 了解下对象的创建：</h3><ol>
-<li>通过new 关键字。</li>
-<li>JVM遇到new指令，检查是否能在常量池中定位到一个类的符号引用。</li>
-<li>检查是否已被加载，解析，初始化过。</li>
-<li>没有，则执行相应的类加载过程。</li>
-<li>类加载检查通过后，为新生对象分配内存。（类加载后确定对象所需内存大小）</li>
-<li>从Java堆中划分出一块确定的内存。</li>
-</ol>
-<h3 id="1-2-若为“死亡”的对象，则需要回收，如何判断对象是否存活？"><a href="#1-2-若为“死亡”的对象，则需要回收，如何判断对象是否存活？" class="headerlink" title="1.2 若为“死亡”的对象，则需要回收，如何判断对象是否存活？"></a>1.2 若为“死亡”的对象，则需要回收，如何判断对象是否存活？</h3><h4 id="1-2-1-引用计数算法"><a href="#1-2-1-引用计数算法" class="headerlink" title="1.2.1 引用计数算法"></a>1.2.1 引用计数算法</h4><ul>
-<li>给对象添加一个引用计数器</li>
-<li>每当有一个地方引用它时，计数器指加1</li>
-<li>当引用失效时，计数器指减1</li>
-<li>任何时刻计数器为0的对象就是需要回收的<br><strong>Java虚拟机没有采用这种方法来管理内存，主要原因是它难以解决对象之间相互循环引用的问题。（python中采用）</strong></li>
-</ul>
-<h4 id="1-2-2-可达性分析算法"><a href="#1-2-2-可达性分析算法" class="headerlink" title="1.2.2 可达性分析算法"></a>1.2.2 可达性分析算法</h4><ul>
-<li>用一个“GC Roots”的对象（指一系列中的其中一个并非某一种）作为起始点</li>
-<li>从该节点向下搜索，搜索走过的路径称为引用链</li>
-<li>若一个对象没有与任何引用链相连，即不可达</li>
-<li>证明该对象是不可用，死亡<br><strong>Java,C#采用此方法。</strong></li>
-</ul>
-<h4 id="1-2-3-哪些可作为GC-Roots的对象？"><a href="#1-2-3-哪些可作为GC-Roots的对象？" class="headerlink" title="1.2.3 哪些可作为GC Roots的对象？"></a>1.2.3 哪些可作为GC Roots的对象？</h4><ul>
-<li>虚拟机栈(栈帧中的本地变量表)中引用的对象</li>
-<li>方法区中类静态属性引用的对象</li>
-<li>方法区中常量引用的对象</li>
-<li>本地方法栈中JNI引用的对象<h4 id="1-2-4-无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。"><a href="#1-2-4-无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。" class="headerlink" title="1.2.4 无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。"></a>1.2.4 无论哪种算法都是与“引用”有关，下面分析引用的4种类型，强度依次减弱。</h4></li>
-<li><strong>强引用</strong>：Java中普遍存在的（如：Object obj = new Object()），只要强引用还在，垃圾收集器永远不会回收掉被引用的对象实例。</li>
-<li><strong>软引用</strong>：用于有用但非必需的对象。在系统要发生内存溢出异常之前，将会把这些对象列进回收范围之中进行第二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出异常。[SoftReference]</li>
-<li><strong>弱引用</strong>：用于非必需对象。被弱引用关联的对象只能生存到下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。[WeakReference]</li>
-<li><strong>虚引用</strong>：不影响生存时间，唯一目的就是能在这个对象被收集器回收时收到一个系统通知。[PhantomReference]</li>
-</ul>
-<h4 id="1-2-5-详解，真正的”死亡”对象（两次标记后进行回收）"><a href="#1-2-5-详解，真正的”死亡”对象（两次标记后进行回收）" class="headerlink" title="1.2.5 详解，真正的”死亡”对象（两次标记后进行回收）"></a>1.2.5 详解，真正的”死亡”对象（<strong>两次标记后进行回收</strong>）</h4><p>事实上，不可达的对象，也并非“非死不可”，这时它们处于“缓刑”阶段，真正死亡至少要经历两次标记过程：</p>
-<h5 id="1-2-5-1-第一次标记"><a href="#1-2-5-1-第一次标记" class="headerlink" title="1.2.5.1 第一次标记"></a>1.2.5.1 第一次标记</h5><ul>
-<li>对对象进行可达性分析后发现没有与GC Roots相连接的引用链</li>
-<li>筛选是否有必要执行finalize()方法[没有覆盖finalize()方法或finalize()方法已经被JVM调用过，视为“无需执行”]<h5 id="1-2-5-2-第二次标记【需要执行finalize-通过筛选】"><a href="#1-2-5-2-第二次标记【需要执行finalize-通过筛选】" class="headerlink" title="1.2.5.2 第二次标记【需要执行finalize(),通过筛选】"></a>1.2.5.2 第二次标记【需要执行finalize(),通过筛选】</h5></li>
-<li>将该对象放置F-Queue的队列中</li>
-<li>JVM自动建立一个低优先级的Finalizer线程去执行它（会触发执行，但不一定等待它运行结束）</li>
-<li>GC对F-Queue中的对象进行标记（对象可通过finalize()拯救自己，重新关联引用链等）<br><strong>不建议使用finalize()</strong></li>
-</ul>
-<h3 id="1-3-上面讲的是需要回收的堆内存，关于回收方法区-或HotSpot虚拟机中的永久代），效率低"><a href="#1-3-上面讲的是需要回收的堆内存，关于回收方法区-或HotSpot虚拟机中的永久代），效率低" class="headerlink" title="1.3 上面讲的是需要回收的堆内存，关于回收方法区(或HotSpot虚拟机中的永久代），效率低"></a>1.3 上面讲的是需要回收的堆内存，关于回收方法区(或HotSpot虚拟机中的永久代），效率低</h3><h4 id="1-3-1-废弃常量"><a href="#1-3-1-废弃常量" class="headerlink" title="1.3.1 废弃常量"></a>1.3.1 废弃常量</h4><ul>
-<li>与堆类似，没有任何对象和其它地方引用的常量</li>
-<li>随内存回收，被系统清理出常量池<h4 id="1-3-2-无用的类"><a href="#1-3-2-无用的类" class="headerlink" title="1.3.2 无用的类"></a>1.3.2 无用的类</h4></li>
-<li>该类所有的实例都已经被回收（堆中无该类的实例）</li>
-<li>加载该类的ClassLoader已经被回收</li>
-<li>该类对应的java.lang.Class对象没有在任何地方被引用，无法通过反射访问该类的方法。</li>
-</ul>
-<h2 id="2-如何回收？【垃圾收集算法】"><a href="#2-如何回收？【垃圾收集算法】" class="headerlink" title="2. 如何回收？【垃圾收集算法】"></a>2. 如何回收？【垃圾收集算法】</h2><h3 id="2-1-标记-清除-Mark-Sweep-算法"><a href="#2-1-标记-清除-Mark-Sweep-算法" class="headerlink" title="2.1 标记-清除[Mark-Sweep]算法"></a>2.1 标记-清除[Mark-Sweep]算法</h3><ul>
-<li>标记出所有需要回收的对象</li>
-<li>统一回收(清除)所有被标记的对象<blockquote>
-<p>缺点：效率不高；标记清除后会产生大量不连续的内存碎片。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="2-2-复制-Copying-算法"><a href="#2-2-复制-Copying-算法" class="headerlink" title="2.2 复制[Copying]算法"></a>2.2 复制[Copying]算法</h3><ul>
-<li>将可用内存按容量划分为大小相等的两块</li>
-<li>每次只使用其中的一块</li>
-<li>当使用的这块内存用完了，则将还存活的对象复制到另一块上面</li>
-<li>把使用过的那块内存一次性清理掉<blockquote>
-<p>优点：实现简单，运行高效，可按顺序分配内存。<br>&nbsp;缺点：内存直接缩小为原来一半，代价太大；对象存活率较高时，效率变低。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="2-3-标记-整理-Mark-Compact-算法"><a href="#2-3-标记-整理-Mark-Compact-算法" class="headerlink" title="2.3 标记-整理[Mark-Compact]算法"></a>2.3 标记-整理[Mark-Compact]算法</h3><ul>
-<li>标记出所有需要回收的对象</li>
-<li>让所有存活的对象都向一端移动（整理）</li>
-<li>清理掉存活对象端以外的内存<blockquote>
-<p>适合堆中的老年代的垃圾收集</p>
-<h3 id="2-4-分代收集-Generational-Collection-算法（商业虚拟机主要采用方法）"><a href="#2-4-分代收集-Generational-Collection-算法（商业虚拟机主要采用方法）" class="headerlink" title="2.4 分代收集[Generational Collection]算法（商业虚拟机主要采用方法）"></a>2.4 分代收集[Generational Collection]算法（商业虚拟机主要采用方法）</h3></blockquote>
-</li>
-<li>根据对象存活周期的不同将内存划分为几块</li>
-<li>一般分为新生代和老年代</li>
-<li>不同年代采用最适当的收集算法</li>
-<li>新生代，一般复制算法</li>
-<li>老年代，一般“标记-清理”或“标记-整理”<br><strong>具体如何回收，需依据具体的垃圾收集器实现</strong><h2 id="关于内存泄露"><a href="#关于内存泄露" class="headerlink" title="关于内存泄露"></a>关于内存泄露</h2></li>
-</ul>
-<ol>
-<li>OutOfMemoryError异常，java堆溢出：-Xms ，-Xmx<br>对象不断被创建，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么在对象数量到达最大堆的容量限制后就会产生内存溢出异常。</li>
-<li>VM Stack溢出。-Xss</li>
-<li>常量池溢出。-XX：PermSize，-XX:MaxPermSize</li>
-</ol>
-<p>参考：<a href="http://item.jd.com/11252778.html" target="_blank" rel="external">《深入理解Java虚拟机》</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://denghui.me/2015/09/25/GC基本原理/" data-id="cimehjmd40008ewx5h0u3l1ss" class="article-share-link">Share</a>
-      
-      
     </footer>
   </div>
   
@@ -791,7 +783,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/品悟/" style="font-size: 15px;">品悟</a>
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/品悟/" style="font-size: 10px;">品悟</a>
     </div>
   </div>
 
@@ -800,7 +792,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
     </div>
   </div>
 
@@ -813,23 +805,23 @@
       <ul>
         
           <li>
+            <a href="/2016/04/18/重识Java-8/">重识Java(8)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/12/微圈后端数据库设计/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/11/Java中的wait／notify机制/">Java中的等待／通知机制</a>
+          </li>
+        
+          <li>
             <a href="/2016/03/30/Java并发编程实战一/">Java并发编程之初篇</a>
           </li>
         
           <li>
             <a href="/2016/03/23/mac-os下反编译apk文件步骤/">mac下反编译.apk文件查看代码指南</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/21/RxJava启航篇/">RxJava启航篇</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/16/Android应用部署与发布/">Android应用部署与发布</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/14/学习Apache的MINA网络框架/">学习Apache的MINA网络框架</a>
           </li>
         
       </ul>

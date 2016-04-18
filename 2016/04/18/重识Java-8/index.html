@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>重识Java(8) | 若冰</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="记花了2天时间看了下 Java：A Beginner‘s Guide，Sixth Editon 的中文版 基于 Java 8.整理出了一些还不太熟悉的知识点，记录如下。
+Chapter One:Java基础
+字节码：源代码被Java编译器编译后，生成字节码（bytecode），字节码是在JVM上运行时的指令。
+面向对象三大特性：封装，多态，继承
+JVM要在任何对象被创建之前调用main（）
+使用代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重识Java(8)">
+<meta property="og:url" content="http://denghui.me/2016/04/18/重识Java-8/index.html">
+<meta property="og:site_name" content="若冰">
+<meta property="og:description" content="记花了2天时间看了下 Java：A Beginner‘s Guide，Sixth Editon 的中文版 基于 Java 8.整理出了一些还不太熟悉的知识点，记录如下。
+Chapter One:Java基础
+字节码：源代码被Java编译器编译后，生成字节码（bytecode），字节码是在JVM上运行时的指令。
+面向对象三大特性：封装，多态，继承
+JVM要在任何对象被创建之前调用main（）
+使用代">
+<meta property="og:updated_time" content="2016-04-18T03:40:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重识Java(8)">
+<meta name="twitter:description" content="记花了2天时间看了下 Java：A Beginner‘s Guide，Sixth Editon 的中文版 基于 Java 8.整理出了一些还不太熟悉的知识点，记录如下。
+Chapter One:Java基础
+字节码：源代码被Java编译器编译后，生成字节码（bytecode），字节码是在JVM上运行时的指令。
+面向对象三大特性：封装，多态，继承
+JVM要在任何对象被创建之前调用main（）
+使用代">
+  
+    <link rel="alternate" href="/atom.xml" title="若冰" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">若冰</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Not only Android developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://denghui.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-重识Java-8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/18/重识Java-8/" class="article-date">
+  <time datetime="2016-04-18T03:35:41.000Z" itemprop="datePublished">2016-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      重识Java(8)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="记"><a href="#记" class="headerlink" title="记"></a>记</h2><p>花了2天时间看了下 Java：A Beginner‘s Guide，Sixth Editon 的中文版 基于 Java 8.整理出了一些还不太熟悉的知识点，记录如下。</p>
+<h3 id="Chapter-One-Java基础"><a href="#Chapter-One-Java基础" class="headerlink" title="Chapter One:Java基础"></a>Chapter One:Java基础</h3><ul>
+<li>字节码：源代码被Java编译器编译后，生成字节码（bytecode），字节码是在JVM上运行时的指令。</li>
+<li>面向对象三大特性：封装，多态，继承</li>
+<li>JVM要在任何对象被创建之前调用main（）</li>
+<li>使用代码块不会降低运行时效率（反而可能提高效率）</li>
+<li>Java关键字保留了const和goto，但不能使用</li>
+</ul>
+<h3 id="Chapter-Two-数据类型与运算符"><a href="#Chapter-Two-数据类型与运算符" class="headerlink" title="Chapter Two:数据类型与运算符"></a>Chapter Two:数据类型与运算符</h3><ul>
+<li>强类型，解释型</li>
+<li>4种整数类型：byte 8，short 16，int 32，long 64 （注意区分char，保存整数的二进制）</li>
+<li>2种浮点型：float 32，double 64</li>
+<li>char是无符号16位类型（0～65536）</li>
+<li>字符使用Unicode</li>
+<li>字面值注意加符号（如：12L，11.3F，0xFF，014，0b10等）</li>
+<li>变量在进入作用域时被创建，在离开作用域时被销毁</li>
+</ul>
+<h3 id="Chapter-Three-程序控制语句"><a href="#Chapter-Three-程序控制语句" class="headerlink" title="Chapter Three:程序控制语句"></a>Chapter Three:程序控制语句</h3><ul>
+<li>JDK 7之前switch表达式必须是byte，short，int，char类型或枚举，JDK 7开始，加入了String</li>
+<li>不允许重复的case</li>
+<li>通过标记代码块和break 标记，可达到goto效果</li>
+<li>continue可以指定标记来描述要继续执行的包含它的循环（从内部跳转至外部循环）</li>
+</ul>
+<h3 id="Chapter-Four-类，对象和方法"><a href="#Chapter-Four-类，对象和方法" class="headerlink" title="Chapter Four:类，对象和方法"></a>Chapter Four:类，对象和方法</h3><ul>
+<li>finalize（）在对象最后被垃圾回收器销毁之前被调用，确保对象完全终止（该方法定义在Object中）</li>
+</ul>
+<h3 id="Chapter-Five-其他数据类型与运算符"><a href="#Chapter-Five-其他数据类型与运算符" class="headerlink" title="Chapter Five:其他数据类型与运算符"></a>Chapter Five:其他数据类型与运算符</h3><ul>
+<li>for-each形式的for循环是最佳选择（只读情况下）</li>
+<li>String类型常用方法：equals，length，chatAt，compareTo，indexOf，lastIndexOf</li>
+<li>字符串的拼接使用StringBuffer，String一旦创建是不可变的</li>
+<li>位移运算符可用作乘除2，左移1个乘2，右移1个除2</li>
+</ul>
+<h3 id="Chapter-Six-方法和类详解"><a href="#Chapter-Six-方法和类详解" class="headerlink" title="Chapter Six:方法和类详解"></a>Chapter Six:方法和类详解</h3><ul>
+<li>默认访问设置本质上是公有的</li>
+<li>Java中，签名（signature）指的是方法名及其形参列表</li>
+<li>可变长度实参，（数据类型 … 变量名），使用重载，注意避免产生歧义</li>
+</ul>
+<h3 id="Chapter-Seven-继承"><a href="#Chapter-Seven-继承" class="headerlink" title="Chapter Seven:继承"></a>Chapter Seven:继承</h3><ul>
+<li>super 指向超类的引用，this 当前类的引用</li>
+<li>Java中运行时多态，体现在重写和重载</li>
+</ul>
+<h3 id="Chapter-Eight-包和接口"><a href="#Chapter-Eight-包和接口" class="headerlink" title="Chapter Eight:包和接口"></a>Chapter Eight:包和接口</h3><ul>
+<li>Java中，protected创建的成员可以由包中的任何代码访问，但是在包外只能由子类访问</li>
+<li>接口中可定义共享常量（有争议）</li>
+<li>接口能被接口继承（extends）</li>
+<li>JDK8开始，接口可以定义默认方法（使用default关键字）</li>
+<li>JDK8开始，接口可定义static方法，static接口方法不能被实现类继承，也不能被子接口继承</li>
+</ul>
+<h3 id="Chapter-Nine-异常处理"><a href="#Chapter-Nine-异常处理" class="headerlink" title="Chapter Nine:异常处理"></a>Chapter Nine:异常处理</h3><ul>
+<li>异常的产生：1.某些内部错误发生，JVM可以产生异常；2.有程序代码中的错误导致的标准异常；3.使用throw语句手动生成异常</li>
+<li>一般程序不捕获异常，它会被JVM捕获，JVM默认异常处理会终止程序执行，并显示堆栈跟踪和出错消息</li>
+<li>JDK 7 开始 增加try－with－resources自动资源管理；增加多重捕获</li>
+</ul>
+<h3 id="Chapter-Ten-使用I-O"><a href="#Chapter-Ten-使用I-O" class="headerlink" title="Chapter Ten:使用I/O"></a>Chapter Ten:使用I/O</h3><ul>
+<li>使用字节流读写文件（FileInputStream，FileOutputStream）</li>
+<li>读取二进制数据使用DataInputStream和DataOutputStream</li>
+<li>Java还提供随机访问文件RandomAccessFile（）</li>
+<li>字符流BufferedReader和PrintWriter</li>
+<li>可通过Scanner读取控制台输入数据</li>
+</ul>
+<h3 id="Chapter-Eleven-多线程程序设计"><a href="#Chapter-Eleven-多线程程序设计" class="headerlink" title="Chapter Eleven:多线程程序设计"></a>Chapter Eleven:多线程程序设计</h3><ul>
+<li>isAlive()</li>
+<li>Fork/Join框架支持所谓的“并行编程”</li>
+</ul>
+<h3 id="Chapter-Twelve-枚举，自动装箱，静态导入和注释"><a href="#Chapter-Twelve-枚举，自动装箱，静态导入和注释" class="headerlink" title="Chapter Twelve:枚举，自动装箱，静态导入和注释"></a>Chapter Twelve:枚举，自动装箱，静态导入和注释</h3><ul>
+<li>enum关键字，默认为公有的静态成员</li>
+<li>枚举是类类型，预定义values（）返回包含枚举常量的数组和valueOf（String str）返回一个枚举常量</li>
+<li>每一个枚举常量都是一个其枚举类型的对象</li>
+<li>枚举不能继承另一个类；enum不能是超类</li>
+<li>ordinal（）返回该枚举常量在列表中的位置的值，compareTo（）比较相同枚举中的两个常量的顺序值。</li>
+</ul>
+<p>枚举示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">enum Transport &#123;</span><br><span class="line">	CAR(65), TRUCK(55), AIRPLANE(600), BOAT(22);</span><br><span class="line">	private int speed;</span><br><span class="line">	</span><br><span class="line">	Transport(int s) &#123;</span><br><span class="line">		speed = s;</span><br><span class="line">	&#125;</span><br><span class="line">	int getSpeed() &#123;</span><br><span class="line">		return speed;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8大类型封装器：Double，Float，Long，Integer，Short，Byte，Character，Boolean</li>
+<li>从类型封装器中提取值的过程称为拆箱</li>
+<li>把值封装在对象中的过程称为装箱</li>
+<li>使用静态导入时，可直接通过静态成员的名称来引用它们（如：import static java.lang.Math.sqrt  之后可直接使用sqrt（））</li>
+<li>Java提供了一项可以在源文件中嵌入附加信息的功能，这些信息称为注解。</li>
+<li>不带形参的注解称为标记注解（如：@Override ）</li>
+<li>JDK8 开始可以对类型用法进行注解，如强制转换类型或者方法返回类型</li>
+</ul>
+<p>注解创建示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@interface MyAnno &#123;</span><br><span class="line">	String str();</span><br><span class="line">	int val();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Chapter-Thirteen-泛型"><a href="#Chapter-Thirteen-泛型" class="headerlink" title="Chapter Thirteen:泛型"></a>Chapter Thirteen:泛型</h3><ul>
+<li>核心：参数化类型</li>
+<li>优点：自动处理传递给其类型形参的数据类型</li>
+<li>泛型只能用于引用类型</li>
+<li>通配符 “？”</li>
+<li>泛型接口</li>
+<li>JDK5中引入的泛型</li>
+<li>JDK7开始，可使用“&lt;&gt;” 菱形运算符进行类型推断</li>
+<li>擦除特性</li>
+<li>歧义错误</li>
+</ul>
+<h3 id="Chapter-Fourteen-lambda表达式和方法引用"><a href="#Chapter-Fourteen-lambda表达式和方法引用" class="headerlink" title="Chapter Fourteen:lambda表达式和方法引用"></a>Chapter Fourteen:lambda表达式和方法引用</h3><ul>
+<li>称为闭包</li>
+<li>函数式接口</li>
+</ul>
+<p>简单示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">interface MyValue &#123;</span><br><span class="line">	double getValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">MyValue myValue = () -&gt; 98.6</span><br></pre></td></tr></table></figure>
+<ul>
+<li>提供了一种将代码片段转换为对象的方法</li>
+<li>抛出受检异常需要在接口中写明</li>
+<li>方法引用，使用”::”运算符</li>
+<li>构造方法引用，使用 MyClass::new </li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://denghui.me/2016/04/18/重识Java-8/" data-id="cin5ghpnv000ziqfykqsifzvg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/04/12/微圈后端数据库设计/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/品悟/">品悟</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/品悟/" style="font-size: 10px;">品悟</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/18/重识Java-8/">重识Java(8)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/12/微圈后端数据库设计/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/11/Java中的wait／notify机制/">Java中的等待／通知机制</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/30/Java并发编程实战一/">Java并发编程之初篇</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/23/mac-os下反编译apk文件步骤/">mac下反编译.apk文件查看代码指南</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 ZeroGeek<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -57,7 +57,7 @@
 
 
 一">
-<meta property="og:updated_time" content="2016-03-30T05:00:02.000Z">
+<meta property="og:updated_time" content="2016-04-01T05:22:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之初篇">
 <meta name="twitter:description" content="不同进程之间的通信机制
@@ -189,11 +189,18 @@
 <li>原子变量</li>
 </ul>
 <p>实际并发编程中，尽可能地使用现有的线程安全对象来管理类的状态，如java.util.concurrent包中的类</p>
+<p>为了确保某个线程写入该变量的值对于其他线程来说都是可见的，要求在访问某个共享且可变的变量时所有线程在同一个锁上同步</p>
+<h4 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h4><ul>
+<li>重排序</li>
+<li>重入</li>
+<li>发布（Publish）与逸出（Escape）</li>
+<li>线程封闭</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://denghui.me/2016/03/30/Java并发编程实战一/" data-id="cimehjmcu0003ewx5skkzq7iv" class="article-share-link">Share</a>
+      <a data-url="http://denghui.me/2016/03/30/Java并发编程实战一/" data-id="cin5ghpm20006iqfyg1pjcciz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -201,6 +208,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/04/11/Java中的wait／notify机制/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java中的等待／通知机制
+        
+      </div>
+    </a>
   
   
     <a href="/2016/03/23/mac-os下反编译apk文件步骤/" id="article-nav-older" class="article-nav-link-wrap">
@@ -241,7 +257,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/品悟/" style="font-size: 15px;">品悟</a>
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/品悟/" style="font-size: 10px;">品悟</a>
     </div>
   </div>
 
@@ -250,7 +266,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
     </div>
   </div>
 
@@ -263,23 +279,23 @@
       <ul>
         
           <li>
+            <a href="/2016/04/18/重识Java-8/">重识Java(8)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/12/微圈后端数据库设计/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/11/Java中的wait／notify机制/">Java中的等待／通知机制</a>
+          </li>
+        
+          <li>
             <a href="/2016/03/30/Java并发编程实战一/">Java并发编程之初篇</a>
           </li>
         
           <li>
             <a href="/2016/03/23/mac-os下反编译apk文件步骤/">mac下反编译.apk文件查看代码指南</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/21/RxJava启航篇/">RxJava启航篇</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/16/Android应用部署与发布/">Android应用部署与发布</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/14/学习Apache的MINA网络框架/">学习Apache的MINA网络框架</a>
           </li>
         
       </ul>
