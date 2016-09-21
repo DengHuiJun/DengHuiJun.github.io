@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -84,16 +84,22 @@
 
 
 
-<meta name="description" content="冰冻三尺，非一日之寒">
+<meta name="description" content="问题今天修复某Bug的时候突然发现第一次点击EditText时，并没有触发OnClick事件，触发了OnTouch事件。
+原因点击EditText时，如果已经获取了焦点，则触发OnClick事件，否则获取焦点，不触发OnClick事件。
+分析EditText的常用监听事件有OnTouchListener,OnClickListener,OnFocusChangeListener.以下比较这3个事件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RxJava启航篇">
-<meta property="og:url" content="http://denghui.me/2016/03/21/RxJava启航篇/index.html">
+<meta property="og:title" content="EditText焦点处理分析">
+<meta property="og:url" content="http://denghui.me/2016/09/21/EditText焦点处理分析/index.html">
 <meta property="og:site_name" content="若冰">
-<meta property="og:description" content="冰冻三尺，非一日之寒">
-<meta property="og:updated_time" content="2016-03-20T22:26:30.000Z">
+<meta property="og:description" content="问题今天修复某Bug的时候突然发现第一次点击EditText时，并没有触发OnClick事件，触发了OnTouch事件。
+原因点击EditText时，如果已经获取了焦点，则触发OnClick事件，否则获取焦点，不触发OnClick事件。
+分析EditText的常用监听事件有OnTouchListener,OnClickListener,OnFocusChangeListener.以下比较这3个事件">
+<meta property="og:updated_time" content="2016-09-21T13:46:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RxJava启航篇">
-<meta name="twitter:description" content="冰冻三尺，非一日之寒">
+<meta name="twitter:title" content="EditText焦点处理分析">
+<meta name="twitter:description" content="问题今天修复某Bug的时候突然发现第一次点击EditText时，并没有触发OnClick事件，触发了OnTouch事件。
+原因点击EditText时，如果已经获取了焦点，则触发OnClick事件，否则获取焦点，不触发OnClick事件。
+分析EditText的常用监听事件有OnTouchListener,OnClickListener,OnFocusChangeListener.以下比较这3个事件">
 
 
 
@@ -114,9 +120,9 @@
 
 
 
-  <link rel="canonical" href="http://denghui.me/2016/03/21/RxJava启航篇/"/>
+  <link rel="canonical" href="http://denghui.me/2016/09/21/EditText焦点处理分析/"/>
 
-  <title> RxJava启航篇 | 若冰 </title>
+  <title> EditText焦点处理分析 | 若冰 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -236,7 +242,7 @@
             
             
               
-                RxJava启航篇
+                EditText焦点处理分析
               
             
           </h1>
@@ -248,8 +254,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-21T06:26:30+08:00" content="2016-03-21">
-              2016-03-21
+            <time itemprop="dateCreated" datetime="2016-09-21T21:44:03+08:00" content="2016-09-21">
+              2016-09-21
             </time>
           </span>
 
@@ -276,7 +282,23 @@
       
 
       
-        
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>今天修复某Bug的时候突然发现第一次点击EditText时，并没有触发OnClick事件，触发了OnTouch事件。
+</code></pre><h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><pre><code>点击EditText时，如果已经获取了焦点，则触发OnClick事件，否则获取焦点，不触发OnClick事件。
+</code></pre><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><pre><code>EditText的常用监听事件有OnTouchListener,OnClickListener,OnFocusChangeListener.以下比较这3个事件，分析触发的顺序与场景：
+</code></pre><ol>
+<li>第一次开启某界面，该界面中的EditText自动获取焦点，触发OnFocusChangeListener，不触发其它事件。</li>
+<li>某界面有多个EditText时，第一个被绘制的自动获得焦点</li>
+<li>某EditText无焦点，点击该EditText，首先触发OnTouchListener（这里会触发几次，根据View的层级，以下同），再触发OnFocusChangeListener，不触发OnClickListener。</li>
+<li>某EdiText已有焦点，点击该EditText，首先触发OnTouchListener，不触发OnFocusChangeListener，最后触发OnClickListener。</li>
+<li>某EditText失去焦点，会触发OnFocusChangeListener。</li>
+</ol>
+<p>部分示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mFirstEt.setOnFocusChangeListener(new View.OnFocusChangeListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onFocusChange(View view, boolean b) &#123;</span><br><span class="line">        if (b) &#123;</span><br><span class="line">            // 取得焦点</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 失去焦点</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><ul>
+<li>需要第一次点击时就执行某操作，建议同时监听OnFocusChangeListener和OnClickListener。</li>
+<li>不需要第一次进入就自动获得焦点，建议在某同层级某View，添加属性android:focusable=”true”和android:focusableInTouchMode=”true”，抢走焦点。</li>
+</ul>
+
       
     </div>
 
@@ -296,22 +318,24 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/16/Android应用部署与发布/" rel="next" title="Android应用部署与发布">
-                <i class="fa fa-chevron-left"></i> Android应用部署与发布
+              <a href="/2016/04/18/重识Java-8/" rel="next" title="重识Java(8)">
+                <i class="fa fa-chevron-left"></i> 重识Java(8)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/23/mac-os下反编译apk文件步骤/" rel="prev" title="mac下反编译.apk文件查看代码指南">
-                mac下反编译.apk文件查看代码指南 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -425,7 +449,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原因"><span class="nav-number">2.</span> <span class="nav-text">原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建议"><span class="nav-number">4.</span> <span class="nav-text">建议</span></a></li></ol></div>
             
           </div>
         </section>

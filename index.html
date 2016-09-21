@@ -238,6 +238,115 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/21/EditText焦点处理分析/" itemprop="url">
+                  EditText焦点处理分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-21T21:44:03+08:00" content="2016-09-21">
+              2016-09-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>今天修复某Bug的时候突然发现第一次点击EditText时，并没有触发OnClick事件，触发了OnTouch事件。
+</code></pre><h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><pre><code>点击EditText时，如果已经获取了焦点，则触发OnClick事件，否则获取焦点，不触发OnClick事件。
+</code></pre><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><pre><code>EditText的常用监听事件有OnTouchListener,OnClickListener,OnFocusChangeListener.以下比较这3个事件，分析触发的顺序与场景：
+</code></pre><ol>
+<li>第一次开启某界面，该界面中的EditText自动获取焦点，触发OnFocusChangeListener，不触发其它事件。</li>
+<li>某界面有多个EditText时，第一个被绘制的自动获得焦点</li>
+<li>某EditText无焦点，点击该EditText，首先触发OnTouchListener（这里会触发几次，根据View的层级，以下同），再触发OnFocusChangeListener，不触发OnClickListener。</li>
+<li>某EdiText已有焦点，点击该EditText，首先触发OnTouchListener，不触发OnFocusChangeListener，最后触发OnClickListener。</li>
+<li>某EditText失去焦点，会触发OnFocusChangeListener。</li>
+</ol>
+<p>部分示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mFirstEt.setOnFocusChangeListener(new View.OnFocusChangeListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onFocusChange(View view, boolean b) &#123;</span><br><span class="line">        if (b) &#123;</span><br><span class="line">            // 取得焦点</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 失去焦点</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><ul>
+<li>需要第一次点击时就执行某操作，建议同时监听OnFocusChangeListener和OnClickListener。</li>
+<li>不需要第一次进入就自动获得焦点，建议在某同层级某View，添加属性android:focusable=”true”和android:focusableInTouchMode=”true”，抢走焦点。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/04/18/重识Java-8/" itemprop="url">
                   重识Java(8)
                 </a>
@@ -857,104 +966,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/21/RxJava启航篇/" itemprop="url">
-                  RxJava启航篇
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-21T06:26:30+08:00" content="2016-03-21">
-              2016-03-21
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -995,7 +1011,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
