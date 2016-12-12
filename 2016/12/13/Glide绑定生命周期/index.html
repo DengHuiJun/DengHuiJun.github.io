@@ -1,0 +1,655 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Glide是如何绑定生命周期的？前言前面我们讲了Glide的一个优点就是请求可以绑定Activity/Fragment的生命周期。onStart()时重新加载，在onStop()时暂停加载。那么具体是怎么实现的呢？下面我们来一步步分析。
+具体分析1Glide.with(context).load(pngUrl).into(imageView);
+看看Glide.with()方法
+1234publi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Glide绑定生命周期">
+<meta property="og:url" content="http://denghui.me/2016/12/13/Glide绑定生命周期/index.html">
+<meta property="og:site_name" content="ZeroGeek‘s Blog">
+<meta property="og:description" content="Glide是如何绑定生命周期的？前言前面我们讲了Glide的一个优点就是请求可以绑定Activity/Fragment的生命周期。onStart()时重新加载，在onStop()时暂停加载。那么具体是怎么实现的呢？下面我们来一步步分析。
+具体分析1Glide.with(context).load(pngUrl).into(imageView);
+看看Glide.with()方法
+1234publi">
+<meta property="og:updated_time" content="2016-12-12T16:12:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Glide绑定生命周期">
+<meta name="twitter:description" content="Glide是如何绑定生命周期的？前言前面我们讲了Glide的一个优点就是请求可以绑定Activity/Fragment的生命周期。onStart()时重新加载，在onStop()时暂停加载。那么具体是怎么实现的呢？下面我们来一步步分析。
+具体分析1Glide.with(context).load(pngUrl).into(imageView);
+看看Glide.with()方法
+1234publi">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://denghui.me/2016/12/13/Glide绑定生命周期/"/>
+
+  <title> Glide绑定生命周期 | ZeroGeek‘s Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ZeroGeek‘s Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Not only an Android developer</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Glide绑定生命周期
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T00:08:39+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/13/Glide绑定生命周期/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/13/Glide绑定生命周期/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Glide是如何绑定生命周期的？"><a href="#Glide是如何绑定生命周期的？" class="headerlink" title="Glide是如何绑定生命周期的？"></a>Glide是如何绑定生命周期的？</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面我们讲了Glide的一个优点就是请求可以绑定Activity/Fragment的生命周期。onStart()时重新加载，在onStop()时暂停加载。<br>那么具体是怎么实现的呢？下面我们来一步步分析。</p>
+<h2 id="具体分析"><a href="#具体分析" class="headerlink" title="具体分析"></a>具体分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(context).load(pngUrl).into(imageView);</span><br></pre></td></tr></table></figure>
+<p>看看Glide.with()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static RequestManager with(Activity activity) &#123;</span><br><span class="line">    RequestManagerRetriever retriever = RequestManagerRetriever.get();</span><br><span class="line">    return retriever.get(activity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RequestManager是用来管理图片加载请求的。它实现了LifecycleListener接口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface LifecycleListener &#123;</span><br><span class="line">    void onStart();</span><br><span class="line">    void onStop();</span><br><span class="line">    void onDestroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法里面，onStart（）会在Activity/Fragment的onStart()调用时被回调，onStop（）在Activity/Fragment的onStop()调用时回调，onDestroy（）在Activity/Fragment的onDestroy()调用时回调。（后面慢慢说明）</p>
+<p>在RequestManager中对应实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onStart() &#123;</span><br><span class="line">    Util.assertMainThread();</span><br><span class="line">    requestTracker.resumeRequests();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onStop() &#123;</span><br><span class="line">    Util.assertMainThread();</span><br><span class="line">    requestTracker.pauseRequests();</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public void onDestroy() &#123;</span><br><span class="line">    requestTracker.clearRequests();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>onStart()和onStop()当然必须是要在UI线程，跟生命周期的执行一致。<br>RequestTracker是用来取消、启动请求的。</p>
+<p>现在我们来看下RequestManagerRetriever，为什么要重新取一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 对应上面的 return retriever.get(activity);</span><br><span class="line"> @TargetApi(Build.VERSION_CODES.HONEYCOMB)</span><br><span class="line"> public RequestManager get(Activity activity) &#123;</span><br><span class="line">     if (Util.isOnBackgroundThread() || Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.HONEYCOMB) &#123;</span><br><span class="line">         return get(activity.getApplicationContext());</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">         assertNotDestroyed(activity);</span><br><span class="line">         // 关键获取了这个Activity的FragmentManager</span><br><span class="line">         android.app.FragmentManager fm = activity.getFragmentManager();</span><br><span class="line">         return fragmentGet(activity, fm);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>首先我们获取到了这个Activity的FragmentManager</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@TargetApi(Build.VERSION_CODES.HONEYCOMB)</span><br><span class="line">RequestManager fragmentGet(Context context, android.app.FragmentManager fm) &#123;</span><br><span class="line">    // 通过RequestManagerFragment，绑定到Activity上</span><br><span class="line">    RequestManagerFragment current = getRequestManagerFragment(fm);</span><br><span class="line">    // 生成已经绑定生命周期的RequsetManager</span><br><span class="line">    RequestManager requestManager = current.getRequestManager();</span><br><span class="line">    if (requestManager == null) &#123;</span><br><span class="line">        requestManager = new RequestManager(context, current.getLifecycle(), current.getRequestManagerTreeNode());</span><br><span class="line">        current.setRequestManager(requestManager);</span><br><span class="line">    &#125;</span><br><span class="line">    return requestManager;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后通过生成一个特定的Fragment去依附Activity，完成生命周期的绑定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)</span><br><span class="line">RequestManagerFragment getRequestManagerFragment(final android.app.FragmentManager fm) &#123;</span><br><span class="line">    RequestManagerFragment current = (RequestManagerFragment) fm.findFragmentByTag(FRAGMENT_TAG);</span><br><span class="line">    if (current == null) &#123;</span><br><span class="line">        current = pendingRequestManagerFragments.get(fm);</span><br><span class="line">        if (current == null) &#123;</span><br><span class="line">         // 实例化RequestManagerFragment</span><br><span class="line">            current = new RequestManagerFragment();</span><br><span class="line">            pendingRequestManagerFragments.put(fm, current);</span><br><span class="line">            fm.beginTransaction().add(current, FRAGMENT_TAG).commitAllowingStateLoss();</span><br><span class="line">            handler.obtainMessage(ID_REMOVE_FRAGMENT_MANAGER, fm).sendToTarget();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return current;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看RequestManagerFragment的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public RequestManagerFragment() &#123;</span><br><span class="line">    this(new ActivityFragmentLifecycle());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// For testing only.</span><br><span class="line">@SuppressLint(&quot;ValidFragment&quot;)</span><br><span class="line">RequestManagerFragment(ActivityFragmentLifecycle lifecycle) &#123;</span><br><span class="line">    this.lifecycle = lifecycle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ActivityFragmentLifecycle用来对Activity的生命周期函数进行跟踪和通知</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">class ActivityFragmentLifecycle implements Lifecycle &#123;</span><br><span class="line"></span><br><span class="line">    private final Set&lt;LifecycleListener&gt; lifecycleListeners =</span><br><span class="line">            Collections.newSetFromMap(new WeakHashMap&lt;LifecycleListener, Boolean&gt;());</span><br><span class="line">    private boolean isStarted;</span><br><span class="line">    private boolean isDestroyed;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void addListener(LifecycleListener listener) &#123;</span><br><span class="line">        lifecycleListeners.add(listener);</span><br><span class="line"></span><br><span class="line">        if (isDestroyed) &#123;</span><br><span class="line">            listener.onDestroy();</span><br><span class="line">        &#125; else if (isStarted) &#123;</span><br><span class="line">            listener.onStart();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            listener.onStop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void onStart() &#123;</span><br><span class="line">        isStarted = true;</span><br><span class="line">        for (LifecycleListener lifecycleListener : Util.getSnapshot(lifecycleListeners)) &#123;</span><br><span class="line">            lifecycleListener.onStart();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void onStop() &#123;</span><br><span class="line">        isStarted = false;</span><br><span class="line">        for (LifecycleListener lifecycleListener : Util.getSnapshot(lifecycleListeners)) &#123;</span><br><span class="line">            lifecycleListener.onStop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void onDestroy() &#123;</span><br><span class="line">        isDestroyed = true;</span><br><span class="line">        for (LifecycleListener lifecycleListener : Util.getSnapshot(lifecycleListeners)) &#123;</span><br><span class="line">            lifecycleListener.onDestroy();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>前面我们讲过所有的RequestManager实现了LifecycleListener。这里用了Set集合存储RequestManager。</p>
+<p>再回到RequestManagerFragment</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onStart() &#123;</span><br><span class="line">    super.onStart();</span><br><span class="line">    lifecycle.onStart();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onStop() &#123;</span><br><span class="line">    super.onStop();</span><br><span class="line">    lifecycle.onStop();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onDestroy() &#123;</span><br><span class="line">    super.onDestroy();</span><br><span class="line">    lifecycle.onDestroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生命周期真正的回调，对应执行了RequestManager的回调。<br>还有许多细节就需要自己去探索了。相信你也大半懂了基本原理。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>关键在于获取Activity的FragmentManager（support.v4中的类，这也是为什么要依赖这个包），生成特定的Fragment去依附Activity，监听到生命周期函数。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/09/glide自述说明/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/13/Glide绑定生命周期/"
+           data-title="Glide绑定生命周期" data-url="http://denghui.me/2016/12/13/Glide绑定生命周期/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/zk.jpeg"
+               alt="若冰" />
+          <p class="site-author-name" itemprop="name">若冰</p>
+          <p class="site-description motion-element" itemprop="description">冰冻三尺，非一日之寒</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DengHuiJun" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Glide是如何绑定生命周期的？"><span class="nav-number">1.</span> <span class="nav-text">Glide是如何绑定生命周期的？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体分析"><span class="nav-number">1.2.</span> <span class="nav-text">具体分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.3.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若冰</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"denghui"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

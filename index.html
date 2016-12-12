@@ -248,6 +248,275 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/13/Glide绑定生命周期/" itemprop="url">
+                  Glide绑定生命周期
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T00:08:39+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/13/Glide绑定生命周期/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/13/Glide绑定生命周期/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Glide是如何绑定生命周期的？"><a href="#Glide是如何绑定生命周期的？" class="headerlink" title="Glide是如何绑定生命周期的？"></a>Glide是如何绑定生命周期的？</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面我们讲了Glide的一个优点就是请求可以绑定Activity/Fragment的生命周期。onStart()时重新加载，在onStop()时暂停加载。<br>那么具体是怎么实现的呢？下面我们来一步步分析。</p>
+<h2 id="具体分析"><a href="#具体分析" class="headerlink" title="具体分析"></a>具体分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(context).load(pngUrl).into(imageView);</span><br></pre></td></tr></table></figure>
+<p>看看Glide.with()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static RequestManager with(Activity activity) &#123;</span><br><span class="line">    RequestManagerRetriever retriever = RequestManagerRetriever.get();</span><br><span class="line">    return retriever.get(activity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RequestManager是用来管理图片加载请求的。它实现了LifecycleListener接口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface LifecycleListener &#123;</span><br><span class="line">    void onStart();</span><br><span class="line">    void onStop();</span><br><span class="line">    void onDestroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法里面，onStart（）会在Activity/Fragment的onStart()调用时被回调，onStop（）在Activity/Fragment的onStop()调用时回调，onDestroy（）在Activity/Fragment的onDestroy()调用时回调。（后面慢慢说明）</p>
+<p>在RequestManager中对应实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onStart() &#123;</span><br><span class="line">    Util.assertMainThread();</span><br><span class="line">    requestTracker.resumeRequests();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onStop() &#123;</span><br><span class="line">    Util.assertMainThread();</span><br><span class="line">    requestTracker.pauseRequests();</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public void onDestroy() &#123;</span><br><span class="line">    requestTracker.clearRequests();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>onStart()和onStop()当然必须是要在UI线程，跟生命周期的执行一致。<br>RequestTracker是用来取消、启动请求的。</p>
+<p>现在我们来看下RequestManagerRetriever，为什么要重新取一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 对应上面的 return retriever.get(activity);</span><br><span class="line"> @TargetApi(Build.VERSION_CODES.HONEYCOMB)</span><br><span class="line"> public RequestManager get(Activity activity) &#123;</span><br><span class="line">     if (Util.isOnBackgroundThread() || Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.HONEYCOMB) &#123;</span><br><span class="line">         return get(activity.getApplicationContext());</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">         assertNotDestroyed(activity);</span><br><span class="line">         // 关键获取了这个Activity的FragmentManager</span><br><span class="line">         android.app.FragmentManager fm = activity.getFragmentManager();</span><br><span class="line">         return fragmentGet(activity, fm);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>首先我们获取到了这个Activity的FragmentManager</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@TargetApi(Build.VERSION_CODES.HONEYCOMB)</span><br><span class="line">RequestManager fragmentGet(Context context, android.app.FragmentManager fm) &#123;</span><br><span class="line">    // 通过RequestManagerFragment，绑定到Activity上</span><br><span class="line">    RequestManagerFragment current = getRequestManagerFragment(fm);</span><br><span class="line">    // 生成已经绑定生命周期的RequsetManager</span><br><span class="line">    RequestManager requestManager = current.getRequestManager();</span><br><span class="line">    if (requestManager == null) &#123;</span><br><span class="line">        requestManager = new RequestManager(context, current.getLifecycle(), current.getRequestManagerTreeNode());</span><br><span class="line">        current.setRequestManager(requestManager);</span><br><span class="line">    &#125;</span><br><span class="line">    return requestManager;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后通过生成一个特定的Fragment去依附Activity，完成生命周期的绑定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)</span><br><span class="line">RequestManagerFragment getRequestManagerFragment(final android.app.FragmentManager fm) &#123;</span><br><span class="line">    RequestManagerFragment current = (RequestManagerFragment) fm.findFragmentByTag(FRAGMENT_TAG);</span><br><span class="line">    if (current == null) &#123;</span><br><span class="line">        current = pendingRequestManagerFragments.get(fm);</span><br><span class="line">        if (current == null) &#123;</span><br><span class="line">         // 实例化RequestManagerFragment</span><br><span class="line">            current = new RequestManagerFragment();</span><br><span class="line">            pendingRequestManagerFragments.put(fm, current);</span><br><span class="line">            fm.beginTransaction().add(current, FRAGMENT_TAG).commitAllowingStateLoss();</span><br><span class="line">            handler.obtainMessage(ID_REMOVE_FRAGMENT_MANAGER, fm).sendToTarget();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return current;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看RequestManagerFragment的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public RequestManagerFragment() &#123;</span><br><span class="line">    this(new ActivityFragmentLifecycle());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// For testing only.</span><br><span class="line">@SuppressLint(&quot;ValidFragment&quot;)</span><br><span class="line">RequestManagerFragment(ActivityFragmentLifecycle lifecycle) &#123;</span><br><span class="line">    this.lifecycle = lifecycle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ActivityFragmentLifecycle用来对Activity的生命周期函数进行跟踪和通知</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">class ActivityFragmentLifecycle implements Lifecycle &#123;</span><br><span class="line"></span><br><span class="line">    private final Set&lt;LifecycleListener&gt; lifecycleListeners =</span><br><span class="line">            Collections.newSetFromMap(new WeakHashMap&lt;LifecycleListener, Boolean&gt;());</span><br><span class="line">    private boolean isStarted;</span><br><span class="line">    private boolean isDestroyed;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void addListener(LifecycleListener listener) &#123;</span><br><span class="line">        lifecycleListeners.add(listener);</span><br><span class="line"></span><br><span class="line">        if (isDestroyed) &#123;</span><br><span class="line">            listener.onDestroy();</span><br><span class="line">        &#125; else if (isStarted) &#123;</span><br><span class="line">            listener.onStart();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            listener.onStop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void onStart() &#123;</span><br><span class="line">        isStarted = true;</span><br><span class="line">        for (LifecycleListener lifecycleListener : Util.getSnapshot(lifecycleListeners)) &#123;</span><br><span class="line">            lifecycleListener.onStart();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void onStop() &#123;</span><br><span class="line">        isStarted = false;</span><br><span class="line">        for (LifecycleListener lifecycleListener : Util.getSnapshot(lifecycleListeners)) &#123;</span><br><span class="line">            lifecycleListener.onStop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void onDestroy() &#123;</span><br><span class="line">        isDestroyed = true;</span><br><span class="line">        for (LifecycleListener lifecycleListener : Util.getSnapshot(lifecycleListeners)) &#123;</span><br><span class="line">            lifecycleListener.onDestroy();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>前面我们讲过所有的RequestManager实现了LifecycleListener。这里用了Set集合存储RequestManager。</p>
+<p>再回到RequestManagerFragment</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onStart() &#123;</span><br><span class="line">    super.onStart();</span><br><span class="line">    lifecycle.onStart();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onStop() &#123;</span><br><span class="line">    super.onStop();</span><br><span class="line">    lifecycle.onStop();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onDestroy() &#123;</span><br><span class="line">    super.onDestroy();</span><br><span class="line">    lifecycle.onDestroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生命周期真正的回调，对应执行了RequestManager的回调。<br>还有许多细节就需要自己去探索了。相信你也大半懂了基本原理。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>关键在于获取Activity的FragmentManager（support.v4中的类，这也是为什么要依赖这个包），生成特定的Fragment去依附Activity，监听到生命周期函数。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/09/glide自述说明/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-09T00:25:52+08:00" content="2016-12-09">
+              2016-12-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/09/glide自述说明/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/09/glide自述说明/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Glide自述说明"><a href="#Glide自述说明" class="headerlink" title="Glide自述说明"></a>Glide自述说明</h1><p>标签（空格分隔）： 未分类</p>
+<hr>
+<p>1.<br>Glide，是Android平台上，比较火的开源图片加载框架，github star 1.2w+, 由谷歌的员工开发。<br>今天分享下对它的一些学习。<br>主要内容从下面几点。</p>
+<p>2.为什么开发它？主要目的是实现平滑的图片列表滚动效果（常见的有新闻列表，理财社区的文章列表），同时提供远程图片的获取、大小调整和展示。Glide中文意思就是，平滑、滑翔的意思。</p>
+<p>默认使用的是基于HttpUrlConnection的网络协议栈，支持Volley和OkHttp，其实主流的图片加载库，Fresco，Picasso也都支持。</p>
+<p>首先我们快速看下它的基本使用，及提供哪些功能。</p>
+<p>Glide需要依赖Support Library v4<br>Glide加载图片的方法和Picasso很相似,流式接口。<br>3个函数，就搞定了。<br>1.传入上下文<br>2.提供加载路径<br>3.展示到ImageView</p>
+<p>.with(),提供了多种参数<br>将Activity/Fragment作为with()参数的好处是，图片加载会和Activity/Fragment的生命周期保持一致。<br>比如，某个Activity发起获取图片的请求。立即进入了onPaused状态，同样也会暂停加载图片，取消请求。在onResumed的时候又自动重新加载图片。</p>
+<p>除了通过字符串传入图片网络地址的方式，还支持多种数据源。<br>还有，Uri、文件形式、资源Id，Url的方式，字节数组。</p>
+<p>我们可以通过placeholder，error方法来设置占位和错误显示</p>
+<p>加载图片过程中可能会失败，可以通过实现RequestListener的onExcetion方法，捕获异常。<br>listener()传入监听器</p>
+<p>既然是平滑当然少不了动画，默认自带渐入渐出效果，通过crossFade（）可以设置它的动画时间。 也可以通过animate(),自定义个性动画，飞进来，弹出来等，支持属性动画，xml文件加载。当然你确实不想要动画效果，调用dontAnimate()。</p>
+<p>支持缩略图，0.1f,相当于原图的10/1大小，会先加载缩略图，再加载原图。</p>
+<p>Glide加载图片大小是自动调整的，他根据ImageView的尺寸自动调整加载的图片大小，并且缓存的时候也是按图片大小缓存，默认每种尺寸都会保留一份缓存。<br>如果图片自动适配到 ImageView效果不是你想要的，可调用这个方法，来改善。</p>
+<p>提供2种缩放模式，<br>centerCrop 图像可能不显示完整<br>fitCenter  图像会完全显示，不填充ImageView</p>
+<p>有时，我们需要圆角或者特定形状的图片。Glide提供transform()来转化图片</p>
+<p>为了减少垃圾回收，你可以使用BitmapPool接口来释放不想要的Bitmap或者复用存在的Bitmap。<br>在transform()不要回收资源或者把Bitmap放入Bitmap池中，这些步骤会自动完成。<br>请在transform()方法中返回原始的资源或者Bitmap。</p>
+<p>支持GiF，和本地视频的显示。<br>提供2个检查方法<br>asGif(),检查是否gif，不是的话，错误处理<br>asBitmap()，当作bitmap处理，（gif用第一帧）<br>关于本地视频略过</p>
+<p>这张图是从某博客上采集下来的，后面会给出原地址</p>
+<p>整个库分为 RequestManager(请求管理器)，Engine(数据获取引擎)、 Fetcher(数据获取器)、MemoryCache(内存缓存)、DiskLRUCache、Transformation(图片处理)、Encoder(本地缓存存储)、Registry(图片类型及解析器配置)、Target(目标) 等模块。</p>
+<p>Glide 收到加载及显示资源的任务，创建 Request 并将它交给RequestManager，Request 启动 Engine 去数据源获取资源(通过 Fetcher )，获取到后 Transformation 处理后交给 Target。</p>
+<p>Model就是数据源，通过ModelLoader，转为为Data，编码为图片，进行转换，显示并缓存起来。</p>
+<p>Android 中处理图片的方式，以像素形式加载图片到内存中去.那么一张图片占用多少内存呢？<br>Bitmap 有4种格式：<br>ALPHA_8，代表8位Alpha位图，每个像素占用1byte内存<br>RGB_565，8位RGB位图，每个像素占用2byte内存<br>ARGB_4444，16位ARGB位图  每个像素占用2byte内存，被标记过时，不推荐使用<br>ARGB_8888，32位ARGB位图，每个像素占用4byte内存.文档里推荐的，尽可能使用这种。<br>位图位数越高代表其可以存储的颜色信息越多，图像越逼真。</p>
+<p>Glide默认使用RGB_565，相对第4种，图片质量稍逊，但是可以节省一半的内存<br>你需要尽可能好的图片质量，你可以使用GlideBuilder的setDecodeFormat方法设置DecodeFormat.ALWAYS_ARGB_8888作为首选配置。</p>
+<p>再来看看缓存机制。<br>分为内存缓存，和磁盘缓存。<br>内存方面，通过下面3个类来进行缓存</p>
+<p>ActiveResourceCache：缓存当前正在使用的资源（注意是弱引用）<br>LruResourceCache： 缓存最近使用过但是当前未使用的资源，LRU算法<br>BitmapPool：缓存所有被释放的图片，内存复用，LRU算法</p>
+<p>Glide的Bitmap池主要作用是，可以让各种尺寸的Bitmap被复用，可以可观地减少由垃圾回收引起的内存抖动。在解码图片时，需要给像素数组分配空间，可能会触发垃圾回收。</p>
+<p>之前我们一直在使用SoftReference软引用，SoftReference是一种现在已经不再推荐使用的方式，实际上Android上的垃圾回收器会更倾向于回收持有软引用或弱引用的对象，这让软引用变得不再可靠。</p>
+<p>主流，强引用 +ＬＲＵ：固定缓存大小，LinkedHashMap，对其加入和移除</p>
+<p>关于磁盘缓存<br>依赖于 DiskLRUCache 开源库去完成本地缓存工作</p>
+<p>DiskCacheStrategy.NONE 什么都不缓存<br>DiskCacheStrategy.SOURCE仅仅只缓存原来的全分辨率的图像<br>DiskCacheStrategy.RESULT仅仅缓存最终的图像，转换后的<br>DiskCacheStrategy.ALL 缓存所有版本的图像（默认行为）</p>
+<p>如果你只是想加载一个Bitmap，并不想直接展示给用户而是有一些特殊用途，比如在通知栏中显示或者作为头像上传。<br>你可以专注于处理加载的结果。</p>
+<p>注意：正常情况下，你加载一个资源会把他们放到view中。当你的Activity或者Fragment被pause或者destroy时，Glide会暂停或取消加载，确保你不会加载那些根本不会显示的资源。 可是当我们使用SimpleTarget的时候，这可能并不是我们希望的行为。所以，当你调用Glide.with(context)的时候，你可以传入Application的context，而不是传入Activity或者Fragment。</p>
+<p>默认实现<br>ViewTarget<br>NotificationTarget<br>AppWidgetTarget<br>通知栏，桌面小控件</p>
+<p>Glide module 是一个抽象方法，全局改变 Glide 行为的一个方式。<br>要全局的去声明这个类，让 Glide 知道它应该在哪里被加载和使用。<br>AndroidManifest.xml 的 meta-data 标签内去声明这个刚刚创建的 GlideＭodule。<br>你可以同时声明多个 GlideＭodule。Glide 将会（没有特定顺序）得到所有的声明 module</p>
+<p>它们所有的值都会被收集在Bundle对象中并且使其可以作为组件的 PackageItemInfo.metaData 字段<br>metadata是一组供父组件使用的名值对（name-value pair）</p>
+<p>注意反混淆</p>
+<p>这里其实给出就是默认配置</p>
+<p>关于ModelLoader<br>为何请求特定尺寸图片<br>假设服务器提供非常高的分辨率图片服务（图片分辨率在6000x4500像素）。<br>采取这种方式可以降低图片的内存消耗以匹配它<br>然而，无法避免要去下载和计算，完成降低图片大小的任务。</p>
+<p>Glide的downloadOnly(int,int)方法允许你把图片bytes下载到磁盘缓存中，以便以后获取使用。你可以在UI线程异步地调用downloadOnly()，也可以在后台线程同步的使用。</p>
+<p>官方api中没有提供删除图片缓存的函数，官方提供了signature()方法，将一个附加的数据加入到缓存key当中，通过改变key来实现图片失效相当于软删除。</p>
+<p>最后小结下：主要有一下优点</p>
+<p>总体而言，Glide 功能强大，但代码量大、流转复杂。</p>
+<p>yelp<br>150kb</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/21/EditText焦点处理分析/" itemprop="url">
                   EditText焦点处理分析
                 </a>
@@ -790,229 +1059,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/23/mac-os下反编译apk文件步骤/" itemprop="url">
-                  mac下反编译.apk文件查看代码指南
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T18:30:34+08:00" content="2016-03-23">
-              2016-03-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/23/mac-os下反编译apk文件步骤/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/23/mac-os下反编译apk文件步骤/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h3><ul>
-<li>dex2jar</li>
-<li>jd-gui</li>
-</ul>
-<p>下载链接：</p>
-<p><a href="http://7xsfta.com1.z0.glb.clouddn.com/jd-gui-osx-1.4.0.tar" target="_blank" rel="external">http://7xsfta.com1.z0.glb.clouddn.com/jd-gui-osx-1.4.0.tar</a></p>
-<p><a href="http://7xsfta.com1.z0.glb.clouddn.com/dex2jar-0.0.9.15.zip" target="_blank" rel="external">http://7xsfta.com1.z0.glb.clouddn.com/dex2jar-0.0.9.15.zip</a></p>
-<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><h4 id="1-将-apk-改为-zip-并解压"><a href="#1-将-apk-改为-zip-并解压" class="headerlink" title="1. 将.apk 改为 .zip 并解压"></a>1. 将.apk 改为 .zip 并解压</h4><p>这里我用 tct.apk (未混淆) 为例，解压后得到：<br><img src="http://7xsfta.com1.z0.glb.clouddn.com/tct%E8%A7%A3%E5%8E%8B%E5%90%8E%E7%9B%AE%E5%BD%95.png" alt="解压目录"></p>
-<p>主要会用到 classes.dex </p>
-<h4 id="2-使用-dex2jar-工具-将-classes-dex-生成-jar-文件"><a href="#2-使用-dex2jar-工具-将-classes-dex-生成-jar-文件" class="headerlink" title="2. 使用 dex2jar 工具 将 classes.dex 生成 .jar 文件"></a>2. 使用 dex2jar 工具 将 classes.dex 生成 .jar 文件</h4><ul>
-<li>首先给dex2jar工具添加可执行权限： chmod +x dex2jar.sh </li>
-<li>终端输入： sudo sh dex2jar.sh ~/Downloads/tct/classes.dex</li>
-<li>得到了一个 classes_dex2jar.jar 文件 ，这个就是源码了</li>
-</ul>
-<p><img src="http://7xsfta.com1.z0.glb.clouddn.com/%E7%BC%96%E8%AF%91%E5%90%8E%E7%94%9F%E4%BA%A7jar.png" alt=""></p>
-<h4 id="3-使用jd－gui-来查看"><a href="#3-使用jd－gui-来查看" class="headerlink" title="3. 使用jd－gui 来查看"></a>3. 使用jd－gui 来查看</h4><p>双击打开，选择相应jar文件<br><img src="http://7xsfta.com1.z0.glb.clouddn.com/jdgui1.png" alt=""></p>
-<p>打开后的界面</p>
-<p><img src="http://7xsfta.com1.z0.glb.clouddn.com/jdgui2.png" alt=""><br>选择了jar文件后</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/21/RxJava启航篇/" itemprop="url">
-                  RxJava启航篇
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-21T06:26:30+08:00" content="2016-03-21">
-              2016-03-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/21/RxJava启航篇/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/21/RxJava启航篇/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1053,7 +1104,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
