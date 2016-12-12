@@ -299,7 +299,7 @@
       
         
           
-            <h1 id="Glide是如何绑定生命周期的？"><a href="#Glide是如何绑定生命周期的？" class="headerlink" title="Glide是如何绑定生命周期的？"></a>Glide是如何绑定生命周期的？</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面我们讲了Glide的一个优点就是请求可以绑定Activity/Fragment的生命周期。onStart()时重新加载，在onStop()时暂停加载。<br>那么具体是怎么实现的呢？下面我们来一步步分析。</p>
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面我们讲了Glide的一个优点就是请求可以绑定Activity/Fragment的生命周期。onStart()时重新加载，在onStop()时暂停加载。<br>那么具体是怎么实现的呢？下面我们来一步步分析。</p>
 <h2 id="具体分析"><a href="#具体分析" class="headerlink" title="具体分析"></a>具体分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(context).load(pngUrl).into(imageView);</span><br></pre></td></tr></table></figure>
 <p>看看Glide.with()方法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static RequestManager with(Activity activity) &#123;</span><br><span class="line">    RequestManagerRetriever retriever = RequestManagerRetriever.get();</span><br><span class="line">    return retriever.get(activity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
